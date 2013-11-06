@@ -31,3 +31,8 @@ NSURL *audioURL = [[NSBundle mainBundle] URLForResource:@"example_sound" withExt
 self.waveformImageView = [[DSWaveformImageView alloc] initWithFrame:CGRectMake(0, 0, 500, 300)];
 [self.waveformImageView setAudioURL:audioURL];
 ```
+
+What it looks like
+------------------
+
+![Screenshot](https://raw.github.com/dmrschmidt/DSWaveformImage/master/screenshot.png)
