@@ -11,9 +11,10 @@ Pod::Spec.new do |s|
   # s.screenshots  = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = 'Dennis Schmidt'
-  s.source       = { :git => "https://github.com/dmrschmidt/DSWaveformImage.git", :commit => "7f459e5c29bd132c8b332a04430c1b53eb46f640" }
+  s.source       = { :git => "https://github.com/dmrschmidt/DSWaveformImage.git", :tag => "1.0.0" }
   s.source_files  = 'DSWaveformImage', 'DSWaveformImage/**/*.{h,m}'
   s.public_header_files = 'DSWaveformImage/**/*.h'
-  s.framework  = 'AVFoundation'
+  s.ios.deployment_target = '6.0'
+  s.frameworks  = 'AVFoundation'
   s.requires_arc = true
 end
