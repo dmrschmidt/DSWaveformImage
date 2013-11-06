@@ -4,6 +4,12 @@ DSWaveformImage
 DSWaveformImage and DSWaveformImageView offer a simple drop-in solution to generate
 and render waveform images from audio files in iOS.
 
+Installation
+------------
+
+* use cocoapods `pod 'DSWaveformImage', '~> 1.0.0'`
+* or add the DSWaveformImage folder directly into your project (remember to add AVFoundation to your frameworks).
+
 Usage
 -----
 
