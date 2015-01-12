@@ -33,12 +33,19 @@
                              scale:(CGFloat)scale
                              style:(DSWaveformStyle)style {
   AVURLAsset *urlA = [AVURLAsset URLAssetWithURL:url options:nil];
-  DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style];
+  if (!urlA) {
+    return nil;
+  }
   
+  DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style];
   waveformImage.graphColor = color;
   size.width *= scale;
   size.height *= scale;
+  
   NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:urlA withSize:size];
+  if (!imageData) {
+    return nil;
+  }
 
   return [UIImage imageWithData:imageData scale:scale];
 }
