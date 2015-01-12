@@ -42,12 +42,14 @@
   size.width *= scale;
   size.height *= scale;
   
-  NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:urlA withSize:size];
-  if (!imageData) {
+  @try {
+    NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:urlA withSize:size];
+    return [UIImage imageWithData:imageData scale:scale];
+    
+  } @catch (NSException *exception) {
+    NSLog(@"DSWaveformImage: %@", exception);
     return nil;
   }
-
-  return [UIImage imageWithData:imageData scale:scale];
 }
 
 - (void)fillContext:(CGContextRef)context withRect:(CGRect)rect withColor:(UIColor *)color {
@@ -145,6 +147,9 @@
   NSError *error = nil;
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
   AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
+  if (!songTrack) {
+    return nil;
+  }
 
   NSDictionary *outputSettingsDict = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
