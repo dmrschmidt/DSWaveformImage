@@ -101,7 +101,9 @@
 				C37909D91828C9D80033D193 /* Frameworks */,
 				C37909D81828C9D80033D193 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		C37909D81828C9D80033D193 /* Products */ = {
 			isa = PBXGroup;
