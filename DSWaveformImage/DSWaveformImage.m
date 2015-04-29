@@ -137,6 +137,7 @@
 - (NSData *)renderPNGAudioPictogramLogForAssett:(AVURLAsset *)songAsset withSize:(CGSize)size {
   NSError *error = nil;
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
+  if ([songAsset.tracks count] == 0) return nil;
   AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
 
   NSDictionary *outputSettingsDict = [[NSDictionary alloc] initWithObjectsAndKeys:
