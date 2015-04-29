@@ -8,6 +8,8 @@
 
 #import "DSWaveformImage.h"
 
+#import <tgmath.h>
+
 #define absX(x) (x<0?0-x:x)
 #define minMaxX(x,mn,mx) (x<=mn?mn:(x>=mx?mx:x))
 #define noiseFloor (-50.0)
@@ -165,7 +167,7 @@
   _graphSize = size;
   NSInteger requiredNumberOfSamples = _graphSize.width;
   UInt32 bytesPerSample = 2 * channelCount;
-  Float32 normalizeMax = fabsf(noiseFloor);
+  Float32 normalizeMax = __tg_fabs(noiseFloor);
   NSMutableData *fullSongData = [[NSMutableData alloc] initWithCapacity:requiredNumberOfSamples];
   [reader startReading];
 
