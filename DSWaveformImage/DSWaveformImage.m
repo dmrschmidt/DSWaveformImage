@@ -164,7 +164,7 @@
   _graphSize = size;
   NSInteger requiredNumberOfSamples = _graphSize.width;
   UInt32 bytesPerSample = 2 * channelCount;
-  Float32 normalizeMax = fabsf(noiseFloor);
+  Float32 normalizeMax = fabs(noiseFloor);
   NSMutableData *fullSongData = [[NSMutableData alloc] initWithCapacity:requiredNumberOfSamples];
   [reader startReading];
 
@@ -195,12 +195,12 @@
   }
 
   if (reader.status == AVAssetReaderStatusCompleted) {
-    int sampleCount = allData.length / bytesPerSample;
+    NSUInteger sampleCount = allData.length / bytesPerSample;
 
     // FOR THE MOMENT WE ASSUME: sampleCount > requiredNumberOfSamples (SEE (a))
     // -> DOWNSAMPLE THE FINAL SAMPLES ARRAY
     // TODO: SUPPORT UPSAMPLING THE DATA
-    Float32 samplesPerPixel = sampleCount / (float) requiredNumberOfSamples; // (a) always > 1
+    Float32 samplesPerPixel = sampleCount / (Float32) requiredNumberOfSamples; // (a) always > 1
 
     // fill the samples with their values
     Float64 totalAmplitude = 0;
