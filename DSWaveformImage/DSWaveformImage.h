@@ -19,8 +19,8 @@ typedef enum {
 @interface DSWaveformImage : UIImage {
     NSInteger _sampleCount;
     Float32 _normalizeMax;
-    float _imageHeight;
-    float _imageWidth;
+    CGFloat _imageHeight;
+    CGFloat _imageWidth;
     
     Float32 *_samples;
     CGSize _graphSize;

@@ -82,16 +82,16 @@
                  onContext:(CGContextRef)context
                  withColor:(CGColorRef)graphColor {
 
-  float graphCenter = rect.size.height / 2;
-  float verticalPaddingDivisor = 1.2; // 2 = 50 % of height
-  float sampleAdjustmentFactor = (rect.size.height / verticalPaddingDivisor) / 2;
+  CGFloat graphCenter = rect.size.height / 2;
+  CGFloat verticalPaddingDivisor = 1.2; // 2 = 50 % of height
+  CGFloat sampleAdjustmentFactor = (rect.size.height / verticalPaddingDivisor) / 2;
   switch (style) {
     case DSWaveformStyleStripes:
       for (NSInteger intSample = 0; intSample < _sampleCount; intSample++) {
         Float32 sampleValue = (Float32) *_samples++;
-        float pixels = (1.0 + sampleValue) * sampleAdjustmentFactor;
-        float amplitudeUp = graphCenter - pixels;
-        float amplitudeDown = graphCenter + pixels;
+        CGFloat pixels = (1.0 + sampleValue) * sampleAdjustmentFactor;
+        CGFloat amplitudeUp = graphCenter - pixels;
+        CGFloat amplitudeDown = graphCenter + pixels;
 
         if (intSample % 5 != 0) continue;
         CGContextMoveToPoint(context, intSample, amplitudeUp);
@@ -105,9 +105,9 @@
       for (NSInteger pointX = 0; pointX < _sampleCount; pointX++) {
         Float32 sampleValue = (Float32) *_samples++;
 
-        float pixels = ((1.0 + sampleValue) * sampleAdjustmentFactor);
-        float amplitudeUp = graphCenter - pixels;
-        float amplitudeDown = graphCenter + pixels;
+        CGFloat pixels = ((1.0 + sampleValue) * sampleAdjustmentFactor);
+        CGFloat amplitudeUp = graphCenter - pixels;
+        CGFloat amplitudeDown = graphCenter + pixels;
 
         CGContextMoveToPoint(context, pointX, amplitudeUp);
         CGContextAddLineToPoint(context, pointX, amplitudeDown);
@@ -124,8 +124,8 @@
 - (UIImage *)audioImageLogGraph:(Float32 *)samples
                    normalizeMax:(Float32)normalizeMax
                     sampleCount:(NSInteger)sampleCount
-                     imageWidth:(float)imageWidth
-                    imageHeight:(float)imageHeight {
+                     imageWidth:(CGFloat)imageWidth
+                    imageHeight:(CGFloat)imageHeight {
 
   _samples = samples;
   _normalizeMax = normalizeMax;
