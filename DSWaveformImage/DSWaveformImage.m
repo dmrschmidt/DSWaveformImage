@@ -8,6 +8,8 @@
 
 #import "DSWaveformImage.h"
 
+#import <tgmath.h>
+
 #define absX(x) (x<0?0-x:x)
 #define minMaxX(x,mn,mx) (x<=mn?mn:(x>=mx?mx:x))
 #define noiseFloor (-50.0)
@@ -145,6 +147,7 @@
 - (NSData *)renderPNGAudioPictogramLogForAssett:(AVAsset *)songAsset withSize:(CGSize)size {
   NSError *error = nil;
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
+  if ([songAsset.tracks count] == 0) return nil;
   AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
 
   NSDictionary *outputSettingsDict = [[NSDictionary alloc] initWithObjectsAndKeys:

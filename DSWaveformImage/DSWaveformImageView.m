@@ -27,11 +27,15 @@
 
 - (void)setAudioURL:(NSURL *)audioURL {
   _audioURL = audioURL;
-  self.image = [DSWaveformImage waveformForAssetAtURL:audioURL
-                                                color:self.waveformColor
-                                                 size:self.bounds.size
-                                                scale:[UIScreen mainScreen].scale
-                                                style:DSWaveformStyleFull];
+  UIImage *image = nil;
+  if (audioURL) {
+    image = [DSWaveformImage waveformForAssetAtURL:audioURL
+                                             color:self.waveformColor
+                                              size:self.bounds.size
+                                             scale:[UIScreen mainScreen].scale
+                                             style:DSWaveformStyleFull];
+  }
+  self.image = image;
 }
 
 @end
