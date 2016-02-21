@@ -33,12 +33,20 @@
                              scale:(CGFloat)scale
                              style:(DSWaveformStyle)style {
   AVURLAsset *urlA = [AVURLAsset URLAssetWithURL:url options:nil];
+  return [self waveformForAsset:urlA color:color size:size scale:scale style:style];
+}
+
++ (UIImage *)waveformForAsset:(AVAsset *)asset
+                        color:(UIColor *)color
+                         size:(CGSize)size
+                        scale:(CGFloat)scale
+                        style:(DSWaveformStyle)style {
   DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style];
   
   waveformImage.graphColor = color;
   size.width *= scale;
   size.height *= scale;
-  NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:urlA withSize:size];
+  NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:asset withSize:size];
 
   return [UIImage imageWithData:imageData scale:scale];
 }
@@ -134,7 +142,7 @@
 }
 
 
-- (NSData *)renderPNGAudioPictogramLogForAssett:(AVURLAsset *)songAsset withSize:(CGSize)size {
+- (NSData *)renderPNGAudioPictogramLogForAssett:(AVAsset *)songAsset withSize:(CGSize)size {
   NSError *error = nil;
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
   AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
