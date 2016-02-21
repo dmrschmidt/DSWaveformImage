@@ -176,7 +176,7 @@
 
   UInt32 /*sampleRate, */channelCount;
   NSArray *formatDesc = songTrack.formatDescriptions;
-  for (unsigned int i = 0; i < [formatDesc count]; ++i) {
+  for (NSUInteger i = 0; i < [formatDesc count]; ++i) {
     CMAudioFormatDescriptionRef item = (CMAudioFormatDescriptionRef) CFBridgingRetain([formatDesc objectAtIndex:i]);
     const AudioStreamBasicDescription *fmtDesc = CMAudioFormatDescriptionGetStreamBasicDescription(item);
     if (fmtDesc) {
@@ -229,8 +229,8 @@
     // fill the samples with their values
     Float64 totalAmplitude = 0;
     SInt16 *samples = (SInt16 *) allData.mutableBytes;
-    int j = 0;
-    for (int i = 0; i < requiredNumberOfSamples; i++) {
+    NSInteger j = 0;
+    for (NSInteger i = 0; i < requiredNumberOfSamples; i++) {
       Float32 bucketLimit = (i + 1) * samplesPerPixel;
       while (j++ < bucketLimit) {
         Float32 amplitude = (Float32) *samples++;
