@@ -34,23 +34,33 @@
                               size:(CGSize)size
                              scale:(CGFloat)scale
                              style:(DSWaveformStyle)style {
-  AVURLAsset *urlA = [AVURLAsset URLAssetWithURL:url options:nil];
-  return [self waveformForAsset:urlA color:color size:size scale:scale style:style];
+  AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:url options:nil];
+	if (!urlAsset) {
+		return nil;
+	}
+	
+  return [self waveformForAsset:urlAsset color:color size:size scale:scale style:style];
 }
 
-+ (UIImage *)waveformForAsset:(AVAsset *)asset
++ (UIImage *)waveformForAsset:(AVURLAsset *)asset
                         color:(UIColor *)color
                          size:(CGSize)size
                         scale:(CGFloat)scale
                         style:(DSWaveformStyle)style {
   DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style];
-  
   waveformImage.graphColor = color;
   size.width *= scale;
   size.height *= scale;
-  NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:asset withSize:size];
-
-  return [UIImage imageWithData:imageData scale:scale];
+	
+  @try {
+    NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:asset withSize:size];
+		
+    return [UIImage imageWithData:imageData scale:scale];
+    
+  } @catch (NSException *exception) {
+    NSLog(@"DSWaveformImage: %@", exception);
+    return nil;
+  }
 }
 
 - (void)fillContext:(CGContextRef)context withRect:(CGRect)rect withColor:(UIColor *)color {
@@ -149,6 +159,9 @@
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
   if ([songAsset.tracks count] == 0) return nil;
   AVAssetTrack *songTrack = [songAsset.tracks objectAtIndex:0];
+  if (!songTrack) {
+    return nil;
+  }
 
   NSDictionary *outputSettingsDict = [[NSDictionary alloc] initWithObjectsAndKeys:
       [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,
