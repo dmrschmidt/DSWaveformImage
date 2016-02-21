@@ -174,13 +174,13 @@
   AVAssetReaderTrackOutput *output = [[AVAssetReaderTrackOutput alloc] initWithTrack:songTrack outputSettings:outputSettingsDict];
   [reader addOutput:output];
 
-  UInt32 sampleRate, channelCount;
+  UInt32 /*sampleRate, */channelCount;
   NSArray *formatDesc = songTrack.formatDescriptions;
   for (unsigned int i = 0; i < [formatDesc count]; ++i) {
     CMAudioFormatDescriptionRef item = (CMAudioFormatDescriptionRef) CFBridgingRetain([formatDesc objectAtIndex:i]);
     const AudioStreamBasicDescription *fmtDesc = CMAudioFormatDescriptionGetStreamBasicDescription(item);
     if (fmtDesc) {
-      sampleRate = fmtDesc -> mSampleRate;
+      //sampleRate = fmtDesc -> mSampleRate;
       channelCount = fmtDesc -> mChannelsPerFrame;
     }
   }
