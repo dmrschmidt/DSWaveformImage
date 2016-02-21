@@ -241,8 +241,8 @@
       }
 
       Float32 medianAmplitude = totalAmplitude / samplesPerPixel;
-      if (fabsf(medianAmplitude) > fabsf(normalizeMax)) {
-        normalizeMax = fabsf(medianAmplitude);
+      if (fabs(medianAmplitude) > fabs(normalizeMax)) {
+        normalizeMax = fabs(medianAmplitude);
       }
 
       [fullSongData appendBytes:&medianAmplitude length:sizeof(medianAmplitude)];
