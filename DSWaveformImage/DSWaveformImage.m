@@ -53,7 +53,7 @@
   size.height *= scale;
 	
   @try {
-    NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAssett:asset withSize:size];
+    NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAsset:asset withSize:size];
 		
     return [UIImage imageWithData:imageData scale:scale];
     
@@ -154,7 +154,7 @@
 }
 
 
-- (NSData *)renderPNGAudioPictogramLogForAssett:(AVAsset *)songAsset withSize:(CGSize)size {
+- (NSData *)renderPNGAudioPictogramLogForAsset:(AVAsset *)songAsset withSize:(CGSize)size {
   NSError *error = nil;
   AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
   if ([songAsset.tracks count] == 0) return nil;
