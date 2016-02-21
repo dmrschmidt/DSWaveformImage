@@ -227,7 +227,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DS;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = dmrschmidt;
 				TargetAttributes = {
 					C37909FA1828C9D80033D193 = {
@@ -362,6 +362,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -424,6 +425,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
 				INFOPLIST_FILE = "DSWaveformImageExample/DSWaveformImageExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -437,6 +439,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
 				INFOPLIST_FILE = "DSWaveformImageExample/DSWaveformImageExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -458,6 +461,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "DSWaveformImageExampleTests/DSWaveformImageExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -476,6 +480,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
 				INFOPLIST_FILE = "DSWaveformImageExampleTests/DSWaveformImageExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
