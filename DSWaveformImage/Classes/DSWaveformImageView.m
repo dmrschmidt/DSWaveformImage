@@ -33,7 +33,8 @@
                                                  color:self.waveformColor
                                                   size:self.bounds.size
                                                  scale:[UIScreen mainScreen].scale
-                                                 style:DSWaveformStyleFull];
+                                                 style:DSWaveformStyleFull
+                                              position:DSWaveformPositionTop];
     }
     self.image = image;
 }

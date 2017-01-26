@@ -11,10 +11,16 @@
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DSWaveformStyle) {
     DSWaveformStyleStripes = 0,
     DSWaveformStyleFull = 1
-} DSWaveformStyle;
+};
+
+typedef NS_ENUM(NSInteger, DSWaveformPosition) {
+    DSWaveformPositionBottom = -1,
+    DSWaveformPositionMiddle = 0,
+    DSWaveformPositionTop = 1
+};
 
 @interface DSWaveformImage : UIImage
 @property(nonatomic) UIColor *graphColor;
@@ -24,12 +30,14 @@ typedef enum {
                              color:(UIColor *)color
                               size:(CGSize)size
                              scale:(CGFloat)scale
-                             style:(DSWaveformStyle)style;
+                             style:(DSWaveformStyle)style
+                          position:(DSWaveformPosition)position;
 
 + (UIImage *)waveformForAsset:(AVURLAsset *)asset
                         color:(UIColor *)color
                          size:(CGSize)size
                         scale:(CGFloat)scale
-                        style:(DSWaveformStyle)style;
+                        style:(DSWaveformStyle)style
+                     position:(DSWaveformPosition)position;
 
 @end

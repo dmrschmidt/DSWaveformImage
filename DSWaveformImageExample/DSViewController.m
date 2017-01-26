@@ -27,7 +27,8 @@
                                                             color:color
                                                              size:size
                                                             scale:2.0
-                                                            style:DSWaveformStyleFull];
+                                                            style:DSWaveformStyleFull
+                                                         position:DSWaveformPositionMiddle];
 	self.imageView.image = waveformImage;
   [self.waveformImageView setAudioURL:audioURL];
 }
