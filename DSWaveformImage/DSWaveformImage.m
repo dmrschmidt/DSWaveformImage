@@ -164,7 +164,7 @@
   _graphSize = size;
   NSInteger requiredNumberOfSamples = _graphSize.width;
   UInt32 bytesPerSample = 2 * channelCount;
-  Float32 normalizeMax = fabsf(noiseFloor);
+  Float32 normalizeMax = fabs(noiseFloor);
   NSMutableData *fullSongData = [[NSMutableData alloc] initWithCapacity:requiredNumberOfSamples];
   [reader startReading];
 
@@ -195,7 +195,7 @@
   }
 
   if (reader.status == AVAssetReaderStatusCompleted) {
-    int sampleCount = allData.length / bytesPerSample;
+    unsigned long sampleCount = allData.length / bytesPerSample;
 
     // FOR THE MOMENT WE ASSUME: sampleCount > requiredNumberOfSamples (SEE (a))
     // -> DOWNSAMPLE THE FINAL SAMPLES ARRAY
