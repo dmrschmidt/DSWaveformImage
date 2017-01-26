@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423E52831E3A363200F3FC56 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 423E52821E3A363200F3FC56 /* Launch Screen.storyboard */; };
 		C37909DB1828C9D80033D193 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DA1828C9D80033D193 /* Foundation.framework */; };
 		C37909DD1828C9D80033D193 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DC1828C9D80033D193 /* CoreGraphics.framework */; };
 		C37909DF1828C9D80033D193 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DE1828C9D80033D193 /* UIKit.framework */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		423E52821E3A363200F3FC56 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C37909D71828C9D80033D193 /* DSWaveformImageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSWaveformImageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37909DA1828C9D80033D193 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C37909DC1828C9D80033D193 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -101,7 +103,9 @@
 				C37909D91828C9D80033D193 /* Frameworks */,
 				C37909D81828C9D80033D193 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		C37909D81828C9D80033D193 /* Products */ = {
 			isa = PBXGroup;
@@ -130,6 +134,7 @@
 				C3790A191828CA740033D193 /* example_sound.m4a */,
 				C37909E91828C9D80033D193 /* DSAppDelegate.h */,
 				C37909EA1828C9D80033D193 /* DSAppDelegate.m */,
+				423E52821E3A363200F3FC56 /* Launch Screen.storyboard */,
 				C37909EC1828C9D80033D193 /* Main_iPhone.storyboard */,
 				C37909EF1828C9D80033D193 /* Main_iPad.storyboard */,
 				C37909F21828C9D80033D193 /* DSViewController.h */,
@@ -257,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				423E52831E3A363200F3FC56 /* Launch Screen.storyboard in Resources */,
 				C37909F11828C9D80033D193 /* Main_iPad.storyboard in Resources */,
 				C37909F61828C9D80033D193 /* Images.xcassets in Resources */,
 				C37909EE1828C9D80033D193 /* Main_iPhone.storyboard in Resources */,
@@ -429,7 +435,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
 				INFOPLIST_FILE = "DSWaveformImageExample/DSWaveformImageExample-Info.plist";
@@ -443,7 +448,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
 				INFOPLIST_FILE = "DSWaveformImageExample/DSWaveformImageExample-Info.plist";
