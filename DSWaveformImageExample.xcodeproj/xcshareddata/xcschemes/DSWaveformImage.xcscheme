@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D6EABC481D6C010700C5862C"
-               BuildableName = "DSWaveformImageFramework.framework"
-               BlueprintName = "DSWaveformImageFramework"
+               BlueprintIdentifier = "42A599061E3A41EA0072319E"
+               BuildableName = "DSWaveformImage.framework"
+               BlueprintName = "DSWaveformImage"
                ReferencedContainer = "container:DSWaveformImageExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D6EABC481D6C010700C5862C"
-            BuildableName = "DSWaveformImageFramework.framework"
-            BlueprintName = "DSWaveformImageFramework"
+            BlueprintIdentifier = "42A599061E3A41EA0072319E"
+            BuildableName = "DSWaveformImage.framework"
+            BlueprintName = "DSWaveformImage"
             ReferencedContainer = "container:DSWaveformImageExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D6EABC481D6C010700C5862C"
-            BuildableName = "DSWaveformImageFramework.framework"
-            BlueprintName = "DSWaveformImageFramework"
+            BlueprintIdentifier = "42A599061E3A41EA0072319E"
+            BuildableName = "DSWaveformImage.framework"
+            BlueprintName = "DSWaveformImage"
             ReferencedContainer = "container:DSWaveformImageExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

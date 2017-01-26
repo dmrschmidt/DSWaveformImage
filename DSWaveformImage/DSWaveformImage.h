@@ -1,35 +1,19 @@
 //
 //  DSWaveformImage.h
+//  DSWaveformImage
 //
-//  Created by Dennis Schmidt on 07.09.13.
-//  Copyright (c) 2013 Dennis Schmidt. All rights reserved.
-//
-//  Large parts found at http://stackoverflow.com/questions/8298610/waveform-on-ios
+//  Created by dschmidt on 1/26/17.
+//  Copyright © 2017 dmrschmidt. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-typedef enum {
-    DSWaveformStyleStripes = 0,
-    DSWaveformStyleFull = 1
-} DSWaveformStyle;
+//! Project version number for DSWaveformImage.
+FOUNDATION_EXPORT double DSWaveformImageVersionNumber;
 
-@interface DSWaveformImage : UIImage
-@property(nonatomic) UIColor *graphColor;
-@property(nonatomic) DSWaveformStyle style;
+//! Project version string for DSWaveformImage.
+FOUNDATION_EXPORT const unsigned char DSWaveformImageVersionString[];
 
-+ (UIImage *)waveformForAssetAtURL:(NSURL *)url
-                             color:(UIColor *)color
-                              size:(CGSize)size
-                             scale:(CGFloat)scale
-                             style:(DSWaveformStyle)style;
+// In this header, you should import all the public headers of your framework using statements like #import <DSWaveformImage/PublicHeader.h>
 
-+ (UIImage *)waveformForAsset:(AVURLAsset *)asset
-                        color:(UIColor *)color
-                         size:(CGSize)size
-                        scale:(CGFloat)scale
-                        style:(DSWaveformStyle)style;
 
-@end
