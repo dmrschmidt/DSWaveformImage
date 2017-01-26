@@ -10,11 +10,11 @@
 		423E52831E3A363200F3FC56 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 423E52821E3A363200F3FC56 /* Launch Screen.storyboard */; };
 		42A599101E3A41EA0072319E /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A599071E3A41EA0072319E /* DSWaveformImage.framework */; };
 		42A599171E3A41EA0072319E /* DSWaveformImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A599161E3A41EA0072319E /* DSWaveformImageTests.swift */; };
-		42A599191E3A41EA0072319E /* DSWaveformImageFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A599091E3A41EA0072319E /* DSWaveformImageFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		42A599191E3A41EA0072319E /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A599091E3A41EA0072319E /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42A5991C1E3A41EA0072319E /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42A599071E3A41EA0072319E /* DSWaveformImage.framework */; };
 		42A5991D1E3A41EA0072319E /* DSWaveformImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 42A599071E3A41EA0072319E /* DSWaveformImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		42A599361E3A51790072319E /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A599321E3A51790072319E /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		42A599371E3A51790072319E /* DSWaveformImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A599331E3A51790072319E /* DSWaveformImage.m */; };
+		42A599361E3A51790072319E /* DSWaveformImageModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A599321E3A51790072319E /* DSWaveformImageModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		42A599371E3A51790072319E /* DSWaveformImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A599331E3A51790072319E /* DSWaveformImageModel.m */; };
 		42A599381E3A51790072319E /* DSWaveformImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 42A599341E3A51790072319E /* DSWaveformImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		42A599391E3A51790072319E /* DSWaveformImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A599351E3A51790072319E /* DSWaveformImageView.m */; };
 		C37909DB1828C9D80033D193 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DA1828C9D80033D193 /* Foundation.framework */; };
@@ -84,13 +84,13 @@
 /* Begin PBXFileReference section */
 		423E52821E3A363200F3FC56 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		42A599071E3A41EA0072319E /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		42A599091E3A41EA0072319E /* DSWaveformImageFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImageFramework.h; sourceTree = "<group>"; };
+		42A599091E3A41EA0072319E /* DSWaveformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
 		42A5990A1E3A41EA0072319E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		42A5990F1E3A41EA0072319E /* DSWaveformImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DSWaveformImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42A599161E3A41EA0072319E /* DSWaveformImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSWaveformImageTests.swift; sourceTree = "<group>"; };
 		42A599181E3A41EA0072319E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		42A599321E3A51790072319E /* DSWaveformImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
-		42A599331E3A51790072319E /* DSWaveformImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSWaveformImage.m; sourceTree = "<group>"; };
+		42A599321E3A51790072319E /* DSWaveformImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSWaveformImageModel.h; sourceTree = "<group>"; };
+		42A599331E3A51790072319E /* DSWaveformImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSWaveformImageModel.m; sourceTree = "<group>"; };
 		42A599341E3A51790072319E /* DSWaveformImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSWaveformImageView.h; sourceTree = "<group>"; };
 		42A599351E3A51790072319E /* DSWaveformImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSWaveformImageView.m; sourceTree = "<group>"; };
 		C37909D71828C9D80033D193 /* DSWaveformImageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSWaveformImageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				42A599311E3A51790072319E /* DSWaveformImage */,
-				42A599091E3A41EA0072319E /* DSWaveformImageFramework.h */,
+				42A599091E3A41EA0072319E /* DSWaveformImage.h */,
 				42A5990A1E3A41EA0072319E /* Info.plist */,
 			);
 			path = DSWaveformImage;
@@ -180,8 +180,8 @@
 		42A599311E3A51790072319E /* DSWaveformImage */ = {
 			isa = PBXGroup;
 			children = (
-				42A599321E3A51790072319E /* DSWaveformImage.h */,
-				42A599331E3A51790072319E /* DSWaveformImage.m */,
+				42A599321E3A51790072319E /* DSWaveformImageModel.h */,
+				42A599331E3A51790072319E /* DSWaveformImageModel.m */,
 				42A599341E3A51790072319E /* DSWaveformImageView.h */,
 				42A599351E3A51790072319E /* DSWaveformImageView.m */,
 			);
@@ -278,9 +278,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42A599361E3A51790072319E /* DSWaveformImage.h in Headers */,
+				42A599361E3A51790072319E /* DSWaveformImageModel.h in Headers */,
 				42A599381E3A51790072319E /* DSWaveformImageView.h in Headers */,
-				42A599191E3A41EA0072319E /* DSWaveformImageFramework.h in Headers */,
+				42A599191E3A41EA0072319E /* DSWaveformImage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -451,7 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42A599391E3A51790072319E /* DSWaveformImageView.m in Sources */,
-				42A599371E3A51790072319E /* DSWaveformImage.m in Sources */,
+				42A599371E3A51790072319E /* DSWaveformImageModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +807,7 @@
 				42A599201E3A41EA0072319E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		42A599211E3A41EA0072319E /* Build configuration list for PBXNativeTarget "DSWaveformImageTests" */ = {
 			isa = XCConfigurationList;
@@ -815,6 +816,7 @@
 				42A599231E3A41EA0072319E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C37909D21828C9D80033D193 /* Build configuration list for PBXProject "DSWaveformImageExample" */ = {
 			isa = XCConfigurationList;

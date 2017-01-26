@@ -16,5 +16,5 @@ FOUNDATION_EXPORT const unsigned char DSWaveformImageVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <DSWaveformImage/PublicHeader.h>
 
-#import <DSWaveformImage/DSWaveformImage.h>
+#import <DSWaveformImage/DSWaveformImageModel.h>
 #import <DSWaveformImage/DSWaveformImageView.h>

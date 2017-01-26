@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Dennis Schmidt. All rights reserved.
 //
 
-#import "DSWaveformImage.h"
+#import "DSWaveformImageModel.h"
 
 #define absX(x) (x < 0 ? 0 -x : x)
 #define minMaxX(x, mn, mx) (x <= mn ? mn : (x >= mx ? mx : x))
