@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -13,31 +18,30 @@
                         <viewControllerLayoutGuide type="bottom" id="5Ql-V1-UOp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sTp-V3-NaG">
-                                <rect key="frame" x="0.0" y="20" width="320" height="200"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="BCc-mO-UQT"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OYV-7q-nNT" customClass="DSWaveformImageView">
-                                <rect key="frame" x="0.0" y="220" width="320" height="200"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="0.0" y="467" width="375" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="MtR-kb-Nj4"/>
+                                    <constraint firstAttribute="height" constant="200" id="yaN-fj-FSH"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="OYV-7q-nNT" firstAttribute="top" secondItem="sTp-V3-NaG" secondAttribute="bottom" id="6bP-RZ-gMU"/>
-                            <constraint firstAttribute="trailing" secondItem="OYV-7q-nNT" secondAttribute="trailing" id="EYM-VM-Qgz"/>
+                            <constraint firstAttribute="trailing" secondItem="OYV-7q-nNT" secondAttribute="trailing" id="HFa-eS-fhq"/>
                             <constraint firstAttribute="trailing" secondItem="sTp-V3-NaG" secondAttribute="trailing" id="OPk-Ab-xDC"/>
-                            <constraint firstItem="OYV-7q-nNT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="QZd-Av-qeb"/>
+                            <constraint firstItem="OYV-7q-nNT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="sTp-V3-NaG" secondAttribute="bottom" id="Ukh-Vp-hD5"/>
+                            <constraint firstItem="OYV-7q-nNT" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="UrR-KP-yfH"/>
                             <constraint firstItem="sTp-V3-NaG" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="WCg-eK-Agp"/>
+                            <constraint firstItem="5Ql-V1-UOp" firstAttribute="top" secondItem="OYV-7q-nNT" secondAttribute="bottom" id="gyP-3v-MMO"/>
                             <constraint firstItem="sTp-V3-NaG" firstAttribute="top" secondItem="8kk-uw-Uql" secondAttribute="bottom" id="tB1-Qf-Sg7"/>
                         </constraints>
                     </view>
@@ -53,6 +57,6 @@
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
     </simulatedMetricsContainer>
 </document>

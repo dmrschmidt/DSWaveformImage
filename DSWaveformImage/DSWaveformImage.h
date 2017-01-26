@@ -16,16 +16,7 @@ typedef enum {
     DSWaveformStyleFull = 1
 } DSWaveformStyle;
 
-@interface DSWaveformImage : UIImage {
-    NSInteger _sampleCount;
-    Float32 _normalizeMax;
-    float _imageHeight;
-    float _imageWidth;
-    
-    Float32 *_samples;
-    CGSize _graphSize;
-}
-
+@interface DSWaveformImage : UIImage
 @property(nonatomic) UIColor *graphColor;
 @property(nonatomic) DSWaveformStyle style;
 
@@ -34,5 +25,11 @@ typedef enum {
                               size:(CGSize)size
                              scale:(CGFloat)scale
                              style:(DSWaveformStyle)style;
+
++ (UIImage *)waveformForAsset:(AVURLAsset *)asset
+                        color:(UIColor *)color
+                         size:(CGSize)size
+                        scale:(CGFloat)scale
+                        style:(DSWaveformStyle)style;
 
 @end

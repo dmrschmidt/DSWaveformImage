@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DSWaveformImageView : UIImageView
-@property (nonatomic, strong) NSURL *audioURL;
-@property (nonatomic, strong) UIColor *waveformColor;
+@property(nonatomic, strong) NSURL *audioURL;
+@property(nonatomic, strong) UIColor *waveformColor;
 @end
