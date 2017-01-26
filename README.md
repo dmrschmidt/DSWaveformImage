@@ -8,6 +8,7 @@ Installation
 ------------
 
 * use cocoapods `pod 'DSWaveformImage', '~> 1.0.0'`
+* use cartahge `github 'dmrschmidt/DSWaveformImage' ~> 1.1.0
 * or add the DSWaveformImage folder directly into your project (remember to add AVFoundation to your frameworks).
 
 Usage
