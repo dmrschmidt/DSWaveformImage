@@ -14,6 +14,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        _waveformColor = [UIColor darkGrayColor];
+        _waveformStyle = DSWaveformStyleFull;
+        _waveformPosition = DSWaveformPositionMiddle;
     }
     return self;
 }
@@ -21,20 +24,44 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        _waveformColor = [UIColor darkGrayColor];
+        _waveformStyle = DSWaveformStyleFull;
+        _waveformPosition = DSWaveformPositionMiddle;
     }
     return self;
 }
 
+- (void)setWaveformColor:(UIColor *)waveformColor {
+    _waveformColor = waveformColor;
+    [self updateWaveform];
+}
+
+- (void)setWaveformStyle:(DSWaveformStyle)waveformStyle {
+    _waveformStyle = waveformStyle;
+    [self updateWaveform];
+}
+
+- (void)setWaveformPosition:(DSWaveformPosition)waveformPosition {
+    _waveformPosition = waveformPosition;
+    [self updateWaveform];
+}
+
 - (void)setAudioURL:(NSURL *)audioURL {
     _audioURL = audioURL;
+    [self updateWaveform];
+}
+
+#pragma mark - Private
+
+- (void)updateWaveform {
     UIImage *image = nil;
-    if (audioURL) {
-        image = [DSWaveformImage waveformForAssetAtURL:audioURL
+    if (self.audioURL) {
+        image = [DSWaveformImage waveformForAssetAtURL:self.audioURL
                                                  color:self.waveformColor
                                                   size:self.bounds.size
                                                  scale:[UIScreen mainScreen].scale
-                                                 style:DSWaveformStyleFull
-                                              position:DSWaveformPositionTop];
+                                                 style:self.waveformStyle
+                                              position:self.waveformPosition];
     }
     self.image = image;
 }

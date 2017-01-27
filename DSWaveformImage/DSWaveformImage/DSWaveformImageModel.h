@@ -23,8 +23,10 @@ typedef NS_ENUM(NSInteger, DSWaveformPosition) {
 };
 
 @interface DSWaveformImage : UIImage
-@property(nonatomic) UIColor *graphColor;
-@property(nonatomic) DSWaveformStyle style;
+
+@property(nonatomic, strong) UIColor *graphColor;
+@property(nonatomic, assign) DSWaveformStyle style;
+@property(nonatomic, assign) DSWaveformPosition position;
 
 + (UIImage *)waveformForAssetAtURL:(NSURL *)url
                              color:(UIColor *)color

@@ -27,11 +27,6 @@
 		C37909F11828C9D80033D193 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C37909EF1828C9D80033D193 /* Main_iPad.storyboard */; };
 		C37909F41828C9D80033D193 /* DSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C37909F31828C9D80033D193 /* DSViewController.m */; };
 		C37909F61828C9D80033D193 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C37909F51828C9D80033D193 /* Images.xcassets */; };
-		C37909FD1828C9D80033D193 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909FC1828C9D80033D193 /* XCTest.framework */; };
-		C37909FE1828C9D80033D193 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DA1828C9D80033D193 /* Foundation.framework */; };
-		C37909FF1828C9D80033D193 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C37909DE1828C9D80033D193 /* UIKit.framework */; };
-		C3790A071828C9D80033D193 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C3790A051828C9D80033D193 /* InfoPlist.strings */; };
-		C3790A091828C9D80033D193 /* DSWaveformImageExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C3790A081828C9D80033D193 /* DSWaveformImageExampleTests.m */; };
 		C3790A1A1828CA740033D193 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C3790A191828CA740033D193 /* example_sound.m4a */; };
 		C3790A1C1828CC2D0033D193 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3790A1B1828CC2D0033D193 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
@@ -57,13 +52,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 42A599061E3A41EA0072319E;
 			remoteInfo = DSWaveformImage;
-		};
-		C3790A001828C9D80033D193 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C37909CF1828C9D80033D193 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C37909D61828C9D80033D193;
-			remoteInfo = DSWaveformImageExample;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -108,11 +96,7 @@
 		C37909F21828C9D80033D193 /* DSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSViewController.h; sourceTree = "<group>"; };
 		C37909F31828C9D80033D193 /* DSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSViewController.m; sourceTree = "<group>"; };
 		C37909F51828C9D80033D193 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		C37909FB1828C9D80033D193 /* DSWaveformImageExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DSWaveformImageExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C37909FC1828C9D80033D193 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		C3790A041828C9D80033D193 /* DSWaveformImageExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DSWaveformImageExampleTests-Info.plist"; sourceTree = "<group>"; };
-		C3790A061828C9D80033D193 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C3790A081828C9D80033D193 /* DSWaveformImageExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSWaveformImageExampleTests.m; sourceTree = "<group>"; };
 		C3790A191828CA740033D193 /* example_sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound.m4a; sourceTree = "<group>"; };
 		C3790A1B1828CC2D0033D193 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -142,16 +126,6 @@
 				C37909DF1828C9D80033D193 /* UIKit.framework in Frameworks */,
 				C37909DB1828C9D80033D193 /* Foundation.framework in Frameworks */,
 				42A5991C1E3A41EA0072319E /* DSWaveformImage.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C37909F81828C9D80033D193 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C37909FD1828C9D80033D193 /* XCTest.framework in Frameworks */,
-				C37909FF1828C9D80033D193 /* UIKit.framework in Frameworks */,
-				C37909FE1828C9D80033D193 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				C37909E01828C9D80033D193 /* DSWaveformImageExample */,
-				C3790A021828C9D80033D193 /* DSWaveformImageExampleTests */,
 				42A599081E3A41EA0072319E /* DSWaveformImage */,
 				42A599151E3A41EA0072319E /* DSWaveformImageTests */,
 				C37909D91828C9D80033D193 /* Frameworks */,
@@ -206,7 +179,6 @@
 			isa = PBXGroup;
 			children = (
 				C37909D71828C9D80033D193 /* DSWaveformImageExample.app */,
-				C37909FB1828C9D80033D193 /* DSWaveformImageExampleTests.xctest */,
 				42A599071E3A41EA0072319E /* DSWaveformImage.framework */,
 				42A5990F1E3A41EA0072319E /* DSWaveformImageTests.xctest */,
 			);
@@ -249,24 +221,6 @@
 				C37909E31828C9D80033D193 /* InfoPlist.strings */,
 				C37909E61828C9D80033D193 /* main.m */,
 				C37909E81828C9D80033D193 /* DSWaveformImageExample-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C3790A021828C9D80033D193 /* DSWaveformImageExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				C3790A081828C9D80033D193 /* DSWaveformImageExampleTests.m */,
-				C3790A031828C9D80033D193 /* Supporting Files */,
-			);
-			path = DSWaveformImageExampleTests;
-			sourceTree = "<group>";
-		};
-		C3790A031828C9D80033D193 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				C3790A041828C9D80033D193 /* DSWaveformImageExampleTests-Info.plist */,
-				C3790A051828C9D80033D193 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -343,24 +297,6 @@
 			productReference = C37909D71828C9D80033D193 /* DSWaveformImageExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C37909FA1828C9D80033D193 /* DSWaveformImageExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C3790A0F1828C9D80033D193 /* Build configuration list for PBXNativeTarget "DSWaveformImageExampleTests" */;
-			buildPhases = (
-				C37909F71828C9D80033D193 /* Sources */,
-				C37909F81828C9D80033D193 /* Frameworks */,
-				C37909F91828C9D80033D193 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C3790A011828C9D80033D193 /* PBXTargetDependency */,
-			);
-			name = DSWaveformImageExampleTests;
-			productName = DSWaveformImageExampleTests;
-			productReference = C37909FB1828C9D80033D193 /* DSWaveformImageExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -381,12 +317,9 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = C37909D61828C9D80033D193;
 					};
-					C37909FA1828C9D80033D193 = {
-						TestTargetID = C37909D61828C9D80033D193;
-					};
 				};
 			};
-			buildConfigurationList = C37909D21828C9D80033D193 /* Build configuration list for PBXProject "DSWaveformImageExample" */;
+			buildConfigurationList = C37909D21828C9D80033D193 /* Build configuration list for PBXProject "DSWaveformImage" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -400,7 +333,6 @@
 			projectRoot = "";
 			targets = (
 				C37909D61828C9D80033D193 /* DSWaveformImageExample */,
-				C37909FA1828C9D80033D193 /* DSWaveformImageExampleTests */,
 				42A599061E3A41EA0072319E /* DSWaveformImage */,
 				42A5990E1E3A41EA0072319E /* DSWaveformImageTests */,
 			);
@@ -435,14 +367,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C37909F91828C9D80033D193 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3790A071828C9D80033D193 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -473,14 +397,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C37909F71828C9D80033D193 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3790A091828C9D80033D193 /* DSWaveformImageExampleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -498,11 +414,6 @@
 			isa = PBXTargetDependency;
 			target = 42A599061E3A41EA0072319E /* DSWaveformImage */;
 			targetProxy = 42A5991A1E3A41EA0072319E /* PBXContainerItemProxy */;
-		};
-		C3790A011828C9D80033D193 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C37909D61828C9D80033D193 /* DSWaveformImageExample */;
-			targetProxy = C3790A001828C9D80033D193 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -531,14 +442,6 @@
 			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
-		C3790A051828C9D80033D193 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C3790A061828C9D80033D193 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -558,7 +461,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DSWaveformImage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
@@ -589,7 +492,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DSWaveformImage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
@@ -619,7 +522,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DSWaveformImageExample.app/DSWaveformImageExample";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DSWaveformImage.app/DSWaveformImage";
 			};
 			name = Debug;
 		};
@@ -640,7 +543,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DSWaveformImageExample.app/DSWaveformImageExample";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DSWaveformImage.app/DSWaveformImage";
 			};
 			name = Release;
 		};
@@ -755,48 +658,6 @@
 			};
 			name = Release;
 		};
-		C3790A101828C9D80033D193 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DSWaveformImageExample.app/DSWaveformImageExample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "DSWaveformImageExampleTests/DSWaveformImageExampleTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		C3790A111828C9D80033D193 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/DSWaveformImageExample.app/DSWaveformImageExample";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Prefix.pch";
-				INFOPLIST_FILE = "DSWaveformImageExampleTests/DSWaveformImageExampleTests-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -818,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C37909D21828C9D80033D193 /* Build configuration list for PBXProject "DSWaveformImageExample" */ = {
+		C37909D21828C9D80033D193 /* Build configuration list for PBXProject "DSWaveformImage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C3790A0A1828C9D80033D193 /* Debug */,
@@ -832,15 +693,6 @@
 			buildConfigurations = (
 				C3790A0D1828C9D80033D193 /* Debug */,
 				C3790A0E1828C9D80033D193 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C3790A0F1828C9D80033D193 /* Build configuration list for PBXNativeTarget "DSWaveformImageExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C3790A101828C9D80033D193 /* Debug */,
-				C3790A111828C9D80033D193 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

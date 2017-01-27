@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DSWaveformImageModel.h"
 
 @interface DSWaveformImageView : UIImageView
-@property(nonatomic, strong) NSURL *audioURL;
-@property(nonatomic, strong) UIColor *waveformColor;
+@property(nonatomic, strong) IBInspectable NSURL *audioURL;
+@property(nonatomic, strong) IBInspectable UIColor *waveformColor;
+@property(nonatomic, assign) IBInspectable DSWaveformStyle waveformStyle;
+@property(nonatomic, assign) IBInspectable DSWaveformPosition waveformPosition;
 @end

@@ -15,11 +15,12 @@
 
 @implementation DSWaveformImage
 
-- (id)initWithStyle:(DSWaveformStyle)style {
+- (id)initWithStyle:(DSWaveformStyle)style position:(DSWaveformPosition)position {
     self = [super init];
     if (self) {
         _graphColor = [UIColor whiteColor];
         _style = style;
+        _position = position;
     }
 
     return self;
@@ -45,13 +46,13 @@
                         scale:(CGFloat)scale
                         style:(DSWaveformStyle)style
                      position:(DSWaveformPosition)position {
-    DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style];
+    DSWaveformImage *waveformImage = [[DSWaveformImage alloc] initWithStyle:style position:position];
     waveformImage.graphColor = color;
     size.width *= scale;
     size.height *= scale;
 
     @try {
-        NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAsset:asset withSize:size atPosition:position];
+        NSData *imageData = [waveformImage renderPNGAudioPictogramLogForAsset:asset withSize:size];
         return [UIImage imageWithData:imageData scale:scale];
     } @catch (NSException *exception) {
         NSLog(@"DSWaveformImage: %@", exception);
@@ -73,28 +74,25 @@
 }
 
 - (void)drawGraphFromSamples:(Float32 *)samples
-                   withStyle:(DSWaveformStyle)style
-                   withColor:(CGColorRef)graphColor
                       inRect:(CGRect)rect
                    onContext:(CGContextRef)context
-                 sampleCount:(NSUInteger)sampleCount
-                  atPosition:(DSWaveformPosition)waveformPosition{
+                 sampleCount:(NSUInteger)sampleCount {
     CGFloat graphCenter = rect.size.height / 2;
-    CGFloat positionAdjustedGraphCenter = graphCenter - waveformPosition * graphCenter;
-    CGFloat verticalPaddingDivisor = waveformPosition == DSWaveformPositionMiddle ? 1.2 : 1.0; // 2 = 50 % of height
+    CGFloat positionAdjustedGraphCenter = graphCenter - self.position * graphCenter;
+    CGFloat verticalPaddingDivisor = (CGFloat) (self.position == DSWaveformPositionMiddle ? 1.2 : 1.0); // 2 = 50 % of height
     CGFloat sampleAdjustmentFactor = (rect.size.height / verticalPaddingDivisor) / 2;
-    
+
     for (NSInteger intSample = 0; intSample < sampleCount; intSample++) {
         Float32 sampleValue = (Float32) *samples++;
-        
-        float pixels = (1.0 + sampleValue) * sampleAdjustmentFactor;
-        float amplitudeUp = positionAdjustedGraphCenter - pixels;
-        float amplitudeDown = positionAdjustedGraphCenter + pixels;
-        
-        if (style == DSWaveformStyleStripes && (intSample % 5 != 0)) continue;
+
+        CGFloat pixels = (CGFloat) ((1.0 + sampleValue) * sampleAdjustmentFactor);
+        CGFloat amplitudeUp = positionAdjustedGraphCenter - pixels;
+        CGFloat amplitudeDown = positionAdjustedGraphCenter + pixels;
+
+        if (self.style == DSWaveformStyleStripes && (intSample % 5 != 0)) continue;
         CGContextMoveToPoint(context, intSample, amplitudeUp);
         CGContextAddLineToPoint(context, intSample, amplitudeDown);
-        CGContextSetStrokeColorWithColor(context, graphColor);
+        CGContextSetStrokeColorWithColor(context, self.graphColor.CGColor);
         CGContextStrokePath(context);
     }
 }
@@ -102,25 +100,17 @@
 - (UIImage *)audioImageLogGraph:(Float32 *)samples
                     sampleCount:(NSInteger)sampleCount
                      imageWidth:(CGFloat)imageWidth
-                    imageHeight:(CGFloat)imageHeight
-               waveformPosition:(DSWaveformPosition)waveformPosition {
+                    imageHeight:(CGFloat)imageHeight {
     CGSize imageSize = CGSizeMake(imageWidth, imageHeight);
     UIGraphicsBeginImageContext(imageSize);
     CGContextRef context = UIGraphicsGetCurrentContext();
 
     [self fillBackgroundInContext:context withSize:imageSize withColor:[UIColor clearColor]];
 
-    CGColorRef graphColor = self.graphColor.CGColor;
     CGContextSetLineWidth(context, 1.0);
     CGRect graphRect = CGRectMake(0, 0, imageWidth, imageHeight);
 
-    [self drawGraphFromSamples:samples
-                     withStyle:self.style
-                     withColor:graphColor
-                        inRect:graphRect
-                     onContext:context
-                   sampleCount:sampleCount
-                    atPosition:waveformPosition];
+    [self drawGraphFromSamples:samples inRect:graphRect onContext:context sampleCount:(NSUInteger) sampleCount];
 
     // Create new image
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -132,9 +122,7 @@
 }
 
 
-- (NSData *)renderPNGAudioPictogramLogForAsset:(AVAsset *)songAsset
-                                      withSize:(CGSize)graphSize
-                                    atPosition:(DSWaveformPosition)position {
+- (NSData *)renderPNGAudioPictogramLogForAsset:(AVAsset *)songAsset withSize:(CGSize)graphSize {
     NSError *error = nil;
     AVAssetReader *reader = [[AVAssetReader alloc] initWithAsset:songAsset error:&error];
     if ([songAsset.tracks count] == 0) return nil;
@@ -232,8 +220,7 @@
         UIImage *graphImage = [self audioImageLogGraph:(Float32 *) normalizedData.bytes
                                            sampleCount:fullSongData.length / sizeof(Float32)
                                             imageWidth:requiredNumberOfSamples
-                                           imageHeight:graphSize.height
-                                      waveformPosition:position];
+                                           imageHeight:graphSize.height];
 
         finalData = UIImagePNGRepresentation(graphImage);
     }
