@@ -31,6 +31,7 @@
                                                               position:DSWaveformPositionTop];
     self.topImageView.image = waveformImageTop;
 
+    [self.middleWaveformImageView setWaveformStyle:DSWaveformStyleStripes];
     [self.middleWaveformImageView setAudioURL:audioURL];
 
     UIImage *waveformImageBottom = [DSWaveformImage waveformForAssetAtURL:audioURL
