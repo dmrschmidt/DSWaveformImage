@@ -37,4 +37,4 @@ self.waveformImageView = [[DSWaveformImageView alloc] initWithFrame:CGRectMake(0
 What it looks like
 ------------------
 
-![Screenshot](https://raw.github.com/dmrschmidt/DSWaveformImage/master/screenshot.png)
+![Screenshot](https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png)
