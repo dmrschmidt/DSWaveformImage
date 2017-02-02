@@ -1,32 +1,35 @@
 GIT
   remote: git://github.com/dmrschmidt/ios-toolchain.git
-  revision: b58bab08a622e6bb96d443805b9a7a7af8bfac08
+  revision: 56aa82aa1214e880cc12dfa1e56532041751f9c2
   specs:
     ios_toolchain (0.1.0)
       bundler (~> 1.0)
       rake (~> 12.0)
-      xcodeproject (~> 0.3)
+      xcodeproj (~> 0.3)
       xcpretty (~> 0.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    json (1.8.6)
-    macaddr (1.7.1)
-      systemu (~> 2.6.2)
+    activesupport (5.0.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    claide (0.9.1)
+    colored (1.2)
+    concurrent-ruby (1.0.4)
+    i18n (0.8.0)
+    minitest (5.10.1)
     rake (12.0.0)
     rouge (1.11.1)
-    state_machine (1.1.2)
-    systemu (2.6.5)
-    uuid (2.3.8)
-      macaddr (~> 1.0)
-    xcodebuild-rb (0.2.0)
-      state_machine (~> 1.1.2)
-    xcodeproject (0.3.13)
-      json (~> 1.8)
-      rake (>= 10.0)
-      uuid (~> 2.3)
-      xcodebuild-rb (~> 0.2.0)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    xcodeproj (0.28.2)
+      activesupport (>= 3)
+      claide (~> 0.9.1)
+      colored (~> 1.2)
     xcpretty (0.2.4)
       rouge (~> 1.8)
 

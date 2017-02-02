@@ -1,0 +1,14 @@
+---
+project-file-path: "/Users/dschmidt/workspace/DSWaveformImage/DSWaveformImage.xcodeproj"
+default-scheme: DSWaveformImage
+default-sdk: iphoneos10.2
+default-32bit-test-device: "'iOS Simulator,OS=10.2,name=iPhone 5'"
+default-64bit-test-device: "'iOS Simulator,OS=10.2,name=iPhone 7'"
+app-targets:
+- DSWaveformImageExample
+- DSWaveformImage
+test-targets:
+- DSWaveformImageTests
+ui-test-targets: []
+provisioning-path: "/Users/dschmidt/workspace/DSWaveformImage/provisioning"
+crashlytics-framework-path: 
