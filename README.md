@@ -1,40 +1,45 @@
 DSWaveformImage
 ===============
 
-DSWaveformImage and DSWaveformImageView offer a simple drop-in solution to generate
-and render waveform images from audio files in iOS.
+DSWaveformImageCreator and DSWaveformImageView offer a simple drop-in solution
+to generate and render waveform images from audio files in iOS.
 
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 2.0.0`
-* use cocoapods: `pod 'DSWaveformImage', '~> 2.0.0'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 3.0.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 3.0.0'`
 * or add the DSWaveformImage folder directly into your project.
 
 Usage
 -----
 
-To create a UIImage:
+To create a `UIImage` using `DSWaveformImageDrawer`:
 
-```objc
-NSURL *audioURL = [[NSBundle mainBundle] URLForResource:@"example_sound" withExtension:@"m4a"];
-UIImage *waveformImageTop = [DSWaveformImage waveformForAssetAtURL:audioURL
-                                                         color:[UIColor redColor]
-                                                          size:self.middleWaveformImageView.bounds.size
-                                                         scale:[UIScreen mainScreen].scale
-                                                         style:DSWaveformStyleFull
-                                                      position:DSWaveformPositionTop];
+```swift
+let waveformImageDrawer = DSWaveformImageDrawer()
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+                                                         color: UIColor.black,
+                                                         style: .filled,
+                                                         position: .top,
+                                                         size: middleWaveformView.bounds.size,
+                                                         scale: UIScreen.main.scale)
 ```
 
-To create a UIImageView:
+To create a `DSWaveformImageView` (`UIImageView` subclass):
 
-```objc
-NSURL *audioURL = [[NSBundle mainBundle] URLForResource:@"example_sound" withExtension:@"m4a"];
-self.waveformImageView = [[DSWaveformImageView alloc] initWithFrame:CGRectMake(0, 0, 500, 300)];
-[self.waveformImageView setAudioURL:audioURL];
+```swift
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+waveformImageView = DSWaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, height: 300)
+waveformImageView.waveformAudioURL = audioURL
 ```
 
 What it looks like
 ------------------
+
+Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
+`.striped`. Similarly, there are 3 positions `.top`, `.middle` and `.bottom`
+- relative to the canvas. The effect of each of those can be seen here:
 
 ![Screenshot](https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png)

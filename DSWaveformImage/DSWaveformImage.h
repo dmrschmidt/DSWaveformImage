@@ -2,8 +2,8 @@
 //  DSWaveformImage.h
 //  DSWaveformImage
 //
-//  Created by dschmidt on 1/26/17.
-//  Copyright © 2017 dmrschmidt. All rights reserved.
+//  Created by Dennis Schmidt on 06/02/2017.
+//  Copyright © 2017 Dennis Schmidt. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -16,5 +16,4 @@ FOUNDATION_EXPORT const unsigned char DSWaveformImageVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <DSWaveformImage/PublicHeader.h>
 
-#import <DSWaveformImage/DSWaveformImageModel.h>
-#import <DSWaveformImage/DSWaveformImageView.h>
+
