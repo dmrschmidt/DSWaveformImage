@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         let waveformImageDrawer = DSWaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "example_sound_2", withExtension: "m4a")!
+        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
         let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                                                  color: UIColor.black,
                                                                  style: .filled,

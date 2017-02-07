@@ -10,86 +10,34 @@ import Accelerate
 import AVFoundation
 
 struct AudioProcessor {
-    private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
-
     func waveformSamples(from configuration: WaveformConfiguration) -> [Float]? {
         guard let assetReader = try? AVAssetReader(asset: configuration.audioAsset),
-            let audioTrack = configuration.audioAsset.tracks.first else {
-                return nil
-        }
-        
-        print("before: \(configuration.audioAsset.duration)")
-        
-        audioTrack.loadValuesAsynchronously(forKeys: ["duration"]) {
-            var error: NSError?
-            let status = audioTrack.statusOfValue(forKey: "duration", error: &error)
-            switch status {
-            case .loaded: print("now: \(configuration.audioAsset.duration)")
-            case .failed, .cancelled, .loading, .unknown: break
-            }
+              let audioTrack = configuration.audioAsset.tracks.first else {
+            return nil
         }
 
         let trackOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
         let requiredNumberOfSamples = Int(ceil(configuration.size.width * configuration.scale))
-        let samples = extract(samplesFrom: assetReader,
-                              downsampledTo: requiredNumberOfSamples,
-                              with: channelCount(audioTrack:audioTrack))
+        let samples = extract(samplesFrom: assetReader, downsampledTo: requiredNumberOfSamples)
 
-        if assetReader.status == .failed || assetReader.status == .unknown {
-            print("ERROR: reading waveform audio data has failed")
+        switch assetReader.status {
+        case .completed:
+            return normalize(samples)
+        default:
+            print("ERROR: reading waveform audio data has failed \(assetReader.status)")
             return nil
         }
-
-        if assetReader.status == .completed {
-            let samplesPerPixel = samples.count// / requiredNumberOfSamples
-            let normalizedSamples = normalize(samples, downsampledBy: samplesPerPixel)
-            return normalizedSamples
-        }
-
-        return nil
     }
+}
 
-    private func normalize(_ samples: [Float], downsampledBy samplesPerPixel: Int) -> [Float] {
-        var maxValue = silenceDbThreshold
-        //        let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-        //        let downSampledLength = samples.count / samplesPerPixel
-        //        var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
-        var normalizedSamples = [Float]()
+// MARK: - Private
 
-        //        vDSP_desamp(samples,
-        //                    vDSP_Stride(samplesPerPixel),
-        //                    filter,
-        //                    &downSampledData,
-        //                    vDSP_Length(downSampledLength),
-        //                    vDSP_Length(samplesPerPixel))
+extension AudioProcessor {
+    private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
 
-        for sample in samples {
-            let normalizedSample = sample / maxValue
-            normalizedSamples.append(normalizedSample)
-        }
-
-        return normalizedSamples
-    }
-
-    // swiftlint:disable force_cast
-    private func channelCount(audioTrack: AVAssetTrack) -> Int {
-        var channelCount = 0
-        audioTrack.formatDescriptions.forEach { formatDescription in
-            let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
-            if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
-                channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
-                basicDescription.pointee.mSampleRate
-            }
-        }
-        return channelCount
-    }
-    // swiftlint:enable force_cast
-
-    private func extract(samplesFrom assetReader: AVAssetReader,
-                         downsampledTo targetSampleSize: Int,
-                         with channelCount: Int) -> [Float] {
+    fileprivate func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
         var outputSamples = [Float]()
 
         assetReader.startReading()
@@ -104,52 +52,65 @@ struct AudioProcessor {
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, blockBufferLength, blockSamples)
                     CMSampleBufferInvalidate(sampleBuffer)
 
-                    let processedSamples = process(blockSamples, sampleCount: blockBufferLength, downsampledTo: targetSampleSize)
+                    let processedSamples = process(blockSamples,
+                                                   ofLength: blockBufferLength,
+                                                   from: assetReader,
+                                                   downsampledTo: targetSampleCount)
                     outputSamples += processedSamples
                 }
             }
         }
         return outputSamples
     }
-    
-    // for now, AVURLAssetDuration seems to be the amount of samples
-    // and timescale the sampling rate; but later do it like line 49 in FDWaveform
-    //
-    // AVURLAssetDuration.duration  -> number of samples         (414720)
-    // AVURLAssetDuration.timescale -> sampling rate              (44100)
-    // mSampleRate                  -> definitely sample rate
-    // total size of buffer          = number of samples * number of channels (2)
+
+    fileprivate func normalize(_ samples: [Float]) -> [Float] {
+        return samples.map { $0 / silenceDbThreshold }
+    }
 
     private func process(_ samples: UnsafeMutablePointer<Int16>,
-                         sampleCount: Int,
-                         downsampledTo targetSampleSize: Int) -> [Float] {
-        var ceil: Float = 0.0
+                         ofLength sampleLength: Int,
+                         from assetReader: AVAssetReader,
+                         downsampledTo targetSampleCount: Int) -> [Float] {
+        var loudestClipValue: Float = 0.0
+        var quietestClipValue = silenceDbThreshold
         var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
-        var silenceDbThresholdFloat = Float(silenceDbThreshold)
-        let samplesToProcess = sampleCount / MemoryLayout<Int16>.size // really? not just sampleCount?
-        let sampleCount = vDSP_Length(samplesToProcess)
+        let samplesToProcess = vDSP_Length(sampleLength / MemoryLayout<Int16>.size)
 
-        var processingBuffer = [Float](repeating: 0.0, count: samplesToProcess)
-        vDSP_vflt16(samples, 1, &processingBuffer, 1, sampleCount)
-        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, sampleCount)
-        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, sampleCount, 1)
-        vDSP_vclip(processingBuffer, 1, &silenceDbThresholdFloat, &ceil, &processingBuffer, 1, sampleCount)
+        var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
+        vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess)
+        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess)
+        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1)
+        vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
 
-        // downsample and average
-        let samplesPerPixel = 414720 * 2 / targetSampleSize
+        let samplesPerPixel = sampleCount(from: assetReader) / targetSampleCount
         let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-        var downSampledLength = Int(samplesToProcess / samplesPerPixel)
+        var downSampledLength = Int(samplesToProcess) / samplesPerPixel
         var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
-        
+
         vDSP_desamp(processingBuffer,
                     vDSP_Stride(samplesPerPixel),
                     filter,
                     &downSampledData,
                     vDSP_Length(downSampledLength),
                     vDSP_Length(samplesPerPixel))
-        
+
         return downSampledData
     }
+
+    // swiftlint:disable force_cast
+    private func sampleCount(from assetReader: AVAssetReader) -> Int {
+        let audioTrack = (assetReader.outputs.first as? AVAssetReaderTrackOutput)?.track
+
+        var sampleCount = 0
+        audioTrack?.formatDescriptions.forEach { formatDescription in
+            let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
+            if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
+                sampleCount = Int(assetReader.asset.duration.value) * Int(basicDescription.pointee.mChannelsPerFrame)
+            }
+        }
+        return sampleCount
+    }
+    // swiftlint:enable force_cast
 }
 
 // MARK: - Configuration
