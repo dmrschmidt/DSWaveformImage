@@ -1,25 +1,16 @@
-// 
-// see 
-// * http://www.davidstarke.com/2015/04/waveforms.html
-// * http://stackoverflow.com/questions/28626914/can-someone-explain-how-this-code-converts-volume-to-decibels-using-the-accelera
-// for very good explanations of the asset reading and processing path
-//
-
 import Foundation
-import Accelerate
 import AVFoundation
 
-private struct WaveformConfiguration {
-    let audioAsset: AVURLAsset
-    let color: UIColor
-    let style: DSWaveformStyle
-    let position: DSWaveformPosition
-    let size: CGSize
-    let scale: CGFloat
-}
-
 public struct DSWaveformImageDrawer {
-    public init() { }
+    fileprivate let audioProcessor: AudioProcessor
+
+    public init() {
+        self.init(audioProcessor: AudioProcessor())
+    }
+
+    init(audioProcessor: AudioProcessor) {
+        self.audioProcessor = audioProcessor
+    }
 
     // swiftlint:disable function_parameter_count
     public func waveformImage(fromAudio audioAsset: AVURLAsset,
@@ -47,118 +38,11 @@ public struct DSWaveformImageDrawer {
     // swiftlint:enable function_parameter_count
 }
 
-// TODO: extract into own class: gets audio URL, reads data and desamples to desired sample size
-// MARK: - Audio File Processing
-
-fileprivate extension DSWaveformImageDrawer {
-    var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
-
-    fileprivate func waveformImageSamples(from configuration: WaveformConfiguration) -> [Float]? {
-        guard let assetReader = try? AVAssetReader(asset: configuration.audioAsset),
-            let audioTrack = configuration.audioAsset.tracks.first else {
-                return nil
-        }
-
-        let trackOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: outputSettings())
-        assetReader.add(trackOutput)
-
-        let requiredNumberOfSamples = Int(ceil(configuration.size.width * configuration.scale)) + 500
-        let samples = readProcessedSamples(from: assetReader, of: requiredNumberOfSamples)
-
-        if assetReader.status == .failed || assetReader.status == .unknown {
-            print("ERROR: reading waveform audio data has failed")
-            return nil
-        }
-
-        if assetReader.status == .completed {
-            let samplesPerPixel = samples.count * channelCount(audioTrack:audioTrack) / requiredNumberOfSamples
-            let normalizedSamples = normalize(samples, downsampledBy: samplesPerPixel)
-            return normalizedSamples
-        }
-
-        return nil
-    }
-
-    fileprivate func normalize(_ samples: [Float], downsampledBy samplesPerPixel: Int) -> [Float] {
-        var maxValue = silenceDbThreshold
-//        let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-//        let downSampledLength = samples.count / samplesPerPixel
-//        var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
-        var normalizedSamples = [Float]()
-
-//        vDSP_desamp(samples,
-//                    vDSP_Stride(samplesPerPixel),
-//                    filter,
-//                    &downSampledData,
-//                    vDSP_Length(downSampledLength),
-//                    vDSP_Length(samplesPerPixel))
-
-        for sample in samples {
-            let normalizedSample = sample / maxValue
-            normalizedSamples.append(normalizedSample)
-        }
-
-        return normalizedSamples
-    }
-
-    // swiftlint:disable force_cast
-    private func channelCount(audioTrack: AVAssetTrack) -> Int {
-        var channelCount = 0
-        audioTrack.formatDescriptions.forEach { formatDescription in
-            let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
-            if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
-                channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
-            }
-        }
-        return channelCount
-    }
-    // swiftlint:enable force_cast
-
-    private func readProcessedSamples(from assetReader: AVAssetReader, of targetSampleSize: Int) -> [Float] {
-        var outputSamples = [Float]()
-
-        assetReader.startReading()
-        while assetReader.status == .reading {
-            let trackOutput = assetReader.outputs.first!
-
-            if let sampleBuffer = trackOutput.copyNextSampleBuffer(),
-                let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) {
-                let blockBufferLength = CMBlockBufferGetDataLength(blockBuffer)
-                var data = Data(capacity: blockBufferLength)
-                data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
-                    CMBlockBufferCopyDataBytes(blockBuffer, 0, blockBufferLength, blockSamples)
-                    CMSampleBufferInvalidate(sampleBuffer)
-
-                    let processedSamples = process(blockSamples, sampleCount: blockBufferLength)
-                    outputSamples += processedSamples
-                }
-            }
-        }
-        return outputSamples
-    }
-
-    private func process(_ samples: UnsafeMutablePointer<Int16>, sampleCount: Int) -> [Float] {
-        var ceil: Float = 0.0
-        var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
-        var silenceDbThresholdFloat = Float(silenceDbThreshold)
-        let samplesToProcess = sampleCount / MemoryLayout<Int16>.size
-        let sampleCount = vDSP_Length(samplesToProcess)
-
-        var processingBuffer = [Float](repeating: 0.0, count: samplesToProcess)
-        vDSP_vflt16(samples, 1, &processingBuffer, 1, sampleCount)
-        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, sampleCount)
-        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, sampleCount, 1)
-        vDSP_vclip(processingBuffer, 1, &silenceDbThresholdFloat, &ceil, &processingBuffer, 1, sampleCount)
-
-        return processingBuffer
-    }
-}
-
 // MARK: Image generation
 
 fileprivate extension DSWaveformImageDrawer {
     fileprivate func renderWaveform(from configuration: WaveformConfiguration) -> UIImage? {
-        guard let imageSamples = waveformImageSamples(from: configuration) else { return nil }
+        guard let imageSamples = audioProcessor.waveformSamples(from: configuration) else { return nil }
         return graphImage(from: imageSamples, with: configuration)
     }
 
@@ -219,19 +103,5 @@ fileprivate extension DSWaveformImageDrawer {
                                        end: CGPoint(x: 0, y: positionAdjustedGraphCenter + maxAmplitude),
                                        options: .drawsAfterEndLocation)
         }
-    }
-}
-
-// MARK: - Configuration
-
-fileprivate extension DSWaveformImageDrawer {
-    fileprivate func outputSettings() -> [String: Any] {
-        return [
-            AVFormatIDKey: kAudioFormatLinearPCM,
-            AVLinearPCMBitDepthKey: 16,
-            AVLinearPCMIsBigEndianKey: false,
-            AVLinearPCMIsFloatKey: false,
-            AVLinearPCMIsNonInterleaved: false
-        ]
     }
 }

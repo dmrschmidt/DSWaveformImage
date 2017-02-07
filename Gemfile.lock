@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/dmrschmidt/ios-toolchain.git
-  revision: 37cd033d1aab1b3e50449d68fb1e59b677a9c95b
+  revision: c918a0a2094ab1a2394899de3b24b5c03914ecfe
   specs:
     ios_toolchain (0.1.0)
       bundler (~> 1.0)

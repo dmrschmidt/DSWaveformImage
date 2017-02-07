@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
+		C322CC5D1E4A781B00B52247 /* AudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* AudioProcessor.swift */; };
 		C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C365501D1E49278700D24131 /* DSWaveformImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365501C1E49278700D24131 /* DSWaveformImageTests.swift */; };
 		C365501F1E49278700D24131 /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C36550111E49278600D24131 /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -36,6 +37,7 @@
 
 /* Begin PBXFileReference section */
 		C322CC551E4A475800B52247 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
+		C322CC5C1E4A781B00B52247 /* AudioProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioProcessor.swift; sourceTree = "<group>"; };
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36550111E49278600D24131 /* DSWaveformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
 		C36550121E49278600D24131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				C36550401E4927BC00D24131 /* DSWaveformImageDrawer.swift */,
 				C36550411E4927BC00D24131 /* DSWaveformImageTypes.swift */,
 				C36550421E4927BC00D24131 /* DSWaveformImageView.swift */,
+				C322CC5C1E4A781B00B52247 /* AudioProcessor.swift */,
 			);
 			path = DSWaveformImage;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 				C36550461E4927BC00D24131 /* DSWaveformImageView.swift in Sources */,
 				C36550441E4927BC00D24131 /* DSWaveformImageDrawer.swift in Sources */,
 				C36550451E4927BC00D24131 /* DSWaveformImageTypes.swift in Sources */,
+				C322CC5D1E4A781B00B52247 /* AudioProcessor.swift in Sources */,
 				C36550431E4927BC00D24131 /* ColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
