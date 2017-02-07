@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
 		C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C365501D1E49278700D24131 /* DSWaveformImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365501C1E49278700D24131 /* DSWaveformImageTests.swift */; };
 		C365501F1E49278700D24131 /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C36550111E49278600D24131 /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C322CC551E4A475800B52247 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36550111E49278600D24131 /* DSWaveformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
 		C36550121E49278600D24131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXGroup;
 			children = (
+				C322CC551E4A475800B52247 /* example_sound_2.m4a */,
 				C36550481E49298100D24131 /* example_sound.m4a */,
 				C365502E1E4927A300D24131 /* AppDelegate.swift */,
 				C36550301E4927A300D24131 /* ViewController.swift */,
@@ -275,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */,
 				C36550391E4927A300D24131 /* LaunchScreen.storyboard in Resources */,
 				C36550491E49298100D24131 /* example_sound.m4a in Resources */,
 				C36550361E4927A300D24131 /* Assets.xcassets in Resources */,
