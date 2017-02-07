@@ -84,7 +84,7 @@ extension AudioProcessor {
 
         let samplesPerPixel = sampleCount(from: assetReader) / targetSampleCount
         let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-        var downSampledLength = Int(samplesToProcess) / samplesPerPixel
+        let downSampledLength = Int(samplesToProcess) / samplesPerPixel
         var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
 
         vDSP_desamp(processingBuffer,
@@ -105,7 +105,7 @@ extension AudioProcessor {
         audioTrack?.formatDescriptions.forEach { formatDescription in
             let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
             if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
-                sampleCount = Int(assetReader.asset.duration.value) * Int(basicDescription.pointee.mChannelsPerFrame)
+                sampleCount = Int(assetReader.asset.duration.value) * 2//Int(basicDescription.pointee.mChannelsPerFrame)
             }
         }
         return sampleCount
