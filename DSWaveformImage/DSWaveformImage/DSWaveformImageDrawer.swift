@@ -185,7 +185,7 @@ fileprivate extension DSWaveformImageDrawer {
         var maxAmplitude: CGFloat = 0.0
         context.setLineWidth(1.0)
         for (x, sample) in samples.enumerated() {
-            let pixels = (1 - sample) * sampleAdjustmentFactor
+            let pixels = max(1, (1 - sample) * sampleAdjustmentFactor)
             let amplitudeUp = positionAdjustedGraphCenter - pixels
             let amplitudeDown = positionAdjustedGraphCenter + pixels
             maxAmplitude = max(pixels, maxAmplitude)
