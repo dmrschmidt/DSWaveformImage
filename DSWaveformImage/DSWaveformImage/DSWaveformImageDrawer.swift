@@ -49,6 +49,8 @@ fileprivate extension DSWaveformImageDrawer {
     private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
         UIGraphicsBeginImageContext(configuration.size)
         let context = UIGraphicsGetCurrentContext()!
+        context.setAllowsAntialiasing(true)
+        context.setShouldAntialias(true)
 
         drawGraph(from: samples, on: context, with: configuration)
 
@@ -70,18 +72,19 @@ fileprivate extension DSWaveformImageDrawer {
 
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
-        context.setLineWidth(1.0)
+        context.setLineWidth(1.0 / configuration.scale)
         for (x, sample) in samples.enumerated() {
+            let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // since sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
 
-            if configuration.style == .striped && (x % 5 != 0) { continue }
+            if configuration.style == .striped && (Int(xPos) % 5 != 0) { continue }
 
-            path.move(to: CGPoint(x: CGFloat(x), y: drawingAmplitudeUp))
-            path.addLine(to: CGPoint(x: CGFloat(x), y: drawingAmplitudeDown))
+            path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
+            path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
         }
         context.addPath(path)
 

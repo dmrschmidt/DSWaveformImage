@@ -47,20 +47,24 @@ extension AudioProcessor {
             if let sampleBuffer = trackOutput.copyNextSampleBuffer(),
                 let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) {
                 let blockBufferLength = CMBlockBufferGetDataLength(blockBuffer)
+                let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer)
                 var data = Data(capacity: blockBufferLength)
                 data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, blockBufferLength, blockSamples)
                     CMSampleBufferInvalidate(sampleBuffer)
 
                     let processedSamples = process(blockSamples,
-                                                   ofLength: blockBufferLength,
+                                                   ofLength: sampleLength,
                                                    from: assetReader,
                                                    downsampledTo: targetSampleCount)
                     outputSamples += processedSamples
                 }
             }
         }
-        return outputSamples
+        var paddedSamples = [Float](repeating: silenceDbThreshold, count: targetSampleCount)
+        paddedSamples.insert(contentsOf: outputSamples, at: 0)
+        
+        return paddedSamples
     }
 
     fileprivate func normalize(_ samples: [Float]) -> [Float] {
@@ -74,7 +78,7 @@ extension AudioProcessor {
         var loudestClipValue: Float = 0.0
         var quietestClipValue = silenceDbThreshold
         var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
-        let samplesToProcess = vDSP_Length(sampleLength / MemoryLayout<Int16>.size)
+        let samplesToProcess = vDSP_Length(sampleLength)
 
         var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
         vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess)
@@ -84,7 +88,7 @@ extension AudioProcessor {
 
         let samplesPerPixel = sampleCount(from: assetReader) / targetSampleCount
         let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-        let downSampledLength = Int(samplesToProcess) / samplesPerPixel
+        let downSampledLength = sampleLength / samplesPerPixel
         var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
 
         vDSP_desamp(processingBuffer,
