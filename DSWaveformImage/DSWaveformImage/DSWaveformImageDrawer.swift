@@ -75,7 +75,7 @@ fileprivate extension DSWaveformImageDrawer {
         context.setLineWidth(1.0 / configuration.scale)
         for (x, sample) in samples.enumerated() {
             let xPos = CGFloat(x) / configuration.scale
-            let invertedDbSample = 1 - CGFloat(sample) // since sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
+            let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude

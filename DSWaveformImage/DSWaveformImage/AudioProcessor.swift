@@ -1,7 +1,7 @@
 //
 // see
 // * http://www.davidstarke.com/2015/04/waveforms.html
-// * http://stackoverflow.com/questions/28626914/can-someone-explain-how-this-code-converts-volume-to-decibels-using-the-accelera
+// * http://stackoverflow.com/questions/28626914
 // for very good explanations of the asset reading and processing path
 //
 
@@ -47,7 +47,7 @@ extension AudioProcessor {
             if let sampleBuffer = trackOutput.copyNextSampleBuffer(),
                 let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) {
                 let blockBufferLength = CMBlockBufferGetDataLength(blockBuffer)
-                let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer)
+                let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer) * channelCount(from: assetReader)
                 var data = Data(capacity: blockBufferLength)
                 data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, blockBufferLength, blockSamples)
@@ -101,21 +101,23 @@ extension AudioProcessor {
         return downSampledData
     }
 
-    // swiftlint:disable force_cast
     private func sampleCount(from assetReader: AVAssetReader) -> Int {
+        let samplesPerChannel = Int(assetReader.asset.duration.value)
+        return samplesPerChannel * channelCount(from: assetReader)
+    }
+
+    // swiftlint:disable force_cast
+    private func channelCount(from assetReader: AVAssetReader) -> Int {
         let audioTrack = (assetReader.outputs.first as? AVAssetReaderTrackOutput)?.track
 
-        var sampleCount = 0
+        var channelCount = 0
         audioTrack?.formatDescriptions.forEach { formatDescription in
             let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
             if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
-                sampleCount = Int(assetReader.asset.duration.value) * Int(basicDescription.pointee.mChannelsPerFrame)
-                print("channels: \(basicDescription.pointee.mChannelsPerFrame)")
-                print("bits per channel: \(basicDescription.pointee.mBitsPerChannel)")
-                print("bytes per frame: \(basicDescription.pointee.mBytesPerFrame)")
+                channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
             }
         }
-        return sampleCount
+        return channelCount
     }
     // swiftlint:enable force_cast
 }
