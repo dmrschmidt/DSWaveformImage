@@ -106,6 +106,7 @@ extension AudioProcessor {
             let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
             if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
                 sampleCount = Int(assetReader.asset.duration.value) * Int(basicDescription.pointee.mChannelsPerFrame)
+                print("channels: \(basicDescription.pointee.mChannelsPerFrame)")
                 print("bits per channel: \(basicDescription.pointee.mBitsPerChannel)")
                 print("bytes per frame: \(basicDescription.pointee.mBytesPerFrame)")
             }
