@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "DSWaveformImage"
-  s.version      = "3.0.0"
+  s.version      = "3.1.0"
   s.summary      = "generate waveform images from audio files in iOS"
   s.description  = <<-DESC
                    DSWaveformImageDrawer and DSWaveformImageView generate waveform images of audio files.

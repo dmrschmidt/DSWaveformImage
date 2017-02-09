@@ -7,8 +7,8 @@ to generate and render waveform images from audio files in iOS.
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 3.0.0`
-* use cocoapods: `pod 'DSWaveformImage', '~> 3.0.0'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 3.1.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 3.1.0'`
 * or add the DSWaveformImage folder directly into your project.
 
 Usage
