@@ -62,7 +62,7 @@ extension AudioProcessor {
             }
         }
         var paddedSamples = [Float](repeating: silenceDbThreshold, count: targetSampleCount)
-        paddedSamples.replaceSubrange(0..<outputSamples.count, with: outputSamples)
+        paddedSamples.replaceSubrange(0..<min(targetSampleCount, outputSamples.count), with: outputSamples)
 
         return paddedSamples
     }
