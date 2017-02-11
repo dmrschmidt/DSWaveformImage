@@ -10,16 +10,15 @@ import Accelerate
 import AVFoundation
 
 struct AudioProcessor {
-    func waveformSamples(from configuration: WaveformConfiguration) -> [Float]? {
-        guard let assetReader = try? AVAssetReader(asset: configuration.audioAsset),
-              let audioTrack = configuration.audioAsset.tracks.first else {
+    func waveformSamples(from assetReader: AVAssetReader, count: Int) -> [Float]? {
+        guard let audioTrack = assetReader.asset.tracks.first else {
             return nil
         }
 
         let trackOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
-        let requiredNumberOfSamples = Int(ceil(configuration.size.width * configuration.scale))
+        let requiredNumberOfSamples = count
         let samples = extract(samplesFrom: assetReader, downsampledTo: requiredNumberOfSamples)
 
         switch assetReader.status {

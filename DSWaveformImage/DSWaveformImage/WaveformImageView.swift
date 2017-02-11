@@ -2,18 +2,18 @@ import Foundation
 import AVFoundation
 import UIKit
 
-public class DSWaveformImageView: UIImageView {
-    fileprivate let waveformImageDrawer: DSWaveformImageDrawer
+public class WaveformImageView: UIImageView {
+    fileprivate let waveformImageDrawer: WaveformImageDrawer
 
     public var waveformColor: UIColor {
         didSet { updateWaveform() }
     }
 
-    public var waveformStyle: DSWaveformStyle {
+    public var waveformStyle: WaveformStyle {
         didSet { updateWaveform() }
     }
 
-    public var waveformPosition: DSWaveformPosition {
+    public var waveformPosition: WaveformPosition {
         didSet { updateWaveform() }
     }
 
@@ -25,7 +25,7 @@ public class DSWaveformImageView: UIImageView {
         waveformColor = UIColor.darkGray
         waveformStyle = .gradient
         waveformPosition = .middle
-        waveformImageDrawer = DSWaveformImageDrawer()
+        waveformImageDrawer = WaveformImageDrawer()
         super.init(frame: frame)
     }
 
@@ -33,7 +33,7 @@ public class DSWaveformImageView: UIImageView {
         waveformColor = UIColor.darkGray
         waveformStyle = .gradient
         waveformPosition = .middle
-        waveformImageDrawer = DSWaveformImageDrawer()
+        waveformImageDrawer = WaveformImageDrawer()
         super.init(coder: aDecoder)
     }
 
@@ -43,7 +43,7 @@ public class DSWaveformImageView: UIImageView {
     }
 }
 
-fileprivate extension DSWaveformImageView {
+fileprivate extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
         image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, color: waveformColor, style: waveformStyle,

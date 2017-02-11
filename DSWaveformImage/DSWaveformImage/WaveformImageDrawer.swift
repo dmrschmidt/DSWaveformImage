@@ -1,48 +1,48 @@
 import Foundation
 import AVFoundation
 
-public struct DSWaveformImageDrawer {
-    fileprivate let audioProcessor: AudioProcessor
-
-    public init() {
-        self.init(audioProcessor: AudioProcessor())
-    }
-
-    init(audioProcessor: AudioProcessor) {
-        self.audioProcessor = audioProcessor
-    }
+public struct WaveformImageDrawer {
+    public init() {}
 
     // swiftlint:disable function_parameter_count
+    public func waveformImage(from waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+        let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
+                                height: configuration.size.height * configuration.scale)
+        let scaledConfiguration = WaveformConfiguration(color: configuration.color, style: configuration.style,
+                                                        position: configuration.position, size: scaledSize,
+                                                        scale: configuration.scale)
+        return render(waveform: waveform, with: scaledConfiguration)
+    }
+
     public func waveformImage(fromAudio audioAsset: AVURLAsset,
                               color: UIColor,
-                              style: DSWaveformStyle,
-                              position: DSWaveformPosition,
+                              style: WaveformStyle,
+                              position: WaveformPosition,
                               size: CGSize,
                               scale: CGFloat) -> UIImage? {
-        let scaledSize = CGSize(width: size.width * scale, height: size.height * scale)
-        let configuration = WaveformConfiguration(audioAsset: audioAsset, color: color, style: style,
-                                                  position: position, size: scaledSize, scale: scale)
-        return renderWaveform(from: configuration)
+        guard let waveform = Waveform(audioAsset: audioAsset) else { return nil }
+        let configuration = WaveformConfiguration(color: color, style: style, position: position, size: size, scale: scale)
+        return waveformImage(from: waveform, with: configuration)
     }
 
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               color: UIColor,
-                              style: DSWaveformStyle,
-                              position: DSWaveformPosition,
+                              style: WaveformStyle,
+                              position: WaveformPosition,
                               size: CGSize,
                               scale: CGFloat) -> UIImage? {
         let audioAsset = AVURLAsset(url: audioAssetURL)
-        return waveformImage(fromAudio: audioAsset, color: color, style: style,
-                             position: position, size: size, scale: scale)
+        return waveformImage(fromAudio: audioAsset, color: color, style: style, position: position, size: size, scale: scale)
     }
     // swiftlint:enable function_parameter_count
 }
 
 // MARK: Image generation
 
-fileprivate extension DSWaveformImageDrawer {
-    fileprivate func renderWaveform(from configuration: WaveformConfiguration) -> UIImage? {
-        guard let imageSamples = audioProcessor.waveformSamples(from: configuration) else { return nil }
+fileprivate extension WaveformImageDrawer {
+    fileprivate func render(waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+        let sampleCount = Int(configuration.size.width * configuration.scale)
+        guard let imageSamples = waveform.samples(count: sampleCount) else { return nil }
         return graphImage(from: imageSamples, with: configuration)
     }
 

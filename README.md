@@ -1,39 +1,66 @@
 DSWaveformImage
 ===============
 
-DSWaveformImageCreator and DSWaveformImageView offer a simple drop-in solution
-to generate and render waveform images from audio files in iOS.
+DSWaveformImage offers a few interfaces with the main purpose of drawing the
+envelope waveform of audio files in iOS. To do so, you can use
+`WaveformImageDrawer`, `WaveformImageView` or an extension on `UIImage`.
+
+Additionally, you can get a waveform's (normalized) samples directly as well by
+creating an instance of `Waveform`.
 
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 3.1`
-* use cocoapods: `pod 'DSWaveformImage', '~> 3.1'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 4.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 4.0'`
 * or add the DSWaveformImage folder directly into your project.
 
 Usage
 -----
 
-To create a `UIImage` using `DSWaveformImageDrawer`:
+To create a `UIImage` using `WaveformImageDrawer`:
 
 ```swift
-let waveformImageDrawer = DSWaveformImageDrawer()
+let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                                          color: UIColor.black,
                                                          style: .filled,
                                                          position: .top,
-                                                         size: middleWaveformView.bounds.size,
+                                                         size: UIScreen.main.bounds.size,
                                                          scale: UIScreen.main.scale)
 ```
 
-To create a `DSWaveformImageView` (`UIImageView` subclass):
+
+To create a `UIImage` using a `UIImage` extension:
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformImageView = DSWaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, height: 300)
+let waveform = Waveform(audioAssetURL: audioURL)!
+let configuration = WaveformConfiguration(color: UIColor.blue,
+                                          style: .striped,
+                                          position: .middle,
+                                          size: UIScreen.main.bounds.size,
+                                          scale: UIScreen.main.scale)
+let waveformImage = UIImage(waveform: waveform, configuration: configuration)
+```
+
+To create a `WaveformImageView` (`UIImageView` subclass):
+
+```swift
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, height: 300)
 waveformImageView.waveformAudioURL = audioURL
 ```
+
+And finally, to get an audio file's waveform samples:
+
+```swift
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+let waveform = Waveform(audioAssetURL: audioURL)!
+print("so many samples: \(waveform.samples(count: 200))")
+```
+
 
 What it looks like
 ------------------
