@@ -11,8 +11,8 @@ creating an instance of `Waveform`.
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 4.0`
-* use cocoapods: `pod 'DSWaveformImage', '~> 4.0'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 5.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 5.0'`
 * or add the DSWaveformImage folder directly into your project.
 
 Usage
@@ -24,10 +24,11 @@ To create a `UIImage` using `WaveformImageDrawer`:
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+                                                         size: UIScreen.main.bounds.size,
                                                          color: UIColor.black,
+                                                         backgroundColor: UIColor.black,
                                                          style: .filled,
                                                          position: .top,
-                                                         size: UIScreen.main.bounds.size,
                                                          scale: UIScreen.main.scale)
 ```
 
@@ -37,11 +38,12 @@ To create a `UIImage` using a `UIImage` extension:
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 let waveform = Waveform(audioAssetURL: audioURL)!
-let configuration = WaveformConfiguration(color: UIColor.blue,
+let configuration = WaveformConfiguration(size: UIScreen.main.bounds.size,
+                                          color: UIColor.blue,
                                           style: .striped,
                                           position: .middle,
-                                          size: UIScreen.main.bounds.size,
-                                          scale: UIScreen.main.scale)
+                                          scale: UIScreen.main.scale,
+                                          paddingFactor: 4.0)
 let waveformImage = UIImage(waveform: waveform, configuration: configuration)
 ```
 

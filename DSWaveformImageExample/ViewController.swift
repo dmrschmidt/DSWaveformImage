@@ -21,31 +21,26 @@ class ViewController: UIViewController {
         let waveformImageDrawer = WaveformImageDrawer()
         let audioURL = Bundle.main.url(forResource: "example_sound_2", withExtension: "m4a")!
         let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                                                 color: UIColor.black,
-                                                                 style: .striped,
-                                                                 position: .top,
                                                                  size: middleWaveformView.bounds.size,
-                                                                 scale: UIScreen.main.scale)
+                                                                 style: .striped,
+                                                                 position: .top)
         topWaveformView.image = topWaveformImage
 
         middleWaveformView.waveformColor = UIColor.red
-        middleWaveformView.waveformStyle = .gradient
         middleWaveformView.waveformAudioURL = audioURL
 
         let bottomWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                                                 color: UIColor.blue,
-                                                                 style: .filled,
-                                                                 position: .middle,
-                                                                 size: middleWaveformView.bounds.size,
-                                                                 scale: UIScreen.main.scale)
+                                                                    size: middleWaveformView.bounds.size,
+                                                                    color: UIColor.blue,
+                                                                    style: .filled,
+                                                                    paddingFactor: 5.0)
         bottomWaveformView.image = bottomWaveformImage
 
         let waveform = Waveform(audioAssetURL: audioURL)!
-        let configuration = WaveformConfiguration(color: UIColor.blue,
+        let configuration = WaveformConfiguration(size: lastWaveformView.bounds.size,
+                                                  color: UIColor.blue,
                                                   style: .striped,
-                                                  position: .bottom,
-                                                  size: lastWaveformView.bounds.size,
-                                                  scale: UIScreen.main.scale)
+                                                  position: .bottom)
         lastWaveformView.image = UIImage(waveform: waveform, configuration: configuration)
     }
 }

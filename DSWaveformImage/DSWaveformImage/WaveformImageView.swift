@@ -46,8 +46,8 @@ public class WaveformImageView: UIImageView {
 fileprivate extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, color: waveformColor, style: waveformStyle,
-                                                  position: waveformPosition, size: bounds.size,
+        image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
+                                                  style: waveformStyle, position: waveformPosition,
                                                   scale: UIScreen.main.scale)
     }
 }

@@ -8,31 +8,41 @@ public struct WaveformImageDrawer {
     public func waveformImage(from waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
-        let scaledConfiguration = WaveformConfiguration(color: configuration.color, style: configuration.style,
-                                                        position: configuration.position, size: scaledSize,
-                                                        scale: configuration.scale)
+        let scaledConfiguration = WaveformConfiguration(size: scaledSize,
+                                                        color: configuration.color,
+                                                        backgroundColor: configuration.backgroundColor,
+                                                        style: configuration.style,
+                                                        position: configuration.position,
+                                                        scale: configuration.scale,
+                                                        paddingFactor: configuration.paddingFactor)
         return render(waveform: waveform, with: scaledConfiguration)
     }
 
     public func waveformImage(fromAudio audioAsset: AVURLAsset,
-                              color: UIColor,
-                              style: WaveformStyle,
-                              position: WaveformPosition,
                               size: CGSize,
-                              scale: CGFloat) -> UIImage? {
+                              color: UIColor = UIColor.black,
+                              backgroundColor: UIColor = UIColor.white,
+                              style: WaveformStyle = .gradient,
+                              position: WaveformPosition = .middle,
+                              scale: CGFloat = UIScreen.main.scale,
+                              paddingFactor: CGFloat? = nil) -> UIImage? {
         guard let waveform = Waveform(audioAsset: audioAsset) else { return nil }
-        let configuration = WaveformConfiguration(color: color, style: style, position: position, size: size, scale: scale)
+        let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor, style: style,
+                                                  position: position, scale: scale, paddingFactor: paddingFactor)
         return waveformImage(from: waveform, with: configuration)
     }
 
     public func waveformImage(fromAudioAt audioAssetURL: URL,
-                              color: UIColor,
-                              style: WaveformStyle,
-                              position: WaveformPosition,
                               size: CGSize,
-                              scale: CGFloat) -> UIImage? {
+                              color: UIColor = UIColor.black,
+                              backgroundColor: UIColor = UIColor.white,
+                              style: WaveformStyle = .gradient,
+                              position: WaveformPosition = .middle,
+                              scale: CGFloat = UIScreen.main.scale,
+                              paddingFactor: CGFloat? = nil) -> UIImage? {
         let audioAsset = AVURLAsset(url: audioAssetURL)
-        return waveformImage(fromAudio: audioAsset, color: color, style: style, position: position, size: size, scale: scale)
+        return waveformImage(fromAudio: audioAsset, size: size, color: color, backgroundColor: backgroundColor, style: style,
+                             position: position, scale: scale, paddingFactor: paddingFactor)
     }
     // swiftlint:enable function_parameter_count
 }
@@ -47,11 +57,12 @@ fileprivate extension WaveformImageDrawer {
     }
 
     private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        UIGraphicsBeginImageContext(configuration.size)
+        UIGraphicsBeginImageContextWithOptions(configuration.size, true, configuration.scale)
         let context = UIGraphicsGetCurrentContext()!
         context.setAllowsAntialiasing(true)
         context.setShouldAntialias(true)
 
+        drawBackground(on: context, with: configuration)
         drawGraph(from: samples, on: context, with: configuration)
 
         let graphImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -60,13 +71,18 @@ fileprivate extension WaveformImageDrawer {
         return graphImage
     }
 
+    private func drawBackground(on context: CGContext, with configuration: WaveformConfiguration) {
+        context.setFillColor(configuration.backgroundColor.cgColor)
+        context.fill(CGRect(origin: CGPoint.zero, size: configuration.size))
+    }
+
     private func drawGraph(from samples: [Float],
                            on context: CGContext,
                            with configuration: WaveformConfiguration) {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
         let graphCenter = graphRect.size.height / 2.0
         let positionAdjustedGraphCenter = graphCenter + CGFloat(configuration.position.rawValue) * graphCenter
-        let verticalPaddingDivisor = CGFloat(configuration.position == .middle ? 2.5 : 1.5) // 2 = 50 % of height
+        let verticalPaddingDivisor = configuration.paddingFactor ?? CGFloat(configuration.position == .middle ? 2.5 : 1.5)
         let drawMappingFactor = graphRect.size.height / verticalPaddingDivisor
         let minimumGraphAmplitude: CGFloat = 1 // we want to see at least a 1pt line for silence
 
