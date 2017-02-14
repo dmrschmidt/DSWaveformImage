@@ -21,7 +21,7 @@ public struct WaveformImageDrawer {
     public func waveformImage(fromAudio audioAsset: AVURLAsset,
                               size: CGSize,
                               color: UIColor = UIColor.black,
-                              backgroundColor: UIColor = UIColor.white,
+                              backgroundColor: UIColor = UIColor.clear,
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
@@ -35,7 +35,7 @@ public struct WaveformImageDrawer {
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               size: CGSize,
                               color: UIColor = UIColor.black,
-                              backgroundColor: UIColor = UIColor.white,
+                              backgroundColor: UIColor = UIColor.clear,
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
@@ -57,7 +57,7 @@ fileprivate extension WaveformImageDrawer {
     }
 
     private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(configuration.size, true, configuration.scale)
+        UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
         let context = UIGraphicsGetCurrentContext()!
         context.setAllowsAntialiasing(true)
         context.setShouldAntialias(true)
