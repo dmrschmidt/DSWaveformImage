@@ -1,11 +1,18 @@
 import Foundation
 import AVFoundation
 
-public struct WaveformImageDrawer {
+#if os(OSX)
+    import AppKit
+#elseif os(iOS)
+    import UIKit
+#endif
+
+
+open class WaveformImageDrawer {
     public init() {}
 
     // swiftlint:disable function_parameter_count
-    public func waveformImage(from waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+    public func waveformImage(from waveform: Waveform, with configuration: WaveformConfiguration) -> Image? {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
         let scaledConfiguration = WaveformConfiguration(size: scaledSize,
@@ -15,17 +22,17 @@ public struct WaveformImageDrawer {
                                                         position: configuration.position,
                                                         scale: configuration.scale,
                                                         paddingFactor: configuration.paddingFactor)
-        return render(waveform: waveform, with: scaledConfiguration)
+        return self.render(waveform: waveform, with: scaledConfiguration)
     }
 
     public func waveformImage(fromAudio audioAsset: AVURLAsset,
                               size: CGSize,
-                              color: UIColor = UIColor.black,
-                              backgroundColor: UIColor = UIColor.clear,
+                              color: Color = Color.black,
+                              backgroundColor: Color = Color.clear,
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
-                              scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
+                              scale: CGFloat = mainScreenScale,
+                              paddingFactor: CGFloat? = nil) -> Image? {
         guard let waveform = Waveform(audioAsset: audioAsset) else { return nil }
         let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor, style: style,
                                                   position: position, scale: scale, paddingFactor: paddingFactor)
@@ -34,12 +41,12 @@ public struct WaveformImageDrawer {
 
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               size: CGSize,
-                              color: UIColor = UIColor.black,
-                              backgroundColor: UIColor = UIColor.clear,
+                              color: Color = Color.black,
+                              backgroundColor: Color = Color.clear,
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
-                              scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
+                              scale: CGFloat = mainScreenScale,
+                              paddingFactor: CGFloat? = nil) -> Image? {
         let audioAsset = AVURLAsset(url: audioAssetURL)
         return waveformImage(fromAudio: audioAsset, size: size, color: color, backgroundColor: backgroundColor, style: style,
                              position: position, scale: scale, paddingFactor: paddingFactor)
@@ -50,25 +57,60 @@ public struct WaveformImageDrawer {
 // MARK: Image generation
 
 fileprivate extension WaveformImageDrawer {
-    fileprivate func render(waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+    fileprivate func render(waveform: Waveform, with configuration: WaveformConfiguration) -> Image? {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         guard let imageSamples = waveform.samples(count: sampleCount) else { return nil }
         return graphImage(from: imageSamples, with: configuration)
     }
 
-    private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
-        let context = UIGraphicsGetCurrentContext()!
-        context.setAllowsAntialiasing(true)
-        context.setShouldAntialias(true)
+    private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> Image? {
+        #if os(OSX)
+            if let context = NSGraphicsContext.current(){
+                // Let's use an Image
+                let image = NSImage(size: configuration.size)
+                image.lockFocus()
+                context.shouldAntialias = true
+                drawBackground(on: context.cgContext, with: configuration)
+                drawGraph(from: samples, on: context.cgContext, with: configuration)
+                return image
+            }else{
+                // Let's draw Off screen
+                NSGraphicsContext.saveGraphicsState()
+                let rep = NSBitmapImageRep(bitmapDataPlanes: nil,
+                                           pixelsWide: Int(configuration.size.width),
+                                           pixelsHigh: Int(configuration.size.height),
+                                           bitsPerSample: 8,
+                                           samplesPerPixel: 4,
+                                           hasAlpha: true,
+                                           isPlanar: false,
+                                           colorSpaceName: NSCalibratedRGBColorSpace,
+                                           bytesPerRow: 4  * Int(configuration.size.width),
+                                           bitsPerPixel: 32)!
+                NSGraphicsContext.setCurrent(NSGraphicsContext(bitmapImageRep: rep))
+                let context = NSGraphicsContext.current()!
+                context.shouldAntialias = true
+                drawBackground(on: context.cgContext, with: configuration)
+                drawGraph(from: samples, on: context.cgContext, with: configuration)
+                let image = NSImage(size: configuration.size)
+                image.addRepresentation(rep)
+                NSGraphicsContext.restoreGraphicsState()
+                return image
+            }
+        #elseif os(iOS)
 
-        drawBackground(on: context, with: configuration)
-        drawGraph(from: samples, on: context, with: configuration)
+            UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
+            let context = UIGraphicsGetCurrentContext()!
+            context.setAllowsAntialiasing(true)
+            context.setShouldAntialias(true)
 
-        let graphImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+            drawBackground(on: context, with: configuration)
+            drawGraph(from: samples, on: context, with: configuration)
 
-        return graphImage
+            let graphImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            return graphImage
+        #endif
     }
 
     private func drawBackground(on context: CGContext, with configuration: WaveformConfiguration) {
@@ -114,7 +156,7 @@ fileprivate extension WaveformImageDrawer {
             let colors = NSArray(array: [
                 configuration.color.cgColor,
                 configuration.color.highlighted(brightnessAdjustment: 0.5).cgColor
-            ]) as CFArray
+                ]) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
             context.drawLinearGradient(gradient,

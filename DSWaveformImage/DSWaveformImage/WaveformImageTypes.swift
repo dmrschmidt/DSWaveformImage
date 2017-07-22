@@ -30,10 +30,10 @@ public struct WaveformConfiguration {
     let size: CGSize
 
     /// Color of the waveform, defaults to black.
-    let color: UIColor
+    let color: Color
 
     /// Background color of the waveform, defaults to clear.
-    let backgroundColor: UIColor
+    let backgroundColor: Color
 
     /// Waveform drawing style, defaults to .gradient.
     let style: WaveformStyle
@@ -48,11 +48,11 @@ public struct WaveformConfiguration {
     let paddingFactor: CGFloat?
 
     public init(size: CGSize,
-                color: UIColor = UIColor.black,
-                backgroundColor: UIColor = UIColor.clear,
+                color: Color = Color.black,
+                backgroundColor: Color = Color.clear,
                 style: WaveformStyle = .gradient,
                 position: WaveformPosition = .middle,
-                scale: CGFloat = UIScreen.main.scale,
+                scale: CGFloat = mainScreenScale,
                 paddingFactor: CGFloat? = nil) {
         self.color = color
         self.backgroundColor = backgroundColor

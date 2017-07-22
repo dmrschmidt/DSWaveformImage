@@ -1,53 +1,78 @@
 import Foundation
 import AVFoundation
-import UIKit
 
-public class WaveformImageView: UIImageView {
-    fileprivate let waveformImageDrawer: WaveformImageDrawer
+#if os(OSX)
+    import AppKit
+#elseif os(iOS)
+    import UIKit
+#endif
 
-    public var waveformColor: UIColor {
-        didSet { updateWaveform() }
+
+@objc open class WaveformImageView: ImageView {
+
+    lazy var waveformImageDrawer: WaveformImageDrawer =  WaveformImageDrawer()
+
+    public var waveformColor: Color = Color.darkGray{
+        didSet { self._needsDisplay() }
     }
 
-    public var waveformStyle: WaveformStyle {
-        didSet { updateWaveform() }
+    public var waveformStyle: WaveformStyle = .gradient {
+        didSet { self._needsDisplay() }
     }
 
-    public var waveformPosition: WaveformPosition {
-        didSet { updateWaveform() }
+    public var waveformPosition: WaveformPosition = .middle{
+        didSet { self._needsDisplay()}
     }
 
     public var waveformAudioURL: URL? {
-        didSet { updateWaveform() }
+        didSet { self._needsDisplay() }
+    }
+    
+
+    fileprivate func _needsDisplay(){
+        #if os(OSX)
+            self.needsDisplay = true
+        #elseif os(iOS)
+            self.setNeedsDisplay()
+        #endif
     }
 
-    override public init(frame: CGRect) {
-        waveformColor = UIColor.darkGray
-        waveformStyle = .gradient
-        waveformPosition = .middle
-        waveformImageDrawer = WaveformImageDrawer()
-        super.init(frame: frame)
+
+    #if os(OSX)
+
+    open override func draw(_ rect: CGRect) {
+       updateWaveform()
     }
 
-    required public init?(coder aDecoder: NSCoder) {
-        waveformColor = UIColor.darkGray
-        waveformStyle = .gradient
-        waveformPosition = .middle
-        waveformImageDrawer = WaveformImageDrawer()
-        super.init(coder: aDecoder)
+    public override init(frame frameRect: NSRect) {
+        super.init(frame: frameRect)
     }
 
-    override public func layoutSubviews() {
+    public required init?(coder: NSCoder) {
+        super.init(coder:coder)
+    }
+
+    #elseif os(iOS)
+
+    override open func layoutSubviews() {
         super.layoutSubviews()
         updateWaveform()
     }
+
+    #endif
+
+
+
+
+
 }
 
 fileprivate extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
-                                                  style: waveformStyle, position: waveformPosition,
-                                                  scale: UIScreen.main.scale)
+            self.image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
+                                                      style: waveformStyle, position: waveformPosition,
+                                                      scale: mainScreenScale)
+
     }
 }
