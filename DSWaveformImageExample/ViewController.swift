@@ -33,6 +33,7 @@ class ViewController: UIViewController {
                                                                     size: middleWaveformView.bounds.size,
                                                                     color: UIColor.blue,
                                                                     style: .filled,
+                                                                    position: .custom(0.4),
                                                                     paddingFactor: 5.0)
         bottomWaveformView.image = bottomWaveformImage
 

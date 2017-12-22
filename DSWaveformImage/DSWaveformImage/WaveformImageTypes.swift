@@ -6,10 +6,20 @@ import AVFoundation
  - **top**: Draws the waveform in the middle the image, such that the entire waveform is visible.
  - **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
  */
-public enum WaveformPosition: Int {
-    case top    = -1
-    case middle =  0
-    case bottom =  1
+public enum WaveformPosition {
+    case top
+    case middle
+    case bottom
+    case custom(Double)
+    
+    func value() -> Double {
+        switch self {
+        case .top: return -1.0
+        case .middle: return 0
+        case .bottom: return 1.0
+        case .custom(let value): return min(1.0, max(-1.0, value))
+        }
+    }
 }
 
 /**

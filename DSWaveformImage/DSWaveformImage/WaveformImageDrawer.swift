@@ -81,8 +81,8 @@ fileprivate extension WaveformImageDrawer {
                            with configuration: WaveformConfiguration) {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
         let graphCenter = graphRect.size.height / 2.0
-        let positionAdjustedGraphCenter = graphCenter + CGFloat(configuration.position.rawValue) * graphCenter
-        let verticalPaddingDivisor = configuration.paddingFactor ?? CGFloat(configuration.position == .middle ? 2.5 : 1.5)
+        let positionAdjustedGraphCenter = graphCenter + CGFloat(configuration.position.value()) * graphCenter
+        let verticalPaddingDivisor = configuration.paddingFactor ?? CGFloat(configuration.position.value() == 0 ? 2.5 : 1.5)
         let drawMappingFactor = graphRect.size.height / verticalPaddingDivisor
         let minimumGraphAmplitude: CGFloat = 1 // we want to see at least a 1pt line for silence
 
