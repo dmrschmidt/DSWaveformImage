@@ -32,8 +32,9 @@ class ViewController: UIViewController {
         let bottomWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                                                     size: middleWaveformView.bounds.size,
                                                                     color: UIColor.blue,
+                                                                    backgroundColor: UIColor.lightGray,
                                                                     style: .filled,
-                                                                    position: .custom(0.4),
+                                                                    position: .custom(0.9),
                                                                     paddingFactor: 5.0)
         bottomWaveformView.image = bottomWaveformImage
 

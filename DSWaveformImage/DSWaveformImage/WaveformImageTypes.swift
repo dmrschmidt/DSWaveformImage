@@ -14,10 +14,10 @@ public enum WaveformPosition {
     
     func value() -> Double {
         switch self {
-        case .top: return -1.0
-        case .middle: return 0
+        case .top: return 0.0
+        case .middle: return 0.5
         case .bottom: return 1.0
-        case .custom(let value): return min(1.0, max(-1.0, value))
+        case .custom(let value): return min(1.0, max(0.0, value))
         }
     }
 }
