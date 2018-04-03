@@ -8,6 +8,14 @@ envelope waveform of audio files in iOS. To do so, you can use
 Additionally, you can get a waveform's (normalized) samples directly as well by
 creating an instance of `Waveform`.
 
+More related iOS Controls
+------------
+
+You may also find the following iOS controls written in Swift interesting:
+
+* [SwiftColorWheel](https://github.com/dmrschmidt/SwiftColorWheel) - a delightful color picker
+* [QRCode](https://github.com/dmrschmidt/QRCode) - a customizable QR code generator
+
 Installation
 ------------
 
