@@ -90,4 +90,4 @@ DSWaveformImage is used to draw the waveforms of the audio messages on postcards
 
 Check it out on the [App Store](http://bit.ly/soundcardio).
 
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot2.png" alt="Screenshot">
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot3.png" alt="Screenshot">
