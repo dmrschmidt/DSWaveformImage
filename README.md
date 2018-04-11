@@ -79,4 +79,15 @@ Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
 `.striped`. Similarly, there are 3 positions `.top`, `.middle` and `.bottom`
 - relative to the canvas. The effect of each of those can be seen here:
 
-![Screenshot](https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png)
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png" width="500" alt="Screenshot">
+
+
+## See it live in action
+
+SoundCard lets you send postcards with audio messages.
+
+DSWaveformImage is used to draw the waveforms of the audio messages on postcards sent by [SoundCard](https://www.soundcard.io).
+
+Check it out on the [App Store](http://bit.ly/soundcardio).
+
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot2.png" alt="Screenshot">
