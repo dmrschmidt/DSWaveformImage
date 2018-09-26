@@ -49,7 +49,7 @@ extension AudioProcessor {
                 let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer) * channelCount(from: assetReader)
                 var data = Data(capacity: blockBufferLength)
                 data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
-                    CMBlockBufferCopyDataBytes(blockBuffer, 0, blockBufferLength, blockSamples)
+                    CMBlockBufferCopyDataBytes(blockBuffer, atOffset: 0, dataLength: blockBufferLength, destination: blockSamples)
                     CMSampleBufferInvalidate(sampleBuffer)
 
                     let processedSamples = process(blockSamples,
