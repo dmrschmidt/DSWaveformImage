@@ -29,21 +29,34 @@ class ViewController: UIViewController {
         middleWaveformView.waveformColor = UIColor.red
         middleWaveformView.waveformAudioURL = audioURL
 
-        let bottomWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                                                    size: middleWaveformView.bounds.size,
-                                                                    color: UIColor.blue,
-                                                                    backgroundColor: UIColor.lightGray,
-                                                                    style: .filled,
-                                                                    position: .custom(0.9),
-                                                                    paddingFactor: 5.0)
-        bottomWaveformView.image = bottomWaveformImage
+        // uses background thread rendering
+        let bounds = middleWaveformView.bounds
+        DispatchQueue.global(qos: .userInitiated).async {
+            let bottomWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+                                                                        size: bounds.size,
+                                                                        color: UIColor.blue,
+                                                                        backgroundColor: UIColor.lightGray,
+                                                                        style: .filled,
+                                                                        position: .custom(0.9),
+                                                                        paddingFactor: 5.0)
+            DispatchQueue.main.async {
+                self.bottomWaveformView.image = bottomWaveformImage
+            }
+        }
 
+        // uses background thread rendering
         let waveform = Waveform(audioAssetURL: audioURL)!
         let configuration = WaveformConfiguration(size: lastWaveformView.bounds.size,
                                                   color: UIColor.blue,
                                                   style: .striped,
                                                   position: .bottom)
-        lastWaveformView.image = UIImage(waveform: waveform, configuration: configuration)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let image = UIImage(waveform: waveform, configuration: configuration)
+            DispatchQueue.main.async {
+                self.lastWaveformView.image = image
+            }
+        }
     }
 }
 

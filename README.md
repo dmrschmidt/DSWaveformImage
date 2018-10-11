@@ -71,6 +71,24 @@ let waveform = Waveform(audioAssetURL: audioURL)!
 print("so many samples: \(waveform.samples(count: 200))")
 ```
 
+From a background thread
+------------------------
+
+`WaveformImageDrawer` and the `UIImage` extension can be used on a background thread.
+For `WaveformImageView` this is currently not yet supported and it will always
+do the computations and drawing on the main thread.
+
+To use a background thread, simply use GCD. Using the `UIImage` extension is
+analogous to this example:
+
+```swift
+DispatchQueue.global(qos: .userInitiated).async {
+    let waveformImage = waveformImageDrawer.waveformImage(from: waveform, with: configuration)
+    DispatchQueue.main.async {
+        yourImageView.image = waveformImage
+    }
+}
+```
 
 What it looks like
 ------------------
