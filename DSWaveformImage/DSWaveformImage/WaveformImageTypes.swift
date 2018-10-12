@@ -32,6 +32,7 @@ public enum WaveformStyle: Int {
     case filled = 0
     case gradient
     case striped
+    case bubbled
 }
 
 /// Allows customization of the waveform output image.

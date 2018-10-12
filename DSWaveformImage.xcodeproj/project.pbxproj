@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42F397CA216F666500616DD7 /* LinearStyleDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397C9216F666500616DD7 /* LinearStyleDrawer.swift */; };
+		42F397CC216F667C00616DD7 /* StyleDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397CB216F667C00616DD7 /* StyleDrawer.swift */; };
+		42F397CE216F68F500616DD7 /* BubbleStyleDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397CD216F68F500616DD7 /* BubbleStyleDrawer.swift */; };
+		42F397D02170867800616DD7 /* Submarine.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 42F397CF2170867800616DD7 /* Submarine.aiff */; };
+		42F397D421709C1400616DD7 /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397D321709C1400616DD7 /* TempiFFT.swift */; };
+		42F397D621709C5A00616DD7 /* SpectralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397D521709C5A00616DD7 /* SpectralView.swift */; };
+		42F397D821709CA900616DD7 /* TempiUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F397D721709CA900616DD7 /* TempiUtilities.swift */; };
+		42F397DA2170CAB200616DD7 /* 10kHz.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42F397D92170CAB200616DD7 /* 10kHz.m4a */; };
 		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
 		C322CC5D1E4A781B00B52247 /* AudioProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* AudioProcessor.swift */; };
 		C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
@@ -38,6 +46,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		42F397C9216F666500616DD7 /* LinearStyleDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearStyleDrawer.swift; sourceTree = "<group>"; };
+		42F397CB216F667C00616DD7 /* StyleDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleDrawer.swift; sourceTree = "<group>"; };
+		42F397CD216F68F500616DD7 /* BubbleStyleDrawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleStyleDrawer.swift; sourceTree = "<group>"; };
+		42F397CF2170867800616DD7 /* Submarine.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Submarine.aiff; path = ../../../Downloads/Submarine.aiff; sourceTree = "<group>"; };
+		42F397D321709C1400616DD7 /* TempiFFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempiFFT.swift; sourceTree = "<group>"; };
+		42F397D521709C5A00616DD7 /* SpectralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralView.swift; sourceTree = "<group>"; };
+		42F397D721709CA900616DD7 /* TempiUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempiUtilities.swift; sourceTree = "<group>"; };
+		42F397D92170CAB200616DD7 /* 10kHz.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 10kHz.m4a; sourceTree = "<group>"; };
 		C322CC551E4A475800B52247 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
 		C322CC5C1E4A781B00B52247 /* AudioProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioProcessor.swift; sourceTree = "<group>"; };
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +105,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42F397C8216F665400616DD7 /* StyleDrawers */ = {
+			isa = PBXGroup;
+			children = (
+				42F397C9216F666500616DD7 /* LinearStyleDrawer.swift */,
+				42F397CB216F667C00616DD7 /* StyleDrawer.swift */,
+				42F397CD216F68F500616DD7 /* BubbleStyleDrawer.swift */,
+			);
+			path = StyleDrawers;
+			sourceTree = "<group>";
+		};
 		C36550041E49278600D24131 = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +157,10 @@
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXGroup;
 			children = (
+				42F397D92170CAB200616DD7 /* 10kHz.m4a */,
+				42F397D721709CA900616DD7 /* TempiUtilities.swift */,
+				42F397D521709C5A00616DD7 /* SpectralView.swift */,
+				42F397CF2170867800616DD7 /* Submarine.aiff */,
 				C322CC551E4A475800B52247 /* example_sound_2.m4a */,
 				C36550481E49298100D24131 /* example_sound.m4a */,
 				C365502E1E4927A300D24131 /* AppDelegate.swift */,
@@ -146,6 +176,8 @@
 		C365503E1E4927BC00D24131 /* DSWaveformImage */ = {
 			isa = PBXGroup;
 			children = (
+				42F397D321709C1400616DD7 /* TempiFFT.swift */,
+				42F397C8216F665400616DD7 /* StyleDrawers */,
 				C365503F1E4927BC00D24131 /* ColorExtensions.swift */,
 				C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */,
 				C36550411E4927BC00D24131 /* WaveformImageTypes.swift */,
@@ -290,6 +322,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42F397D02170867800616DD7 /* Submarine.aiff in Resources */,
+				42F397DA2170CAB200616DD7 /* 10kHz.m4a in Resources */,
 				C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */,
 				C36550391E4927A300D24131 /* LaunchScreen.storyboard in Resources */,
 				C36550491E49298100D24131 /* example_sound.m4a in Resources */,
@@ -305,12 +339,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42F397CE216F68F500616DD7 /* BubbleStyleDrawer.swift in Sources */,
+				42F397CA216F666500616DD7 /* LinearStyleDrawer.swift in Sources */,
 				C36550461E4927BC00D24131 /* WaveformImageView.swift in Sources */,
+				42F397D421709C1400616DD7 /* TempiFFT.swift in Sources */,
 				C3FCC2641E4F725B0057B1A6 /* Waveform.swift in Sources */,
 				C36550441E4927BC00D24131 /* WaveformImageDrawer.swift in Sources */,
 				C36550451E4927BC00D24131 /* WaveformImageTypes.swift in Sources */,
 				C3FCC2661E4F74E90057B1A6 /* UIImage+Waveform.swift in Sources */,
 				C322CC5D1E4A781B00B52247 /* AudioProcessor.swift in Sources */,
+				42F397CC216F667C00616DD7 /* StyleDrawer.swift in Sources */,
 				C36550431E4927BC00D24131 /* ColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +366,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C36550311E4927A300D24131 /* ViewController.swift in Sources */,
+				42F397D621709C5A00616DD7 /* SpectralView.swift in Sources */,
+				42F397D821709CA900616DD7 /* TempiUtilities.swift in Sources */,
 				C365502F1E4927A300D24131 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

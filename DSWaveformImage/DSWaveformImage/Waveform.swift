@@ -3,7 +3,7 @@ import AVFoundation
 
 public class Waveform {
     private let assetReader: AVAssetReader
-    private let audioProcessor: AudioProcessor
+    public var audioProcessor: AudioProcessor
 
     public init?(audioAsset: AVURLAsset) {
         guard let assetReader = try? AVAssetReader(asset: audioAsset),

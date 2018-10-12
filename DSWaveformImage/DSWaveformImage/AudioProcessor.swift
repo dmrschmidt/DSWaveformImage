@@ -9,8 +9,10 @@ import Foundation
 import Accelerate
 import AVFoundation
 
-struct AudioProcessor {
-    func waveformSamples(from assetReader: AVAssetReader, count: Int) -> [Float]? {
+public struct AudioProcessor {
+    public var ffts = [TempiFFT]()
+    
+    mutating func waveformSamples(from assetReader: AVAssetReader, count: Int) -> [Float]? {
         guard let audioTrack = assetReader.asset.tracks.first else {
             return nil
         }
@@ -36,11 +38,12 @@ struct AudioProcessor {
 extension AudioProcessor {
     private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
 
-    fileprivate func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
+    fileprivate mutating func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
         var outputSamples = [Float]()
 
         assetReader.startReading()
         while assetReader.status == .reading {
+            print("outputs: \(assetReader.outputs.count)")
             let trackOutput = assetReader.outputs.first!
 
             if let sampleBuffer = trackOutput.copyNextSampleBuffer(),
@@ -49,9 +52,25 @@ extension AudioProcessor {
                 let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer) * channelCount(from: assetReader)
                 var data = Data(capacity: blockBufferLength)
                 data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
+                    let fftSamples = UnsafeMutablePointer<Int16>.allocate(capacity: blockBufferLength)
                     CMBlockBufferCopyDataBytes(blockBuffer, atOffset: 0, dataLength: blockBufferLength, destination: blockSamples)
+                    CMBlockBufferCopyDataBytes(blockBuffer, atOffset: 0, dataLength: blockBufferLength, destination: fftSamples)
                     CMSampleBufferInvalidate(sampleBuffer)
 
+                    let samplesToProcess = vDSP_Length(sampleLength)
+                    let sampleCountPowerOf2 = closestPowerOf2(samplesToProcess)
+                    print("read \(samplesToProcess) - \(sampleCountPowerOf2) samples")
+                    
+                    let fft = TempiFFT(withSize: sampleCountPowerOf2, sampleRate: 88200.0)
+                    fft.windowType = TempiFFTWindowType.hanning
+                    var fftBuffer = [Float](repeating: 0.0, count: sampleCountPowerOf2)
+                    vDSP_vflt16(fftSamples, 1, &fftBuffer, 1, samplesToProcess)
+                    fft.fftForward(fftBuffer)
+
+                    let screenWidth = UIScreen.main.bounds.size.width * UIScreen.main.scale
+                    fft.calculateLinearBands(minFrequency: 0, maxFrequency: fft.nyquistFrequency, numberOfBands: Int(screenWidth))
+                    ffts.append(fft)
+                    
                     let processedSamples = process(blockSamples,
                                                    ofLength: sampleLength,
                                                    from: assetReader,
@@ -64,6 +83,14 @@ extension AudioProcessor {
         paddedSamples.replaceSubrange(0..<min(targetSampleCount, outputSamples.count), with: outputSamples)
 
         return paddedSamples
+    }
+    
+    private func closestPowerOf2(_ num: UInt) -> Int {
+        var powerOf2 = 2
+        while (powerOf2 < num) {
+            powerOf2 *= 2
+        }
+        return powerOf2
     }
 
     fileprivate func normalize(_ samples: [Float]) -> [Float] {

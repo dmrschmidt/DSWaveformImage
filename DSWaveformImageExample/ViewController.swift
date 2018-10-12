@@ -10,21 +10,21 @@ import UIKit
 import DSWaveformImage
 
 class ViewController: UIViewController {
-    @IBOutlet weak var topWaveformView: UIImageView!
+    @IBOutlet weak var spectralView: SpectralView!
     @IBOutlet weak var middleWaveformView: WaveformImageView!
     @IBOutlet weak var bottomWaveformView: UIImageView!
     @IBOutlet weak var lastWaveformView: UIImageView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
         let waveformImageDrawer = WaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "example_sound_2", withExtension: "m4a")!
-        let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                                                 size: middleWaveformView.bounds.size,
-                                                                 style: .striped,
-                                                                 position: .top)
-        topWaveformView.image = topWaveformImage
+        let audioURL = Bundle.main.url(forResource: "10kHz", withExtension: "m4a")!
+//        let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+//                                                                 size: middleWaveformView.bounds.size,
+//                                                                 style: .striped,
+//                                                                 position: .top)
+//        topWaveformView.image = topWaveformImage
 
         middleWaveformView.waveformColor = UIColor.red
         middleWaveformView.waveformAudioURL = audioURL
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         let waveform = Waveform(audioAssetURL: audioURL)!
         let configuration = WaveformConfiguration(size: lastWaveformView.bounds.size,
                                                   color: UIColor.blue,
-                                                  style: .striped,
+                                                  style: .bubbled,
                                                   position: .bottom)
         
         DispatchQueue.global(qos: .userInitiated).async {
@@ -57,6 +57,15 @@ class ViewController: UIViewController {
                 self.lastWaveformView.image = image
             }
         }
+        
+        // FFT:
+        let waveform2 = Waveform(audioAssetURL: audioURL)!
+        let _ = waveform2.samples(count: 8192)
+        let ffts = waveform2.audioProcessor.ffts
+        print("ffts: \(ffts.count)")
+        let fft = ffts[2]
+        spectralView.fft = fft
+        spectralView.setNeedsDisplay()
     }
 }
 

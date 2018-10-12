@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,12 +24,10 @@
                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="w9S-UI-8uW">
                                 <rect key="frame" x="0.0" y="28" width="320" height="540"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3wf-8h-Skp">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDD-sI-P5f" customClass="SpectralView" customModule="DSWaveformImageExample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="3wf-8h-Skp" secondAttribute="height" multiplier="16:9" priority="900" id="Eou-Wo-W75"/>
-                                        </constraints>
-                                    </imageView>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J48-qg-hXd" customClass="WaveformImageView" customModule="DSWaveformImage">
                                         <rect key="frame" x="0.0" y="135" width="320" height="135"/>
                                         <constraints>
@@ -48,11 +46,9 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="aQM-Ik-oVa" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Cmd-wL-qej"/>
-                                    <constraint firstAttribute="trailing" secondItem="3wf-8h-Skp" secondAttribute="trailing" id="KFG-p3-CgC"/>
                                     <constraint firstAttribute="trailing" secondItem="J48-qg-hXd" secondAttribute="trailing" id="UiG-kY-hqs"/>
                                     <constraint firstItem="J48-qg-hXd" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Vov-c9-DGA"/>
                                     <constraint firstAttribute="trailing" secondItem="aQM-Ik-oVa" secondAttribute="trailing" id="hUn-Ry-snr"/>
-                                    <constraint firstItem="3wf-8h-Skp" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="kSa-YC-z5V"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -68,7 +64,7 @@
                         <outlet property="bottomWaveformView" destination="aQM-Ik-oVa" id="iev-uC-R8S"/>
                         <outlet property="lastWaveformView" destination="dFS-ni-sSF" id="gNb-0B-lEW"/>
                         <outlet property="middleWaveformView" destination="J48-qg-hXd" id="zoE-RX-g3F"/>
-                        <outlet property="topWaveformView" destination="3wf-8h-Skp" id="PwX-zb-tPA"/>
+                        <outlet property="spectralView" destination="XDD-sI-P5f" id="ZmT-KW-S6V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
