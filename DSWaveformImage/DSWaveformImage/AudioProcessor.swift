@@ -39,6 +39,9 @@ extension AudioProcessor {
     fileprivate func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
         var outputSamples = [Float]()
 
+        // read upfront to avoid frequent re-calculation (and memory bloat)
+        let samplesPerPixel = max(1, sampleCount(from: assetReader) / targetSampleCount)
+
         assetReader.startReading()
         while assetReader.status == .reading {
             let trackOutput = assetReader.outputs.first!
@@ -55,7 +58,8 @@ extension AudioProcessor {
                     let processedSamples = process(blockSamples,
                                                    ofLength: sampleLength,
                                                    from: assetReader,
-                                                   downsampledTo: targetSampleCount)
+                                                   downsampledTo: targetSampleCount,
+                                                   samplesPerPixel: samplesPerPixel)
                     outputSamples += processedSamples
                 }
             }
@@ -73,7 +77,8 @@ extension AudioProcessor {
     private func process(_ samples: UnsafeMutablePointer<Int16>,
                          ofLength sampleLength: Int,
                          from assetReader: AVAssetReader,
-                         downsampledTo targetSampleCount: Int) -> [Float] {
+                         downsampledTo targetSampleCount: Int,
+                         samplesPerPixel: Int) -> [Float] {
         var loudestClipValue: Float = 0.0
         var quietestClipValue = silenceDbThreshold
         var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
@@ -108,11 +113,12 @@ extension AudioProcessor {
     // swiftlint:disable force_cast
     private func channelCount(from assetReader: AVAssetReader) -> Int {
         let audioTrack = (assetReader.outputs.first as? AVAssetReaderTrackOutput)?.track
-
         var channelCount = 0
-        audioTrack?.formatDescriptions.forEach { formatDescription in
-            let audioDescription = CFBridgingRetain(formatDescription) as! CMAudioFormatDescription
-            if let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(audioDescription) {
+        
+        autoreleasepool {
+            let descriptions = audioTrack?.formatDescriptions as! [CMFormatDescription]
+            descriptions.forEach { formatDescription in
+                guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
                 channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
             }
         }
