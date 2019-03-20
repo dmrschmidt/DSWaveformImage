@@ -58,20 +58,20 @@ extension AudioProcessor {
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             CMSampleBufferInvalidate(nextSampleBuffer)
 
-            var processedCount = 0
+            var processedSampleCount = 0
             sampleBuffer.withUnsafeBytes { (blockSamples: UnsafePointer<Int16>) in
                 let totalSamples = sampleBuffer.count / MemoryLayout<Int16>.size
                 let processedSamples = process(blockSamples,
                                                ofLength: totalSamples,
                                                from: assetReader,
-                                               downsampledTo: targetSampleCount,
                                                samplesPerPixel: samplesPerPixel)
                 outputSamples += processedSamples
-                processedCount = processedSamples.count
+                processedSampleCount = processedSamples.count
             }
             
-            if processedCount > 0 {
-                sampleBuffer.removeAll()
+            if processedSampleCount > 0 {
+                // vDSP_desamp uses strides of samplesPerPixel; remove only the processed ones
+                sampleBuffer.removeFirst(processedSampleCount * samplesPerPixel * MemoryLayout<Int16>.size)
             }
         }
         var paddedSamples = [Float](repeating: silenceDbThreshold, count: targetSampleCount)
@@ -87,7 +87,6 @@ extension AudioProcessor {
     private func process(_ samples: UnsafePointer<Int16>,
                          ofLength sampleLength: Int,
                          from assetReader: AVAssetReader,
-                         downsampledTo targetSampleCount: Int,
                          samplesPerPixel: Int) -> [Float] {
         var loudestClipValue: Float = 0.0
         var quietestClipValue = silenceDbThreshold
