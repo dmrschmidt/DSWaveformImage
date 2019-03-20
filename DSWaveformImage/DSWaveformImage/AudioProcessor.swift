@@ -38,6 +38,7 @@ extension AudioProcessor {
 
     fileprivate func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
         var outputSamples = [Float]()
+        var sampleBuffer = Data()
 
         // read upfront to avoid frequent re-calculation (and memory bloat)
         let samplesPerPixel = max(1, sampleCount(from: assetReader) / targetSampleCount)
@@ -46,22 +47,31 @@ extension AudioProcessor {
         while assetReader.status == .reading {
             let trackOutput = assetReader.outputs.first!
 
-            if let sampleBuffer = trackOutput.copyNextSampleBuffer(),
-                let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) {
-                let blockBufferLength = CMBlockBufferGetDataLength(blockBuffer)
-                let sampleLength = CMSampleBufferGetNumSamples(sampleBuffer) * channelCount(from: assetReader)
-                var data = Data(capacity: blockBufferLength)
-                data.withUnsafeMutableBytes { (blockSamples: UnsafeMutablePointer<Int16>) in
-                    CMBlockBufferCopyDataBytes(blockBuffer, atOffset: 0, dataLength: blockBufferLength, destination: blockSamples)
-                    CMSampleBufferInvalidate(sampleBuffer)
+            guard let nextSampleBuffer = trackOutput.copyNextSampleBuffer(),
+                  let blockBuffer = CMSampleBufferGetDataBuffer(nextSampleBuffer) else {
+                break
+            }
 
-                    let processedSamples = process(blockSamples,
-                                                   ofLength: sampleLength,
-                                                   from: assetReader,
-                                                   downsampledTo: targetSampleCount,
-                                                   samplesPerPixel: samplesPerPixel)
-                    outputSamples += processedSamples
-                }
+            var readBufferLength = 0
+            var readBufferPointer: UnsafeMutablePointer<Int8>?
+            CMBlockBufferGetDataPointer(blockBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
+            sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
+            CMSampleBufferInvalidate(nextSampleBuffer)
+
+            var processedCount = 0
+            sampleBuffer.withUnsafeBytes { (blockSamples: UnsafePointer<Int16>) in
+                let totalSamples = sampleBuffer.count / MemoryLayout<Int16>.size
+                let processedSamples = process(blockSamples,
+                                               ofLength: totalSamples,
+                                               from: assetReader,
+                                               downsampledTo: targetSampleCount,
+                                               samplesPerPixel: samplesPerPixel)
+                outputSamples += processedSamples
+                processedCount = processedSamples.count
+            }
+            
+            if processedCount > 0 {
+                sampleBuffer.removeAll()
             }
         }
         var paddedSamples = [Float](repeating: silenceDbThreshold, count: targetSampleCount)
@@ -74,7 +84,7 @@ extension AudioProcessor {
         return samples.map { $0 / silenceDbThreshold }
     }
 
-    private func process(_ samples: UnsafeMutablePointer<Int16>,
+    private func process(_ samples: UnsafePointer<Int16>,
                          ofLength sampleLength: Int,
                          from assetReader: AVAssetReader,
                          downsampledTo targetSampleCount: Int,
@@ -85,16 +95,15 @@ extension AudioProcessor {
         let samplesToProcess = vDSP_Length(sampleLength)
 
         var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
-        vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess)
-        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess)
-        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1)
+        vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float (
+        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
+        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
         vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
 
-        let samplesPerPixel = max(1, sampleCount(from: assetReader) / targetSampleCount)
         let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
         let downSampledLength = sampleLength / samplesPerPixel
         var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
-
+        
         vDSP_desamp(processingBuffer,
                     vDSP_Stride(samplesPerPixel),
                     filter,
@@ -130,7 +139,7 @@ extension AudioProcessor {
 // MARK: - Configuration
 
 fileprivate extension AudioProcessor {
-    fileprivate func outputSettings() -> [String: Any] {
+    func outputSettings() -> [String: Any] {
         return [
             AVFormatIDKey: kAudioFormatLinearPCM,
             AVLinearPCMBitDepthKey: 16,
