@@ -33,10 +33,10 @@ struct AudioProcessor {
 
 // MARK: - Private
 
-extension AudioProcessor {
+private extension AudioProcessor {
     private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
 
-    fileprivate func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
+    private func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
         var outputSamples = [Float]()
         var sampleBuffer = Data()
 
@@ -53,62 +53,68 @@ extension AudioProcessor {
             }
 
             var readBufferLength = 0
-            var readBufferPointer: UnsafeMutablePointer<Int8>?
+            var readBufferPointer: UnsafeMutablePointer<Int8>? = nil
             CMBlockBufferGetDataPointer(blockBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             CMSampleBufferInvalidate(nextSampleBuffer)
 
             var processedSampleCount = 0
-            sampleBuffer.withUnsafeBytes { (blockSamples: UnsafePointer<Int16>) in
-                let totalSamples = sampleBuffer.count / MemoryLayout<Int16>.size
-                let processedSamples = process(blockSamples,
-                                               ofLength: totalSamples,
-                                               from: assetReader,
-                                               samplesPerPixel: samplesPerPixel)
-                outputSamples += processedSamples
-                processedSampleCount = processedSamples.count
-            }
+            let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
+            outputSamples += processedSamples
+            processedSampleCount = processedSamples.count
             
             if processedSampleCount > 0 {
                 // vDSP_desamp uses strides of samplesPerPixel; remove only the processed ones
                 sampleBuffer.removeFirst(processedSampleCount * samplesPerPixel * MemoryLayout<Int16>.size)
             }
         }
-        var paddedSamples = [Float](repeating: silenceDbThreshold, count: targetSampleCount)
-        paddedSamples.replaceSubrange(0..<min(targetSampleCount, outputSamples.count), with: outputSamples)
 
-        return paddedSamples
+        // process leftover samples with padding (to reach multiple of samplesPerPixel for vDSP_desamp)
+        if sampleBuffer.count > 0 && outputSamples.count < targetSampleCount {
+            let missingSampleCount = (targetSampleCount - outputSamples.count) * samplesPerPixel
+            let backfillPaddingSampleCount = missingSampleCount - (sampleBuffer.count / MemoryLayout<Int16>.size)
+            let backfillPaddingSampleCount16 = backfillPaddingSampleCount * MemoryLayout<Int16>.size
+            let backfillPaddingSamples = [UInt8](repeating: 0, count: backfillPaddingSampleCount16)
+            sampleBuffer.append(backfillPaddingSamples, count: backfillPaddingSampleCount16)
+            let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
+            outputSamples += processedSamples
+        }
+
+        return outputSamples
     }
 
-    fileprivate func normalize(_ samples: [Float]) -> [Float] {
+    private func normalize(_ samples: [Float]) -> [Float] {
         return samples.map { $0 / silenceDbThreshold }
     }
 
-    private func process(_ samples: UnsafePointer<Int16>,
-                         ofLength sampleLength: Int,
+    private func process(_ sampleBuffer: Data,
                          from assetReader: AVAssetReader,
-                         samplesPerPixel: Int) -> [Float] {
-        var loudestClipValue: Float = 0.0
-        var quietestClipValue = silenceDbThreshold
-        var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
-        let samplesToProcess = vDSP_Length(sampleLength)
+                         downsampleTo samplesPerPixel: Int) -> [Float] {
+        var downSampledData = [Float]()
+        let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
+        sampleBuffer.withUnsafeBytes { (samples: UnsafePointer<Int16>) in
+            var loudestClipValue: Float = 0.0
+            var quietestClipValue = silenceDbThreshold
+            var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
+            let samplesToProcess = vDSP_Length(sampleLength)
 
-        var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
-        vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float (
-        vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
-        vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
-        vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
+            var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
+            vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float (
+            vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
+            vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
+            vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
 
-        let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-        let downSampledLength = sampleLength / samplesPerPixel
-        var downSampledData = [Float](repeating: 0.0, count: downSampledLength)
-        
-        vDSP_desamp(processingBuffer,
-                    vDSP_Stride(samplesPerPixel),
-                    filter,
-                    &downSampledData,
-                    vDSP_Length(downSampledLength),
-                    vDSP_Length(samplesPerPixel))
+            let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
+            let downSampledLength = sampleLength / samplesPerPixel
+            downSampledData = [Float](repeating: 0.0, count: downSampledLength)
+
+            vDSP_desamp(processingBuffer,
+                        vDSP_Stride(samplesPerPixel),
+                        filter,
+                        &downSampledData,
+                        vDSP_Length(downSampledLength),
+                        vDSP_Length(samplesPerPixel))
+        }
 
         return downSampledData
     }
@@ -137,7 +143,7 @@ extension AudioProcessor {
 
 // MARK: - Configuration
 
-fileprivate extension AudioProcessor {
+private extension AudioProcessor {
     func outputSettings() -> [String: Any] {
         return [
             AVFormatIDKey: kAudioFormatLinearPCM,

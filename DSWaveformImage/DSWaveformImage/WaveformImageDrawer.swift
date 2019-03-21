@@ -49,7 +49,7 @@ public struct WaveformImageDrawer {
 
 // MARK: Image generation
 
-fileprivate extension WaveformImageDrawer {
+private extension WaveformImageDrawer {
     func render(waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         guard let imageSamples = waveform.samples(count: sampleCount) else { return nil }

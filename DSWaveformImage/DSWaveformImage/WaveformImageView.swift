@@ -3,7 +3,7 @@ import AVFoundation
 import UIKit
 
 public class WaveformImageView: UIImageView {
-    fileprivate let waveformImageDrawer: WaveformImageDrawer
+    private let waveformImageDrawer: WaveformImageDrawer
 
     public var waveformColor: UIColor {
         didSet { updateWaveform() }
@@ -43,7 +43,7 @@ public class WaveformImageView: UIImageView {
     }
 }
 
-fileprivate extension WaveformImageView {
+private extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
         image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
