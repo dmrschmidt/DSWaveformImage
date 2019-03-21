@@ -69,8 +69,9 @@ private extension AudioProcessor {
             }
         }
 
+        // if we don't have enough pixels yet,
         // process leftover samples with padding (to reach multiple of samplesPerPixel for vDSP_desamp)
-        if sampleBuffer.count > 0 && outputSamples.count < targetSampleCount {
+        if outputSamples.count < targetSampleCount {
             let missingSampleCount = (targetSampleCount - outputSamples.count) * samplesPerPixel
             let backfillPaddingSampleCount = missingSampleCount - (sampleBuffer.count / MemoryLayout<Int16>.size)
             let backfillPaddingSampleCount16 = backfillPaddingSampleCount * MemoryLayout<Int16>.size
