@@ -9,8 +9,13 @@ import Foundation
 import Accelerate
 import AVFoundation
 
-struct AudioProcessor {
-    func waveformSamples(from assetReader: AVAssetReader, count: Int) -> [Float]? {
+struct WaveformAnalysis {
+    let amplitudes: [Float]
+    let fft: [TempiFFT]?
+}
+
+class WaveformAnalyzer {
+    func waveformSamples(from assetReader: AVAssetReader, count: Int, fftBands: Int?) -> WaveformAnalysis? {
         guard let audioTrack = assetReader.asset.tracks.first else {
             return nil
         }
@@ -19,11 +24,11 @@ struct AudioProcessor {
         assetReader.add(trackOutput)
 
         let requiredNumberOfSamples = count
-        let samples = extract(samplesFrom: assetReader, downsampledTo: requiredNumberOfSamples)
+        let analysis = extract(samplesFrom: assetReader, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
 
         switch assetReader.status {
         case .completed:
-            return normalize(samples)
+            return analysis
         default:
             print("ERROR: reading waveform audio data has failed \(assetReader.status)")
             return nil
@@ -33,39 +38,49 @@ struct AudioProcessor {
 
 // MARK: - Private
 
-private extension AudioProcessor {
+fileprivate extension WaveformAnalyzer {
     private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
 
-    private func extract(samplesFrom assetReader: AVAssetReader, downsampledTo targetSampleCount: Int) -> [Float] {
+    func extract(samplesFrom assetReader: AVAssetReader,
+                 downsampledTo targetSampleCount: Int,
+                 fftBands: Int?) -> WaveformAnalysis {
         var outputSamples = [Float]()
+        var outputFFT = fftBands == nil ? nil : [TempiFFT]()
         var sampleBuffer = Data()
+        var sampleBufferFFT = Data()
 
-        // read upfront to avoid frequent re-calculation (and memory bloat)
+        // read upfront to avoid frequent re-calculation (and memory bloat from C-bridging)
         let samplesPerPixel = max(1, sampleCount(from: assetReader) / targetSampleCount)
+        let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
 
         assetReader.startReading()
         while assetReader.status == .reading {
             let trackOutput = assetReader.outputs.first!
 
             guard let nextSampleBuffer = trackOutput.copyNextSampleBuffer(),
-                  let blockBuffer = CMSampleBufferGetDataBuffer(nextSampleBuffer) else {
-                break
+                let blockBuffer = CMSampleBufferGetDataBuffer(nextSampleBuffer) else {
+                    break
             }
 
             var readBufferLength = 0
             var readBufferPointer: UnsafeMutablePointer<Int8>? = nil
             CMBlockBufferGetDataPointer(blockBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
+            sampleBufferFFT.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             CMSampleBufferInvalidate(nextSampleBuffer)
 
-            var processedSampleCount = 0
             let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
             outputSamples += processedSamples
-            processedSampleCount = processedSamples.count
-            
-            if processedSampleCount > 0 {
+
+            if processedSamples.count > 0 {
                 // vDSP_desamp uses strides of samplesPerPixel; remove only the processed ones
-                sampleBuffer.removeFirst(processedSampleCount * samplesPerPixel * MemoryLayout<Int16>.size)
+                sampleBuffer.removeFirst(processedSamples.count * samplesPerPixel * MemoryLayout<Int16>.size)
+            }
+
+            if let fftBands = fftBands, sampleBufferFFT.count / MemoryLayout<Int16>.size >= samplesPerFFT {
+                let processedFFTs = process(sampleBufferFFT, from: assetReader, samplesPerFFT: samplesPerFFT, fftBands: fftBands)
+                sampleBufferFFT.removeFirst(processedFFTs.count * samplesPerFFT * MemoryLayout<Int16>.size)
+                outputFFT? += processedFFTs
             }
         }
 
@@ -81,11 +96,7 @@ private extension AudioProcessor {
             outputSamples += processedSamples
         }
 
-        return outputSamples
-    }
-
-    private func normalize(_ samples: [Float]) -> [Float] {
-        return samples.map { $0 / silenceDbThreshold }
+        return WaveformAnalysis(amplitudes: normalize(outputSamples), fft: outputFFT)
     }
 
     private func process(_ sampleBuffer: Data,
@@ -120,6 +131,61 @@ private extension AudioProcessor {
         return downSampledData
     }
 
+    private func process(_ sampleBuffer: Data,
+                         from assetReader: AVAssetReader,
+                         samplesPerFFT: Int,
+                         fftBands: Int) -> [TempiFFT] {
+        var ffts = [TempiFFT]()
+        let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
+        sampleBuffer.withUnsafeBytes { (samples: UnsafePointer<Int16>) in
+            let samplesToProcess = vDSP_Length(sampleLength)
+
+            var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
+            vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float
+
+            repeat {
+                let fftBuffer = processingBuffer[0..<samplesPerFFT]
+                let fft = TempiFFT(withSize: samplesPerFFT, sampleRate: 44100.0)
+                fft.windowType = TempiFFTWindowType.hanning
+                fft.fftForward(Array(fftBuffer))
+                fft.calculateLinearBands(minFrequency: 0, maxFrequency: fft.nyquistFrequency, numberOfBands: fftBands)
+                ffts.append(fft)
+
+                processingBuffer.removeFirst(samplesPerFFT)
+            } while processingBuffer.count >= samplesPerFFT
+        }
+        return ffts
+    }
+
+    func calculateFFTSampleCount(basedOn samplesPerWindow: Int) -> Int {
+        if isPowerOfTwo(samplesPerWindow) {
+            return samplesPerWindow
+        } else {
+            return precedingPowerOfTwo(to: samplesPerWindow)
+        }
+    }
+
+    func isPowerOfTwo(_ n: Int) -> Bool {
+        return (n > 0) && (n & (n - 1) == 0)
+    }
+
+    func precedingPowerOfTwo(to source: Int) -> Int {
+        var precedingPower: Int = Int(source)
+        precedingPower -= 1
+        precedingPower |= precedingPower >> 1
+        precedingPower |= precedingPower >> 2
+        precedingPower |= precedingPower >> 4
+        precedingPower |= precedingPower >> 8
+        precedingPower |= precedingPower >> 16
+        precedingPower += 1
+        precedingPower >>= 1
+        return precedingPower
+    }
+
+    func normalize(_ samples: [Float]) -> [Float] {
+        return samples.map { $0 / silenceDbThreshold }
+    }
+
     private func sampleCount(from assetReader: AVAssetReader) -> Int {
         let samplesPerChannel = Int(assetReader.asset.duration.value)
         return samplesPerChannel * channelCount(from: assetReader)
@@ -129,7 +195,7 @@ private extension AudioProcessor {
     private func channelCount(from assetReader: AVAssetReader) -> Int {
         let audioTrack = (assetReader.outputs.first as? AVAssetReaderTrackOutput)?.track
         var channelCount = 0
-        
+
         autoreleasepool {
             let descriptions = audioTrack?.formatDescriptions as! [CMFormatDescription]
             descriptions.forEach { formatDescription in
@@ -144,7 +210,7 @@ private extension AudioProcessor {
 
 // MARK: - Configuration
 
-private extension AudioProcessor {
+private extension WaveformAnalyzer {
     func outputSettings() -> [String: Any] {
         return [
             AVFormatIDKey: kAudioFormatLinearPCM,

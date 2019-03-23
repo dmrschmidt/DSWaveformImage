@@ -3,7 +3,7 @@ import AVFoundation
 
 public class Waveform {
     private let assetReader: AVAssetReader
-    private let audioProcessor: AudioProcessor
+    private let waveformAnalyzer: WaveformAnalyzer
 
     public init?(audioAsset: AVURLAsset) {
         guard let assetReader = try? AVAssetReader(asset: audioAsset),
@@ -12,7 +12,7 @@ public class Waveform {
         }
 
         self.assetReader = assetReader
-        self.audioProcessor = AudioProcessor()
+        self.waveformAnalyzer = WaveformAnalyzer()
     }
 
     public convenience init?(audioAssetURL: URL) {
@@ -21,6 +21,6 @@ public class Waveform {
     }
 
     public func samples(count: Int) -> [Float]? {
-        return audioProcessor.waveformSamples(from: assetReader, count: count)
+        return waveformAnalyzer.waveformSamples(from: assetReader, count: count, fftBands: nil)?.amplitudes
     }
 }
