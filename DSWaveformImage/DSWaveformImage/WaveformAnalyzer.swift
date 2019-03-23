@@ -157,31 +157,6 @@ fileprivate extension WaveformAnalyzer {
         return ffts
     }
 
-    func calculateFFTSampleCount(basedOn samplesPerWindow: Int) -> Int {
-        if isPowerOfTwo(samplesPerWindow) {
-            return samplesPerWindow
-        } else {
-            return precedingPowerOfTwo(to: samplesPerWindow)
-        }
-    }
-
-    func isPowerOfTwo(_ n: Int) -> Bool {
-        return (n > 0) && (n & (n - 1) == 0)
-    }
-
-    func precedingPowerOfTwo(to source: Int) -> Int {
-        var precedingPower: Int = Int(source)
-        precedingPower -= 1
-        precedingPower |= precedingPower >> 1
-        precedingPower |= precedingPower >> 2
-        precedingPower |= precedingPower >> 4
-        precedingPower |= precedingPower >> 8
-        precedingPower |= precedingPower >> 16
-        precedingPower += 1
-        precedingPower >>= 1
-        return precedingPower
-    }
-
     func normalize(_ samples: [Float]) -> [Float] {
         return samples.map { $0 / silenceDbThreshold }
     }
