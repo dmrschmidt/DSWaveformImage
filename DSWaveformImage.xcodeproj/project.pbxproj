@@ -163,13 +163,13 @@
 			isa = PBXGroup;
 			children = (
 				C365503F1E4927BC00D24131 /* ColorExtensions.swift */,
+				C343C9FC22469EA500D76273 /* TempiFFT.swift */,
+				C3FCC2651E4F74E90057B1A6 /* UIImage+Waveform.swift */,
+				C3FCC2631E4F725B0057B1A6 /* Waveform.swift */,
+				C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */,
 				C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */,
 				C36550411E4927BC00D24131 /* WaveformImageTypes.swift */,
 				C36550421E4927BC00D24131 /* WaveformImageView.swift */,
-				C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */,
-				C3FCC2631E4F725B0057B1A6 /* Waveform.swift */,
-				C3FCC2651E4F74E90057B1A6 /* UIImage+Waveform.swift */,
-				C343C9FC22469EA500D76273 /* TempiFFT.swift */,
 			);
 			path = DSWaveformImage;
 			sourceTree = "<group>";

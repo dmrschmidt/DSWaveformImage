@@ -213,63 +213,6 @@ import Accelerate
         self.bandMaxFreq = self.bandFrequencies.last
     }
 
-    /// Applies logical banding on top of the spectrum data. The bands are grouped by octave throughout the spectrum. Note that the actual min and max frequencies in the resulting band may be lower/higher than the minFrequency/maxFrequency because the band spectrum <i>includes</i> those frequencies but isn't necessarily bounded by them.
-    func calculateLogarithmicBands(minFrequency: Float, maxFrequency: Float, bandsPerOctave: Int) {
-        assert(hasPerformedFFT, "*** Perform the FFT first.")
-
-        // The max can't be any higher than the nyquist
-        let actualMaxFrequency = min(self.nyquistFrequency, maxFrequency)
-
-        // The min can't be 0 otherwise we'll divide octaves infinitely
-        let actualMinFrequency = max(1, minFrequency)
-
-        // Define the octave frequencies we'll be working with. Note that in order to always include minFrequency, we'll have to set the lower boundary to the octave just below that frequency.
-        var octaveBoundaryFreqs: [Float] = [Float]()
-        var curFreq = actualMaxFrequency
-        octaveBoundaryFreqs.append(curFreq)
-        repeat {
-            curFreq /= 2
-            octaveBoundaryFreqs.append(curFreq)
-        } while curFreq > actualMinFrequency
-
-        octaveBoundaryFreqs = octaveBoundaryFreqs.reversed()
-
-        self.bandMagnitudes = [Float]()
-        self.bandFrequencies = [Float]()
-
-        // Break up the spectrum by octave
-        for i in 0..<octaveBoundaryFreqs.count - 1 {
-            let lowerFreq = octaveBoundaryFreqs[i]
-            let upperFreq = octaveBoundaryFreqs[i+1]
-
-            let mags = self.magsInFreqRange(lowerFreq, upperFreq)
-            let ratio =  Float(mags.count) / Float(bandsPerOctave)
-
-            // Now that we have the magnitudes within this octave, cluster them into bandsPerOctave groups and average each group.
-            for j in 0..<bandsPerOctave {
-                let startIdx = Int(ratio * Float(j))
-                var stopIdx = Int(ratio * Float(j+1)) - 1 // inclusive
-
-                stopIdx = max(0, stopIdx)
-
-                if stopIdx <= startIdx {
-                    self.bandMagnitudes.append(mags[startIdx])
-                } else {
-                    let avg = fastAverage(mags, startIdx, stopIdx + 1)
-                    self.bandMagnitudes.append(avg)
-                }
-
-                let startMagnitudesIdx = Int(lowerFreq / self.bandwidth) + startIdx
-                let endMagnitudesIdx = startMagnitudesIdx + (stopIdx - startIdx)
-                self.bandFrequencies.append(self.averageFrequencyInRange(startMagnitudesIdx, endMagnitudesIdx))
-            }
-        }
-
-        self.numberOfBands = self.bandMagnitudes.count
-        self.bandMinFreq = self.bandFrequencies[0]
-        self.bandMaxFreq = self.bandFrequencies.last
-    }
-
     private func magIndexForFreq(_ freq: Float) -> Int {
         return Int(Float(self.magnitudes.count) * freq / self.nyquistFrequency)
     }
@@ -281,18 +224,6 @@ import Accelerate
         vDSP_meanv(ptr + startIdx, 1, &mean, UInt(stopIdx - startIdx))
 
         return mean
-    }
-
-    @inline(__always) private func magsInFreqRange(_ lowFreq: Float, _ highFreq: Float) -> [Float] {
-        let lowIndex = Int(lowFreq / self.bandwidth)
-        var highIndex = Int(highFreq / self.bandwidth)
-
-        if (lowIndex == highIndex) {
-            // Occurs when both params are so small that they both fall into the first index
-            highIndex += 1
-        }
-
-        return Array(self.magnitudes[lowIndex..<highIndex])
     }
 
     @inline(__always) private func averageFrequencyInRange(_ startIndex: Int, _ endIndex: Int) -> Float {
@@ -324,38 +255,6 @@ import Accelerate
         assert(hasPerformedFFT, "*** Perform the FFT first.")
         assert(bandMagnitudes != nil, "*** Call calculateLinearBands() or calculateLogarithmicBands() first")
         return self.bandFrequencies[inBand]
-    }
-
-    /// Calculate the average magnitude of the frequency band bounded by lowFreq and highFreq, inclusive
-    func averageMagnitude(lowFreq: Float, highFreq: Float) -> Float {
-
-        var curFreq = lowFreq
-        var total: Float = 0
-        var count: Int = 0
-        while curFreq <= highFreq {
-            total += magnitudeAtFrequency(curFreq)
-            curFreq += self.bandwidth
-            count += 1
-        }
-
-        return total / Float(count)
-    }
-
-    /// Sum magnitudes across bands bounded by lowFreq and highFreq, inclusive
-    func sumMagnitudes(lowFreq: Float, highFreq: Float, useDB: Bool) -> Float {
-
-        var curFreq = lowFreq
-        var total: Float = 0
-        while curFreq <= highFreq {
-            var mag = magnitudeAtFrequency(curFreq)
-            if (useDB) {
-                mag = max(0, TempiFFT.toDB(mag))
-            }
-            total += mag
-            curFreq += self.bandwidth
-        }
-
-        return total
     }
 
     /// A convenience function that converts a linear magnitude (like those stored in ```magnitudes```) to db (which is log 10).

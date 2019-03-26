@@ -4,6 +4,8 @@
 // * http://stackoverflow.com/questions/28626914
 // for very good explanations of the asset reading and processing path
 //
+// FFT done using: https://github.com/jscalo/tempi-fft
+//
 
 import Foundation
 import Accelerate

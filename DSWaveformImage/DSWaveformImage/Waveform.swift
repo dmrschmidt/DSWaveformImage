@@ -21,6 +21,7 @@ public class Waveform {
     }
 
     public func samples(count: Int) -> [Float]? {
-        return waveformAnalyzer.waveformSamples(from: assetReader, count: count, fftBands: nil)?.amplitudes
+        let screenWidth = Int(UIScreen.main.bounds.size.width * UIScreen.main.scale)
+        return waveformAnalyzer.waveformSamples(from: assetReader, count: count, fftBands: screenWidth)?.amplitudes
     }
 }
