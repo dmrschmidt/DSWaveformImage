@@ -21,7 +21,8 @@ Installation
 
 * use carthage: `github "dmrschmidt/DSWaveformImage" ~> 5.0`
 * use cocoapods: `pod 'DSWaveformImage', '~> 5.0'`
-* or add the DSWaveformImage folder directly into your project.
+* manually: checkout the repo and build the DSWaveformImage.framework, then add to your project
+* or simply add the DSWaveformImage folder directly into your project.
 
 Usage
 -----
