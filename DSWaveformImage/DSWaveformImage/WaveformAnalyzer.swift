@@ -106,14 +106,16 @@ fileprivate extension WaveformAnalyzer {
                          downsampleTo samplesPerPixel: Int) -> [Float] {
         var downSampledData = [Float]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
-        sampleBuffer.withUnsafeBytes { (samples: UnsafePointer<Int16>) in
+        sampleBuffer.withUnsafeBytes { (samplesRawPointer: UnsafeRawBufferPointer) in
+            let unsafeSamplesBufferPointer = samplesRawPointer.bindMemory(to: Int16.self)
+            let unsafeSamplesPointer = unsafeSamplesBufferPointer.baseAddress!
             var loudestClipValue: Float = 0.0
             var quietestClipValue = silenceDbThreshold
             var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
             let samplesToProcess = vDSP_Length(sampleLength)
 
             var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
-            vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float (
+            vDSP_vflt16(unsafeSamplesPointer, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float (
             vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
             vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
             vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
@@ -139,11 +141,13 @@ fileprivate extension WaveformAnalyzer {
                          fftBands: Int) -> [TempiFFT] {
         var ffts = [TempiFFT]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
-        sampleBuffer.withUnsafeBytes { (samples: UnsafePointer<Int16>) in
+        sampleBuffer.withUnsafeBytes { (samplesRawPointer: UnsafeRawBufferPointer) in
+            let unsafeSamplesBufferPointer = samplesRawPointer.bindMemory(to: Int16.self)
+            let unsafeSamplesPointer = unsafeSamplesBufferPointer.baseAddress!
             let samplesToProcess = vDSP_Length(sampleLength)
 
             var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
-            vDSP_vflt16(samples, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float
+            vDSP_vflt16(unsafeSamplesPointer, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float
 
             repeat {
                 let fftBuffer = processingBuffer[0..<samplesPerFFT]
