@@ -19,7 +19,7 @@ let package = Package(
     targets: [
         .target(
             name: "DSWaveformImage",
-            path: "DSWaveformImage"
+            path: "DSWaveformImage/DSWaveformImage"
         )
     ]
 )
