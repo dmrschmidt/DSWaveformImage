@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import UIKit
 
 public struct WaveformImageDrawer {
     public init() {}
