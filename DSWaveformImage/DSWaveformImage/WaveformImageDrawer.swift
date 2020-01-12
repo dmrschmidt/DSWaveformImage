@@ -117,7 +117,6 @@ private extension WaveformImageDrawer {
             path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
             path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
         }
-        print(samples.count)
         context.addPath(path)
 
         switch configuration.style {
