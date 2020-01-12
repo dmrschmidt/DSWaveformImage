@@ -49,7 +49,9 @@ class ViewController: UIViewController {
         let configuration = WaveformConfiguration(size: lastWaveformView.bounds.size,
                                                   color: UIColor.blue,
                                                   style: .striped,
-                                                  position: .bottom)
+                                                  position: .bottom,
+                                                  stripeWidth: 10,
+                                                  stripeSpacing: 2)
         
         DispatchQueue.global(qos: .userInitiated).async {
             let image = UIImage(waveform: waveform, configuration: configuration)

@@ -58,13 +58,21 @@ public struct WaveformConfiguration {
     /// Optional padding or vertical shrinking factor for the waveform.
     let paddingFactor: CGFloat?
 
+    /// Width of stripes drawn when style is .striped.  Default is 1
+    let stripeWidth: CGFloat?
+
+    /// Space between strips when style is .striped.  Default is 5
+    let stripeSpacing: CGFloat?
+
     public init(size: CGSize,
                 color: UIColor = UIColor.black,
                 backgroundColor: UIColor = UIColor.clear,
                 style: WaveformStyle = .gradient,
                 position: WaveformPosition = .middle,
                 scale: CGFloat = UIScreen.main.scale,
-                paddingFactor: CGFloat? = nil) {
+                paddingFactor: CGFloat? = nil,
+                stripeWidth: CGFloat? = nil,
+                stripeSpacing: CGFloat? = nil) {
         self.color = color
         self.backgroundColor = backgroundColor
         self.style = style
@@ -72,5 +80,7 @@ public struct WaveformConfiguration {
         self.size = size
         self.scale = scale
         self.paddingFactor = paddingFactor
+        self.stripeWidth = stripeWidth
+        self.stripeSpacing = stripeSpacing
     }
 }
