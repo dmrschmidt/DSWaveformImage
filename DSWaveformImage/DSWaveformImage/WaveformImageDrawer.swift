@@ -28,10 +28,13 @@ public struct WaveformImageDrawer {
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
+                              paddingFactor: CGFloat? = nil,
+                              stripeWidth: CGFloat? = nil,
+                              stripeSpacing: CGFloat? = nil) -> UIImage? {
         guard let waveform = Waveform(audioAsset: audioAsset) else { return nil }
         let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor, style: style,
-                                                  position: position, scale: scale, paddingFactor: paddingFactor)
+                                                  position: position, scale: scale, paddingFactor: paddingFactor,
+                                                  stripeWidth: stripeWidth, stripeSpacing: stripeSpacing)
         return waveformImage(from: waveform, with: configuration)
     }
 
@@ -42,10 +45,13 @@ public struct WaveformImageDrawer {
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
+                              paddingFactor: CGFloat? = nil,
+                              stripeWidth: CGFloat? = nil,
+                              stripeSpacing: CGFloat? = nil) -> UIImage? {
         let audioAsset = AVURLAsset(url: audioAssetURL)
         return waveformImage(fromAudio: audioAsset, size: size, color: color, backgroundColor: backgroundColor, style: style,
-                             position: position, scale: scale, paddingFactor: paddingFactor)
+                             position: position, scale: scale, paddingFactor: paddingFactor,
+                             stripeWidth: stripeWidth, stripeSpacing: stripeSpacing)
     }
     // swiftlint:enable function_parameter_count
 }
