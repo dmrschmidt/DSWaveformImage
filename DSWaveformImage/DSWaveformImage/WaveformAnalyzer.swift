@@ -18,7 +18,7 @@ struct WaveformAnalysis {
 
 class WaveformAnalyzer {
     func waveformSamples(from assetReader: AVAssetReader, count: Int, fftBands: Int?) -> WaveformAnalysis? {
-        guard let audioTrack = assetReader.asset.tracks.first else {
+        guard let audioTrack = assetReader.asset.tracks.first(where: { $0.mediaType == .audio }) else {
             return nil
         }
 
