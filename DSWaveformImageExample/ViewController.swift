@@ -13,15 +13,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var topWaveformView: UIImageView!
     @IBOutlet weak var middleWaveformView: WaveformImageView!
     @IBOutlet weak var bottomWaveformView: UIImageView!
+    
+    private var waveformAnalyzer: WaveformAnalyzer!
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         let waveformImageDrawer = WaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "video", withExtension: "mp4")!
-        
+        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+        waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+
         // always uses background thread rendering
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+        waveformImageDrawer.waveformImage(from: waveformAnalyzer,
                                           size: topWaveformView.bounds.size,
                                           style: .striped,
                                           position: .top) { [weak self] image in
@@ -34,13 +37,13 @@ class ViewController: UIViewController {
         middleWaveformView.waveformColor = UIColor.red
         middleWaveformView.waveformAudioURL = audioURL
 
-        let waveform = Waveform(audioAssetURL: audioURL)!
+        waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
         let configuration = WaveformConfiguration(size: bottomWaveformView.bounds.size,
                                                   color: UIColor.blue,
                                                   style: .filled,
                                                   position: .bottom)
 
-        waveformImageDrawer.waveformImage(from: waveform, with: configuration) { [weak self] image in
+        waveformImageDrawer.waveformImage(from: waveformAnalyzer, with: configuration) { [weak self] image in
            DispatchQueue.main.async {
                self?.bottomWaveformView.image = image
            }

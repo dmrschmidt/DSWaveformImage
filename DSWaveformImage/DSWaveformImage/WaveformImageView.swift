@@ -4,6 +4,7 @@ import UIKit
 
 public class WaveformImageView: UIImageView {
     private let waveformImageDrawer: WaveformImageDrawer
+    private var waveformAnalyzer: WaveformAnalyzer?
 
     public var waveformColor: UIColor {
         didSet { updateWaveform() }
@@ -45,13 +46,17 @@ public class WaveformImageView: UIImageView {
 
 private extension WaveformImageView {
     func updateWaveform() {
-        guard let audioURL = waveformAudioURL else { return }
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
-                                                style: waveformStyle, position: waveformPosition,
-                                                scale: UIScreen.main.scale) { [weak self] image in
-                                                    DispatchQueue.main.async {
-                                                        self?.image = image
-                                                    }
+        guard
+            let audioURL = waveformAudioURL,
+            let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL) else { return }
+
+        self.waveformAnalyzer = waveformAnalyzer
+        waveformImageDrawer.waveformImage(from: waveformAnalyzer, size: bounds.size, color: waveformColor,
+                                          style: waveformStyle, position: waveformPosition,
+                                          scale: UIScreen.main.scale, qos: .userInitiated) { [weak self] image in
+                                            DispatchQueue.main.async {
+                                                self?.image = image
+                                            }
         }
     }
 }

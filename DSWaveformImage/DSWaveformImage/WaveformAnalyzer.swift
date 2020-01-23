@@ -16,14 +16,41 @@ struct WaveformAnalysis {
     let fft: [TempiFFT]?
 }
 
-class WaveformAnalyzer {
+public class WaveformAnalyzer {
+    private let assetReader: AVAssetReader
+    private let audioAssetTrack: AVAssetTrack
+
+    public init?(audioAssetURL: URL) {
+        let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+
+        guard
+                let assetReader = try? AVAssetReader(asset: audioAsset),
+                let assetTrack = audioAsset.tracks(withMediaType: .audio).first else {
+            return nil
+        }
+
+        self.assetReader = assetReader
+        self.audioAssetTrack = assetTrack
+    }
+    
+    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ analysis: [Float]?) -> ()) {
+        waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
+            completionHandler(analysis?.amplitudes)
+        }
+    }
+}
+
+// MARK: - Private
+
+fileprivate extension WaveformAnalyzer {
+    private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
+    
     func waveformSamples(
-            from assetReader: AVAssetReader,
-            audioTrack: AVAssetTrack,
             count requiredNumberOfSamples: Int,
+            qos: DispatchQoS.QoSClass,
             fftBands: Int?,
             completionHandler: @escaping (_ analysis: WaveformAnalysis?) -> ()) {
-        let trackOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: outputSettings())
+        let trackOutput = AVAssetReaderTrackOutput(track: audioAssetTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
         assetReader.asset.loadValuesAsynchronously(forKeys: ["duration"]) { [weak self] in
@@ -32,18 +59,20 @@ class WaveformAnalyzer {
                 return
             }
             var error: NSError?
-            let status = assetReader.asset.statusOfValue(forKey: "duration", error: &error)
+            let status = strongSelf.assetReader.asset.statusOfValue(forKey: "duration", error: &error)
             switch status {
             case .loaded:
-                let totalSamples = strongSelf.totalSamplesOfTrack(from: assetReader, track:audioTrack)
-                let analysis = strongSelf.extract(samplesFrom: assetReader, totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
+                let totalSamples = strongSelf.totalSamplesOfTrack()
+                DispatchQueue.global(qos: qos).async {
+                    let analysis = strongSelf.extract(totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
 
-                switch assetReader.status {
-                case .completed:
-                    completionHandler(analysis)
-                default:
-                    print("ERROR: reading waveform audio data has failed \(assetReader.status)")
-                    completionHandler(nil)
+                    switch strongSelf.assetReader.status {
+                    case .completed:
+                        completionHandler(analysis)
+                    default:
+                        print("ERROR: reading waveform audio data has failed \(strongSelf.assetReader.status)")
+                        completionHandler(nil)
+                    }
                 }
 
             case .failed, .cancelled, .loading, .unknown:
@@ -55,15 +84,8 @@ class WaveformAnalyzer {
             }
         }
     }
-}
 
-// MARK: - Private
-
-fileprivate extension WaveformAnalyzer {
-    private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
-
-    func extract(samplesFrom assetReader: AVAssetReader,
-                 totalSamples: Int,
+    func extract(totalSamples: Int,
                  downsampledTo targetSampleCount: Int,
                  fftBands: Int?) -> WaveformAnalysis {
         var outputSamples = [Float]()
@@ -75,8 +97,8 @@ fileprivate extension WaveformAnalyzer {
         let samplesPerPixel = max(1, totalSamples / targetSampleCount)
         let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
 
-        assetReader.startReading()
-        while assetReader.status == .reading {
+        self.assetReader.startReading()
+        while self.assetReader.status == .reading {
             let trackOutput = assetReader.outputs.first!
 
             guard let nextSampleBuffer = trackOutput.copyNextSampleBuffer(),
@@ -100,7 +122,7 @@ fileprivate extension WaveformAnalyzer {
             }
 
             if let fftBands = fftBands, sampleBufferFFT.count / MemoryLayout<Int16>.size >= samplesPerFFT {
-                let processedFFTs = process(sampleBufferFFT, from: assetReader, samplesPerFFT: samplesPerFFT, fftBands: fftBands)
+                let processedFFTs = process(sampleBufferFFT, samplesPerFFT: samplesPerFFT, fftBands: fftBands)
                 sampleBufferFFT.removeFirst(processedFFTs.count * samplesPerFFT * MemoryLayout<Int16>.size)
                 outputFFT? += processedFFTs
             }
@@ -156,7 +178,6 @@ fileprivate extension WaveformAnalyzer {
     }
 
     private func process(_ sampleBuffer: Data,
-                         from assetReader: AVAssetReader,
                          samplesPerFFT: Int,
                          fftBands: Int) -> [TempiFFT] {
         var ffts = [TempiFFT]()
@@ -188,11 +209,11 @@ fileprivate extension WaveformAnalyzer {
     }
 
     // swiftlint:disable force_cast
-    private func totalSamplesOfTrack(from assetReader: AVAssetReader, track audioTrack: AVAssetTrack) -> Int {
+    private func totalSamplesOfTrack() -> Int {
         var totalSamples = 0
 
         autoreleasepool {
-            let descriptions = audioTrack.formatDescriptions as! [CMFormatDescription]
+            let descriptions = audioAssetTrack.formatDescriptions as! [CMFormatDescription]
             descriptions.forEach { formatDescription in
                 guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
                 let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)

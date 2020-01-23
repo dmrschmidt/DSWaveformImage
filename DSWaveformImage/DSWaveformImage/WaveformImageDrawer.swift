@@ -2,12 +2,12 @@ import Foundation
 import AVFoundation
 
 public class WaveformImageDrawer {
-    private var waveform: Waveform?
     public init() {}
 
     // swiftlint:disable function_parameter_count
-    public func waveformImage(from waveform: Waveform,
+    public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
                               with configuration: WaveformConfiguration,
+                              qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
@@ -18,11 +18,10 @@ public class WaveformImageDrawer {
                                                         position: configuration.position,
                                                         scale: configuration.scale,
                                                         paddingFactor: configuration.paddingFactor)
-        self.waveform = waveform
-        render(waveform: waveform, with: scaledConfiguration, completionHandler: completionHandler)
+        render(from: waveformAnalyzer, with: scaledConfiguration, qos: qos, completionHandler: completionHandler)
     }
 
-    public func waveformImage(fromAudioAt audioAssetURL: URL,
+    public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
                               size: CGSize,
                               color: UIColor = UIColor.black,
                               backgroundColor: UIColor = UIColor.clear,
@@ -30,14 +29,11 @@ public class WaveformImageDrawer {
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
                               paddingFactor: CGFloat? = nil,
+                              qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
-        guard let waveform = Waveform(audioAssetURL: audioAssetURL) else {
-            completionHandler(nil)
-            return
-        }
         let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor,
                 style: style, position: position, scale: scale, paddingFactor: paddingFactor)
-        waveformImage(from: waveform, with: configuration, completionHandler: completionHandler)
+        waveformImage(from: waveformAnalyzer, with: configuration, completionHandler: completionHandler)
     }
     // swiftlint:enable function_parameter_count
 }
@@ -45,9 +41,12 @@ public class WaveformImageDrawer {
 // MARK: Image generation
 
 private extension WaveformImageDrawer {
-    func render(waveform: Waveform, with configuration: WaveformConfiguration, completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
+    func render(from waveformAnalyzer: WaveformAnalyzer,
+                with configuration: WaveformConfiguration,
+                qos: DispatchQoS.QoSClass,
+                completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
-        waveform.samples(count: sampleCount) { samples in
+        waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
             guard let imageSamples = samples else {
                 completionHandler(nil)
                 return
