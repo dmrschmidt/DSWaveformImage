@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,28 +20,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="w9S-UI-8uW">
-                                <rect key="frame" x="0.0" y="28" width="320" height="540"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3wf-8h-Skp">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="189.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="3wf-8h-Skp" secondAttribute="height" multiplier="16:9" priority="900" id="Eou-Wo-W75"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J48-qg-hXd" customClass="WaveformImageView" customModule="DSWaveformImage">
-                                        <rect key="frame" x="0.0" y="135" width="320" height="135"/>
+                                        <rect key="frame" x="0.0" y="189.5" width="320" height="189"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="J48-qg-hXd" secondAttribute="height" multiplier="16:9" priority="900" id="t5F-rm-fdn"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aQM-Ik-oVa">
-                                        <rect key="frame" x="0.0" y="270" width="320" height="135"/>
+                                        <rect key="frame" x="0.0" y="378.5" width="320" height="189.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="aQM-Ik-oVa" secondAttribute="height" multiplier="16:9" priority="900" id="Exg-81-t2N"/>
                                         </constraints>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dFS-ni-sSF">
-                                        <rect key="frame" x="0.0" y="405" width="320" height="135"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -58,7 +53,7 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="w9S-UI-8uW" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="AxV-yl-9QC"/>
+                            <constraint firstItem="w9S-UI-8uW" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="AxV-yl-9QC"/>
                             <constraint firstAttribute="trailing" secondItem="w9S-UI-8uW" secondAttribute="trailing" id="EQJ-eb-eZl"/>
                             <constraint firstItem="w9S-UI-8uW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OZL-zd-POw"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="w9S-UI-8uW" secondAttribute="bottom" id="w7f-ap-sas"/>
@@ -66,7 +61,6 @@
                     </view>
                     <connections>
                         <outlet property="bottomWaveformView" destination="aQM-Ik-oVa" id="iev-uC-R8S"/>
-                        <outlet property="lastWaveformView" destination="dFS-ni-sSF" id="gNb-0B-lEW"/>
                         <outlet property="middleWaveformView" destination="J48-qg-hXd" id="zoE-RX-g3F"/>
                         <outlet property="topWaveformView" destination="3wf-8h-Skp" id="PwX-zb-tPA"/>
                     </connections>

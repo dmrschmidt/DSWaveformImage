@@ -26,7 +26,6 @@
 		C36550471E4927EC00D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C36550491E49298100D24131 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C36550481E49298100D24131 /* example_sound.m4a */; };
 		C3FCC2641E4F725B0057B1A6 /* Waveform.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCC2631E4F725B0057B1A6 /* Waveform.swift */; };
-		C3FCC2661E4F74E90057B1A6 /* UIImage+Waveform.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3FCC2651E4F74E90057B1A6 /* UIImage+Waveform.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +74,6 @@
 		C36550421E4927BC00D24131 /* WaveformImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageView.swift; sourceTree = "<group>"; };
 		C36550481E49298100D24131 /* example_sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound.m4a; sourceTree = "<group>"; };
 		C3FCC2631E4F725B0057B1A6 /* Waveform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Waveform.swift; sourceTree = "<group>"; };
-		C3FCC2651E4F74E90057B1A6 /* UIImage+Waveform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Waveform.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +162,6 @@
 			children = (
 				C365503F1E4927BC00D24131 /* ColorExtensions.swift */,
 				C343C9FC22469EA500D76273 /* TempiFFT.swift */,
-				C3FCC2651E4F74E90057B1A6 /* UIImage+Waveform.swift */,
 				C3FCC2631E4F725B0057B1A6 /* Waveform.swift */,
 				C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */,
 				C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */,
@@ -328,7 +325,6 @@
 				C3FCC2641E4F725B0057B1A6 /* Waveform.swift in Sources */,
 				C36550441E4927BC00D24131 /* WaveformImageDrawer.swift in Sources */,
 				C36550451E4927BC00D24131 /* WaveformImageTypes.swift in Sources */,
-				C3FCC2661E4F74E90057B1A6 /* UIImage+Waveform.swift in Sources */,
 				C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */,
 				C36550431E4927BC00D24131 /* ColorExtensions.swift in Sources */,
 			);

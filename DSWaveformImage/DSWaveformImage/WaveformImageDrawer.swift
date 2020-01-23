@@ -1,11 +1,14 @@
 import Foundation
 import AVFoundation
 
-public struct WaveformImageDrawer {
+public class WaveformImageDrawer {
+    private var waveform: Waveform?
     public init() {}
 
     // swiftlint:disable function_parameter_count
-    public func waveformImage(from waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+    public func waveformImage(from waveform: Waveform,
+                              with configuration: WaveformConfiguration,
+                              completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
         let scaledConfiguration = WaveformConfiguration(size: scaledSize,
@@ -15,21 +18,8 @@ public struct WaveformImageDrawer {
                                                         position: configuration.position,
                                                         scale: configuration.scale,
                                                         paddingFactor: configuration.paddingFactor)
-        return render(waveform: waveform, with: scaledConfiguration)
-    }
-
-    public func waveformImage(fromAudio audioAsset: AVURLAsset,
-                              size: CGSize,
-                              color: UIColor = UIColor.black,
-                              backgroundColor: UIColor = UIColor.clear,
-                              style: WaveformStyle = .gradient,
-                              position: WaveformPosition = .middle,
-                              scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
-        guard let waveform = Waveform(audioAsset: audioAsset) else { return nil }
-        let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor, style: style,
-                                                  position: position, scale: scale, paddingFactor: paddingFactor)
-        return waveformImage(from: waveform, with: configuration)
+        self.waveform = waveform
+        render(waveform: waveform, with: scaledConfiguration, completionHandler: completionHandler)
     }
 
     public func waveformImage(fromAudioAt audioAssetURL: URL,
@@ -39,10 +29,15 @@ public struct WaveformImageDrawer {
                               style: WaveformStyle = .gradient,
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil) -> UIImage? {
-        let audioAsset = AVURLAsset(url: audioAssetURL)
-        return waveformImage(fromAudio: audioAsset, size: size, color: color, backgroundColor: backgroundColor, style: style,
-                             position: position, scale: scale, paddingFactor: paddingFactor)
+                              paddingFactor: CGFloat? = nil,
+                              completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
+        guard let waveform = Waveform(audioAssetURL: audioAssetURL) else {
+            completionHandler(nil)
+            return
+        }
+        let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor,
+                style: style, position: position, scale: scale, paddingFactor: paddingFactor)
+        waveformImage(from: waveform, with: configuration, completionHandler: completionHandler)
     }
     // swiftlint:enable function_parameter_count
 }
@@ -50,10 +45,15 @@ public struct WaveformImageDrawer {
 // MARK: Image generation
 
 private extension WaveformImageDrawer {
-    func render(waveform: Waveform, with configuration: WaveformConfiguration) -> UIImage? {
+    func render(waveform: Waveform, with configuration: WaveformConfiguration, completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
-        guard let imageSamples = waveform.samples(count: sampleCount) else { return nil }
-        return graphImage(from: imageSamples, with: configuration)
+        waveform.samples(count: sampleCount) { samples in
+            guard let imageSamples = samples else {
+                completionHandler(nil)
+                return
+            }
+            completionHandler(self.graphImage(from: imageSamples, with: configuration))
+        }
     }
 
     private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {

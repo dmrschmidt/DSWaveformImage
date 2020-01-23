@@ -17,23 +17,42 @@ struct WaveformAnalysis {
 }
 
 class WaveformAnalyzer {
-    func waveformSamples(from assetReader: AVAssetReader, count: Int, fftBands: Int?) -> WaveformAnalysis? {
-        guard let audioTrack = assetReader.asset.tracks.first(where: { $0.mediaType == .audio }) else {
-            return nil
-        }
-
+    func waveformSamples(
+            from assetReader: AVAssetReader,
+            audioTrack: AVAssetTrack,
+            count requiredNumberOfSamples: Int,
+            fftBands: Int?,
+            completionHandler: @escaping (_ analysis: WaveformAnalysis?) -> ()) {
         let trackOutput = AVAssetReaderTrackOutput(track: audioTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
-        let requiredNumberOfSamples = count
-        let analysis = extract(samplesFrom: assetReader, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
+        assetReader.asset.loadValuesAsynchronously(forKeys: ["duration"]) { [weak self] in
+            guard let strongSelf = self else {
+                completionHandler(nil)
+                return
+            }
+            var error: NSError?
+            let status = assetReader.asset.statusOfValue(forKey: "duration", error: &error)
+            switch status {
+            case .loaded:
+                let totalSamples = strongSelf.totalSamplesOfTrack(from: assetReader, track:audioTrack)
+                let analysis = strongSelf.extract(samplesFrom: assetReader, totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
 
-        switch assetReader.status {
-        case .completed:
-            return analysis
-        default:
-            print("ERROR: reading waveform audio data has failed \(assetReader.status)")
-            return nil
+                switch assetReader.status {
+                case .completed:
+                    completionHandler(analysis)
+                default:
+                    print("ERROR: reading waveform audio data has failed \(assetReader.status)")
+                    completionHandler(nil)
+                }
+
+            case .failed, .cancelled, .loading, .unknown:
+                print("failed to load due to: \(error?.localizedDescription ?? "unknown error")")
+                completionHandler(nil)
+            @unknown default:
+                print("failed to load due to: \(error?.localizedDescription ?? "unknown error")")
+                completionHandler(nil)
+            }
         }
     }
 }
@@ -44,6 +63,7 @@ fileprivate extension WaveformAnalyzer {
     private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
 
     func extract(samplesFrom assetReader: AVAssetReader,
+                 totalSamples: Int,
                  downsampledTo targetSampleCount: Int,
                  fftBands: Int?) -> WaveformAnalysis {
         var outputSamples = [Float]()
@@ -52,7 +72,7 @@ fileprivate extension WaveformAnalyzer {
         var sampleBufferFFT = Data()
 
         // read upfront to avoid frequent re-calculation (and memory bloat from C-bridging)
-        let samplesPerPixel = max(1, sampleCount(from: assetReader) / targetSampleCount)
+        let samplesPerPixel = max(1, totalSamples / targetSampleCount)
         let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
 
         assetReader.startReading()
@@ -167,24 +187,24 @@ fileprivate extension WaveformAnalyzer {
         return samples.map { $0 / silenceDbThreshold }
     }
 
-    private func sampleCount(from assetReader: AVAssetReader) -> Int {
-        let samplesPerChannel = Int(assetReader.asset.duration.value)
-        return samplesPerChannel * channelCount(from: assetReader)
-    }
-
     // swiftlint:disable force_cast
-    private func channelCount(from assetReader: AVAssetReader) -> Int {
-        let audioTrack = (assetReader.outputs.first as? AVAssetReaderTrackOutput)?.track
-        var channelCount = 0
+    private func totalSamplesOfTrack(from assetReader: AVAssetReader, track audioTrack: AVAssetTrack) -> Int {
+        var totalSamples = 0
 
         autoreleasepool {
-            let descriptions = audioTrack?.formatDescriptions as! [CMFormatDescription]
+            let descriptions = audioTrack.formatDescriptions as! [CMFormatDescription]
             descriptions.forEach { formatDescription in
                 guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
-                channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                let sampleRate = basicDescription.pointee.mSampleRate
+                let duration = Double(assetReader.asset.duration.value)
+                let timescale = Double(assetReader.asset.duration.timescale)
+                let totalDuration = duration / timescale
+                totalSamples = Int(sampleRate * totalDuration) * channelCount
             }
         }
-        return channelCount
+
+        return totalSamples
     }
     // swiftlint:enable force_cast
 }

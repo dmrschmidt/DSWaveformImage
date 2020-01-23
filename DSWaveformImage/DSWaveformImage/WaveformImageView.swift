@@ -46,8 +46,12 @@ public class WaveformImageView: UIImageView {
 private extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        image = waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
-                                                  style: waveformStyle, position: waveformPosition,
-                                                  scale: UIScreen.main.scale)
+        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
+                                                style: waveformStyle, position: waveformPosition,
+                                                scale: UIScreen.main.scale) { [weak self] image in
+                                                    DispatchQueue.main.async {
+                                                        self?.image = image
+                                                    }
+        }
     }
 }
