@@ -3,7 +3,7 @@ DSWaveformImage
 
 DSWaveformImage offers a few interfaces with the main purpose of drawing the
 envelope waveform of audio files in iOS. To do so, you can use
-`WaveformImageDrawer`, `WaveformImageView` or an extension on `UIImage`.
+`WaveformImageDrawer` or `WaveformImageView`.
 
 Additionally, you can get a waveform's (normalized) samples directly as well by
 creating an instance of `Waveform`.
@@ -19,41 +19,33 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 5.0`
-* use cocoapods: `pod 'DSWaveformImage', '~> 5.0'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 6.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 6.0'`
 * manually: checkout the repo and build the DSWaveformImage.framework, then add to your project
 * or simply add the DSWaveformImage folder directly into your project.
 
 Usage
 -----
 
+Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
+
 To create a `UIImage` using `WaveformImageDrawer`:
 
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-let topWaveformImage = waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                                         size: UIScreen.main.bounds.size,
-                                                         color: UIColor.black,
-                                                         backgroundColor: UIColor.black,
-                                                         style: .filled,
-                                                         position: .top,
-                                                         scale: UIScreen.main.scale)
-```
-
-
-To create a `UIImage` using a `UIImage` extension:
-
-```swift
-let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-let waveform = Waveform(audioAssetURL: audioURL)!
-let configuration = WaveformConfiguration(size: UIScreen.main.bounds.size,
-                                          color: UIColor.blue,
-                                          style: .striped,
-                                          position: .middle,
-                                          scale: UIScreen.main.scale,
-                                          paddingFactor: 4.0)
-let waveformImage = UIImage(waveform: waveform, configuration: configuration)
+waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+waveformImageDrawer.waveformImage(from: waveformAnalyzer,
+                                  size: UIScreen.main.bounds.size,
+                                 color: UIColor.black,
+                       backgroundColor: UIColor.black,
+                                 style: .filled,
+                              position: .top,
+                                 scale: UIScreen.main.scale) { [weak self] image in
+                                 DispatchQueue.main.async {
+                                                self?.imageView.image = image
+                                            }
+                                 }
 ```
 
 To create a `WaveformImageView` (`UIImageView` subclass):
@@ -68,26 +60,9 @@ And finally, to get an audio file's waveform samples:
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-let waveform = Waveform(audioAssetURL: audioURL)!
-print("so many samples: \(waveform.samples(count: 200))")
-```
-
-From a background thread
-------------------------
-
-`WaveformImageDrawer` and the `UIImage` extension can be used on a background thread.
-For `WaveformImageView` this is currently not yet supported and it will always
-do the computations and drawing on the main thread.
-
-To use a background thread, simply use GCD. Using the `UIImage` extension is
-analogous to this example:
-
-```swift
-DispatchQueue.global(qos: .userInitiated).async {
-    let waveformImage = waveformImageDrawer.waveformImage(from: waveform, with: configuration)
-    DispatchQueue.main.async {
-        yourImageView.image = waveformImage
-    }
+waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+waveformAnalyzer.samples(count: 200) { samples in
+    print("so many samples: \(samples)")
 }
 ```
 
@@ -100,6 +75,10 @@ Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
 
 <img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png" width="500" alt="Screenshot">
 
+Migration
+---------
+
+`Waveform` and the `UIImage` category have been removed in 6.0.0 to simplify the API and better clarify the need for retainment of `WaveformAnalyzer`. See `Usage` for current usage.
 
 ## See it live in action
 
