@@ -1,10 +1,12 @@
 import Foundation
 import AVFoundation
 
+/// Renders a UIImage of the waveform data calculated by the analyzer.
 public class WaveformImageDrawer {
     public init() {}
 
     // swiftlint:disable function_parameter_count
+    /// Renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
                               with configuration: WaveformConfiguration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
@@ -21,6 +23,7 @@ public class WaveformImageDrawer {
         render(from: waveformAnalyzer, with: scaledConfiguration, qos: qos, completionHandler: completionHandler)
     }
 
+    /// Renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
                               size: CGSize,
                               color: UIColor = UIColor.black,

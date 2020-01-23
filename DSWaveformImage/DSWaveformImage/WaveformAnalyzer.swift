@@ -16,6 +16,7 @@ struct WaveformAnalysis {
     let fft: [TempiFFT]?
 }
 
+/// Calculates the waveform of the initialized asset URL.
 public class WaveformAnalyzer {
     private let assetReader: AVAssetReader
     private let audioAssetTrack: AVAssetTrack
@@ -33,6 +34,7 @@ public class WaveformAnalyzer {
         self.audioAssetTrack = assetTrack
     }
     
+    /// Returns the calculated waveform of the initialized asset URL.
     public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ analysis: [Float]?) -> ()) {
         waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
             completionHandler(analysis?.amplitudes)
