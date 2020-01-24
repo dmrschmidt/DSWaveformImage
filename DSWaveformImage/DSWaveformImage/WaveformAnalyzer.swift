@@ -27,6 +27,7 @@ public class WaveformAnalyzer {
         guard
                 let assetReader = try? AVAssetReader(asset: audioAsset),
                 let assetTrack = audioAsset.tracks(withMediaType: .audio).first else {
+            print("ERROR loading asset / audio track")
             return nil
         }
 
@@ -35,7 +36,7 @@ public class WaveformAnalyzer {
     }
     
     /// Returns the calculated waveform of the initialized asset URL.
-    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ analysis: [Float]?) -> ()) {
+    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ amplitudes: [Float]?) -> ()) {
         waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
             completionHandler(analysis?.amplitudes)
         }
@@ -55,24 +56,20 @@ fileprivate extension WaveformAnalyzer {
         let trackOutput = AVAssetReaderTrackOutput(track: audioAssetTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
-        assetReader.asset.loadValuesAsynchronously(forKeys: ["duration"]) { [weak self] in
-            guard let strongSelf = self else {
-                completionHandler(nil)
-                return
-            }
+        assetReader.asset.loadValuesAsynchronously(forKeys: ["duration"]) {
             var error: NSError?
-            let status = strongSelf.assetReader.asset.statusOfValue(forKey: "duration", error: &error)
+            let status = self.assetReader.asset.statusOfValue(forKey: "duration", error: &error)
             switch status {
             case .loaded:
-                let totalSamples = strongSelf.totalSamplesOfTrack()
+                let totalSamples = self.totalSamplesOfTrack()
                 DispatchQueue.global(qos: qos).async {
-                    let analysis = strongSelf.extract(totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
+                    let analysis = self.extract(totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
 
-                    switch strongSelf.assetReader.status {
+                    switch self.assetReader.status {
                     case .completed:
                         completionHandler(analysis)
                     default:
-                        print("ERROR: reading waveform audio data has failed \(strongSelf.assetReader.status)")
+                        print("ERROR: reading waveform audio data has failed \(self.assetReader.status)")
                         completionHandler(nil)
                     }
                 }

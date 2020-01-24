@@ -46,16 +46,12 @@ public class WaveformImageView: UIImageView {
 
 private extension WaveformImageView {
     func updateWaveform() {
-        guard
-            let audioURL = waveformAudioURL,
-            let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL) else { return }
-
-        self.waveformAnalyzer = waveformAnalyzer
-        waveformImageDrawer.waveformImage(from: waveformAnalyzer, size: bounds.size, color: waveformColor,
+        guard let audioURL = waveformAudioURL else { return }
+        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
                                           style: waveformStyle, position: waveformPosition,
-                                          scale: UIScreen.main.scale, qos: .userInitiated) { [weak self] image in
+                                          scale: UIScreen.main.scale, qos: .userInitiated) { image in
                                             DispatchQueue.main.async {
-                                                self?.image = image
+                                                self.image = image
                                             }
         }
     }

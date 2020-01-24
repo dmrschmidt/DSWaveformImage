@@ -6,7 +6,7 @@ envelope waveform of audio files in iOS. To do so, you can use
 `WaveformImageDrawer` or `WaveformImageView`.
 
 Additionally, you can get a waveform's (normalized) samples directly as well by
-creating an instance of `Waveform`.
+creating an instance of `WaveformAnalyzer`.
 
 More related iOS Controls
 ------------
@@ -19,8 +19,8 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 6.0`
-* use cocoapods: `pod 'DSWaveformImage', '~> 6.0'`
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 6.1`
+* use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`
 * manually: checkout the repo and build the DSWaveformImage.framework, then add to your project
 * or simply add the DSWaveformImage folder directly into your project.
 
@@ -34,19 +34,15 @@ To create a `UIImage` using `WaveformImageDrawer`:
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-waveformImageDrawer.waveformImage(from: waveformAnalyzer,
-                                  size: UIScreen.main.bounds.size,
-                                 color: UIColor.black,
-                       backgroundColor: UIColor.black,
-                                 style: .filled,
-                              position: .top,
-                                 scale: UIScreen.main.scale) { [weak self] image in
-                                 DispatchQueue.main.async {
-                                                self?.imageView.image = image
-                                            }
-                                 }
-```
+waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+                                  size: topWaveformView.bounds.size,
+                                  style: .striped,
+                                  position: .top) { image in
+    // need to jump back to main queue
+    DispatchQueue.main.async {
+        self.topWaveformView.image = image
+    }
+}```
 
 To create a `WaveformImageView` (`UIImageView` subclass):
 
@@ -78,7 +74,8 @@ Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
 Migration
 ---------
 
-`Waveform` and the `UIImage` category have been removed in 6.0.0 to simplify the API and better clarify the need for retainment of `WaveformAnalyzer`. See `Usage` for current usage.
+`Waveform` and the `UIImage` category have been removed in 6.0.0 to simplify the API.
+See `Usage` for current usage.
 
 ## See it live in action
 

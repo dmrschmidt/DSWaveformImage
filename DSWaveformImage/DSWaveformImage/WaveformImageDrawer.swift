@@ -1,5 +1,7 @@
 import Foundation
 import AVFoundation
+import UIKit
+import CoreGraphics
 
 /// Renders a UIImage of the waveform data calculated by the analyzer.
 public class WaveformImageDrawer {
@@ -7,10 +9,10 @@ public class WaveformImageDrawer {
 
     // swiftlint:disable function_parameter_count
     /// Renders a UIImage of the waveform data calculated by the analyzer.
-    public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
+    public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: WaveformConfiguration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
-                              completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
+                              completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
         let scaledConfiguration = WaveformConfiguration(size: scaledSize,
@@ -20,11 +22,15 @@ public class WaveformImageDrawer {
                                                         position: configuration.position,
                                                         scale: configuration.scale,
                                                         paddingFactor: configuration.paddingFactor)
+        guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
+            completionHandler(nil)
+            return
+        }
         render(from: waveformAnalyzer, with: scaledConfiguration, qos: qos, completionHandler: completionHandler)
     }
 
     /// Renders a UIImage of the waveform data calculated by the analyzer.
-    public func waveformImage(from waveformAnalyzer: WaveformAnalyzer,
+    public func waveformImage(fromAudioAt audioAssetURL: URL,
                               size: CGSize,
                               color: UIColor = UIColor.black,
                               backgroundColor: UIColor = UIColor.clear,
@@ -33,11 +39,13 @@ public class WaveformImageDrawer {
                               scale: CGFloat = UIScreen.main.scale,
                               paddingFactor: CGFloat? = nil,
                               qos: DispatchQoS.QoSClass = .userInitiated,
-                              completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
+                              completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
         let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor,
-                style: style, position: position, scale: scale, paddingFactor: paddingFactor)
-        waveformImage(from: waveformAnalyzer, with: configuration, completionHandler: completionHandler)
+                                                  style: style, position: position, scale: scale,
+                                                  paddingFactor: paddingFactor)
+        waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
     }
+
     // swiftlint:enable function_parameter_count
 }
 
@@ -47,14 +55,14 @@ private extension WaveformImageDrawer {
     func render(from waveformAnalyzer: WaveformAnalyzer,
                 with configuration: WaveformConfiguration,
                 qos: DispatchQoS.QoSClass,
-                completionHandler: @escaping (_ analysis: UIImage?) -> ()) {
+                completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
-            guard let imageSamples = samples else {
+            guard let samples = samples else {
                 completionHandler(nil)
                 return
             }
-            completionHandler(self.graphImage(from: imageSamples, with: configuration))
+            completionHandler(self.graphImage(from: samples, with: configuration))
         }
     }
 
