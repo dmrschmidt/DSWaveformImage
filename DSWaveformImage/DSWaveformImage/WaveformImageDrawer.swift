@@ -57,7 +57,7 @@ private extension WaveformImageDrawer {
                 qos: DispatchQoS.QoSClass,
                 completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
-        waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
+        waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples, fft in
             guard let samples = samples else {
                 completionHandler(nil)
                 return

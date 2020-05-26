@@ -10,6 +10,10 @@
 		427707DC224240140001C80B /* DSWaveformImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
 		C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */; };
+		C3322177247D3A3700BA17F8 /* SpectralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3322176247D3A3700BA17F8 /* SpectralView.swift */; };
+		C3322181247D7AAE00BA17F8 /* sine-sweep-log-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = C332217E247D7AAD00BA17F8 /* sine-sweep-log-mono.wav */; };
+		C3322182247D7AAE00BA17F8 /* sine-sweep-nonlog-mono.wav in Resources */ = {isa = PBXBuildFile; fileRef = C332217F247D7AAD00BA17F8 /* sine-sweep-nonlog-mono.wav */; };
+		C3322183247D7AAE00BA17F8 /* sine-sweep-stereo.aif in Resources */ = {isa = PBXBuildFile; fileRef = C3322180247D7AAE00BA17F8 /* sine-sweep-stereo.aif */; };
 		C343C9FD22469EA500D76273 /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343C9FC22469EA500D76273 /* TempiFFT.swift */; };
 		C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C365501D1E49278700D24131 /* DSWaveformImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365501C1E49278700D24131 /* DSWaveformImageTests.swift */; };
@@ -53,6 +57,10 @@
 /* Begin PBXFileReference section */
 		C322CC551E4A475800B52247 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
 		C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformAnalyzer.swift; sourceTree = "<group>"; };
+		C3322176247D3A3700BA17F8 /* SpectralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectralView.swift; sourceTree = "<group>"; };
+		C332217E247D7AAD00BA17F8 /* sine-sweep-log-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "sine-sweep-log-mono.wav"; sourceTree = "<group>"; };
+		C332217F247D7AAD00BA17F8 /* sine-sweep-nonlog-mono.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "sine-sweep-nonlog-mono.wav"; sourceTree = "<group>"; };
+		C3322180247D7AAE00BA17F8 /* sine-sweep-stereo.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sine-sweep-stereo.aif"; sourceTree = "<group>"; };
 		C343C9FC22469EA500D76273 /* TempiFFT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempiFFT.swift; sourceTree = "<group>"; };
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36550111E49278600D24131 /* DSWaveformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
@@ -143,14 +151,17 @@
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXGroup;
 			children = (
+				C365502E1E4927A300D24131 /* AppDelegate.swift */,
+				C36550351E4927A300D24131 /* Assets.xcassets */,
 				C322CC551E4A475800B52247 /* example_sound_2.m4a */,
 				C36550481E49298100D24131 /* example_sound.m4a */,
-				C365502E1E4927A300D24131 /* AppDelegate.swift */,
-				C36550301E4927A300D24131 /* ViewController.swift */,
-				C36550321E4927A300D24131 /* Main.storyboard */,
-				C36550351E4927A300D24131 /* Assets.xcassets */,
-				C36550371E4927A300D24131 /* LaunchScreen.storyboard */,
 				C365503A1E4927A300D24131 /* Info.plist */,
+				C36550371E4927A300D24131 /* LaunchScreen.storyboard */,
+				C36550321E4927A300D24131 /* Main.storyboard */,
+				C332217E247D7AAD00BA17F8 /* sine-sweep-log-mono.wav */,
+				C332217F247D7AAD00BA17F8 /* sine-sweep-nonlog-mono.wav */,
+				C3322180247D7AAE00BA17F8 /* sine-sweep-stereo.aif */,
+				C36550301E4927A300D24131 /* ViewController.swift */,
 			);
 			path = DSWaveformImageExample;
 			sourceTree = "<group>";
@@ -164,6 +175,7 @@
 				C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */,
 				C36550411E4927BC00D24131 /* WaveformImageTypes.swift */,
 				C36550421E4927BC00D24131 /* WaveformImageView.swift */,
+				C3322176247D3A3700BA17F8 /* SpectralView.swift */,
 			);
 			path = DSWaveformImage;
 			sourceTree = "<group>";
@@ -304,8 +316,11 @@
 			files = (
 				C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */,
 				C36550391E4927A300D24131 /* LaunchScreen.storyboard in Resources */,
+				C3322183247D7AAE00BA17F8 /* sine-sweep-stereo.aif in Resources */,
 				C36550491E49298100D24131 /* example_sound.m4a in Resources */,
+				C3322182247D7AAE00BA17F8 /* sine-sweep-nonlog-mono.wav in Resources */,
 				C36550361E4927A300D24131 /* Assets.xcassets in Resources */,
+				C3322181247D7AAE00BA17F8 /* sine-sweep-log-mono.wav in Resources */,
 				C36550341E4927A300D24131 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +335,7 @@
 				C343C9FD22469EA500D76273 /* TempiFFT.swift in Sources */,
 				C36550461E4927BC00D24131 /* WaveformImageView.swift in Sources */,
 				C36550441E4927BC00D24131 /* WaveformImageDrawer.swift in Sources */,
+				C3322177247D3A3700BA17F8 /* SpectralView.swift in Sources */,
 				C36550451E4927BC00D24131 /* WaveformImageTypes.swift in Sources */,
 				C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */,
 				C36550431E4927BC00D24131 /* ColorExtensions.swift in Sources */,

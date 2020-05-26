@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -34,19 +34,15 @@
                                             <constraint firstAttribute="width" secondItem="J48-qg-hXd" secondAttribute="height" multiplier="16:9" priority="900" id="t5F-rm-fdn"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aQM-Ik-oVa">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OXQ-iB-650" customClass="SpectralView" customModule="DSWaveformImage">
                                         <rect key="frame" x="0.0" y="378.5" width="320" height="189.5"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="aQM-Ik-oVa" secondAttribute="height" multiplier="16:9" priority="900" id="Exg-81-t2N"/>
-                                        </constraints>
-                                    </imageView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="aQM-Ik-oVa" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Cmd-wL-qej"/>
                                     <constraint firstAttribute="trailing" secondItem="3wf-8h-Skp" secondAttribute="trailing" id="KFG-p3-CgC"/>
                                     <constraint firstAttribute="trailing" secondItem="J48-qg-hXd" secondAttribute="trailing" id="UiG-kY-hqs"/>
                                     <constraint firstItem="J48-qg-hXd" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Vov-c9-DGA"/>
-                                    <constraint firstAttribute="trailing" secondItem="aQM-Ik-oVa" secondAttribute="trailing" id="hUn-Ry-snr"/>
                                     <constraint firstItem="3wf-8h-Skp" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="kSa-YC-z5V"/>
                                 </constraints>
                             </stackView>
@@ -60,7 +56,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="bottomWaveformView" destination="aQM-Ik-oVa" id="iev-uC-R8S"/>
+                        <outlet property="bottomWaveformView" destination="OXQ-iB-650" id="17M-PC-AGh"/>
                         <outlet property="middleWaveformView" destination="J48-qg-hXd" id="zoE-RX-g3F"/>
                         <outlet property="topWaveformView" destination="3wf-8h-Skp" id="PwX-zb-tPA"/>
                     </connections>

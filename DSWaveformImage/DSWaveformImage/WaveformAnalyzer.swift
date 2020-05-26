@@ -34,11 +34,11 @@ public class WaveformAnalyzer {
         self.assetReader = assetReader
         self.audioAssetTrack = assetTrack
     }
-    
+
     /// Returns the calculated waveform of the initialized asset URL.
-    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ amplitudes: [Float]?) -> ()) {
-        waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
-            completionHandler(analysis?.amplitudes)
+    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ amplitudes: [Float]?, _ fft: [TempiFFT]?) -> ()) {
+        waveformSamples(count: count, qos: qos, fftBands: count) { analysis in
+            completionHandler(analysis?.amplitudes, analysis?.fft)
         }
     }
 }
@@ -47,7 +47,7 @@ public class WaveformAnalyzer {
 
 fileprivate extension WaveformAnalyzer {
     private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
-    
+
     func waveformSamples(
             count requiredNumberOfSamples: Int,
             qos: DispatchQoS.QoSClass,
@@ -189,9 +189,18 @@ fileprivate extension WaveformAnalyzer {
             var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
             vDSP_vflt16(unsafeSamplesPointer, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float
 
+            // guess we need to do this if we're in stereo
+//            let monoBuffer = stride(from: 0, to: processingBuffer.count, by: 2).map { processingBuffer[$0] }
+
             repeat {
-                let fftBuffer = processingBuffer[0..<samplesPerFFT]
+                // divide by 2 since we do mono as a test
+//                let fftBuffer = monoBuffer[0..<(samplesPerFFT / 2)]
+//                let fft = TempiFFT(withSize: samplesPerFFT / 2, sampleRate: 44100.0)
+
+                let fftBuffer = processingBuffer[0..<(samplesPerFFT)]
                 let fft = TempiFFT(withSize: samplesPerFFT, sampleRate: 44100.0)
+
+
                 fft.windowType = TempiFFTWindowType.hanning
                 fft.fftForward(Array(fftBuffer))
                 fft.calculateLinearBands(minFrequency: 0, maxFrequency: fft.nyquistFrequency, numberOfBands: fftBands)

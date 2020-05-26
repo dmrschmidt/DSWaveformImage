@@ -12,13 +12,13 @@ import DSWaveformImage
 class ViewController: UIViewController {
     @IBOutlet weak var topWaveformView: UIImageView!
     @IBOutlet weak var middleWaveformView: WaveformImageView!
-    @IBOutlet weak var bottomWaveformView: UIImageView!
+    @IBOutlet weak var bottomWaveformView: SpectralView!
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         let waveformImageDrawer = WaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+        let audioURL = Bundle.main.url(forResource: "sine-sweep-nonlog-mono", withExtension: "wav")!
 
         // always uses background thread rendering
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
@@ -34,21 +34,24 @@ class ViewController: UIViewController {
         middleWaveformView.waveformColor = UIColor.red
         middleWaveformView.waveformAudioURL = audioURL
 
-        let configuration = WaveformConfiguration(size: bottomWaveformView.bounds.size,
-                                                  color: UIColor.blue,
-                                                  style: .filled,
-                                                  position: .bottom)
-
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in
+        let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+        waveformAnalyzer?.samples(count: Int(UIScreen.main.bounds.size.width) * Int(UIScreen.main.scale)) { samples, ffts in
             DispatchQueue.main.async {
-                self.bottomWaveformView.image = image
+                print("we got \(ffts?.count ?? 0) ffts")
+                guard let remaining = ffts else { return }
+                self.updateFFTView(fft: remaining.first!, remaining: Array(remaining.dropFirst()))
             }
         }
+    }
+    
+    private func updateFFTView(fft: TempiFFT, remaining: [TempiFFT]) {
+        self.bottomWaveformView.fft = fft
+        self.bottomWaveformView.setNeedsDisplay()
+        
+        guard !remaining.isEmpty else { return }
 
-        // get access to the raw, normalized amplitude samples
-        let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-        waveformAnalyzer?.samples(count: 10) { samples in
-            print("sampled down to 10, results are \(samples ?? [])")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            self.updateFFTView(fft: remaining.first!, remaining: Array(remaining.dropFirst()))
         }
     }
 }
