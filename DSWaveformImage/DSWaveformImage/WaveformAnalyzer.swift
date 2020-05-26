@@ -16,6 +16,12 @@ struct WaveformAnalysis {
     let fft: [TempiFFT]?
 }
 
+struct AudioInfo {
+    let totalSamples: Int
+    let channelCount: Int
+    let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
+}
+
 /// Calculates the waveform of the initialized asset URL.
 public class WaveformAnalyzer {
     private let assetReader: AVAssetReader
@@ -61,9 +67,9 @@ fileprivate extension WaveformAnalyzer {
             let status = self.assetReader.asset.statusOfValue(forKey: "duration", error: &error)
             switch status {
             case .loaded:
-                let totalSamples = self.totalSamplesOfTrack()
+                let audioInfo = self.audioInfoOfTrack()
                 DispatchQueue.global(qos: qos).async {
-                    let analysis = self.extract(totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
+                    let analysis = self.extract(audioInfo: audioInfo, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
 
                     switch self.assetReader.status {
                     case .completed:
@@ -84,7 +90,7 @@ fileprivate extension WaveformAnalyzer {
         }
     }
 
-    func extract(totalSamples: Int,
+    func extract(audioInfo: AudioInfo,
                  downsampledTo targetSampleCount: Int,
                  fftBands: Int?) -> WaveformAnalysis {
         var outputSamples = [Float]()
@@ -93,8 +99,7 @@ fileprivate extension WaveformAnalyzer {
         var sampleBufferFFT = Data()
 
         // read upfront to avoid frequent re-calculation (and memory bloat from C-bridging)
-        let samplesPerPixel = max(1, totalSamples / targetSampleCount)
-        let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
+        let samplesPerPixel = max(1, audioInfo.totalSamples / targetSampleCount)
 
         self.assetReader.startReading()
         while self.assetReader.status == .reading {
@@ -120,9 +125,11 @@ fileprivate extension WaveformAnalyzer {
                 sampleBuffer.removeFirst(processedSamples.count * samplesPerPixel * MemoryLayout<Int16>.size)
             }
 
-            if let fftBands = fftBands, sampleBufferFFT.count / MemoryLayout<Int16>.size >= samplesPerFFT {
-                let processedFFTs = process(sampleBufferFFT, samplesPerFFT: samplesPerFFT, fftBands: fftBands)
-                sampleBufferFFT.removeFirst(processedFFTs.count * samplesPerFFT * MemoryLayout<Int16>.size)
+            // we need mono here, so make sure we collect enough samples if we're not in mono yet
+            let monoBufferCount = sampleBufferFFT.count / audioInfo.channelCount / MemoryLayout<Int16>.size
+            if let fftBands = fftBands, monoBufferCount >= audioInfo.samplesPerFFT {
+                let processedFFTs = process(sampleBufferFFT, audioInfo: audioInfo, fftBands: fftBands)
+                sampleBufferFFT.removeFirst(processedFFTs.count * audioInfo.samplesPerFFT * MemoryLayout<Int16>.size)
                 outputFFT? += processedFFTs
             }
         }
@@ -177,7 +184,7 @@ fileprivate extension WaveformAnalyzer {
     }
 
     private func process(_ sampleBuffer: Data,
-                         samplesPerFFT: Int,
+                         audioInfo: AudioInfo,
                          fftBands: Int) -> [TempiFFT] {
         var ffts = [TempiFFT]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
@@ -189,25 +196,20 @@ fileprivate extension WaveformAnalyzer {
             var processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
             vDSP_vflt16(unsafeSamplesPointer, 1, &processingBuffer, 1, samplesToProcess) // convert 16bit int to float
 
-            // guess we need to do this if we're in stereo
-//            let monoBuffer = stride(from: 0, to: processingBuffer.count, by: 2).map { processingBuffer[$0] }
+            // mono conversion
+            let monoBuffer = convertToMono(buffer: processingBuffer, audioInfo: audioInfo)
+            print("original: \(processingBuffer.count); mono: \(monoBuffer.count)")
 
             repeat {
-                // divide by 2 since we do mono as a test
-//                let fftBuffer = monoBuffer[0..<(samplesPerFFT / 2)]
-//                let fft = TempiFFT(withSize: samplesPerFFT / 2, sampleRate: 44100.0)
-
-                let fftBuffer = processingBuffer[0..<(samplesPerFFT)]
-                let fft = TempiFFT(withSize: samplesPerFFT, sampleRate: 44100.0)
-
-
+                let fftBuffer = monoBuffer[0..<(audioInfo.samplesPerFFT)]
+                let fft = TempiFFT(withSize: audioInfo.samplesPerFFT, sampleRate: 44100.0)
                 fft.windowType = TempiFFTWindowType.hanning
                 fft.fftForward(Array(fftBuffer))
                 fft.calculateLinearBands(minFrequency: 0, maxFrequency: fft.nyquistFrequency, numberOfBands: fftBands)
                 ffts.append(fft)
 
-                processingBuffer.removeFirst(samplesPerFFT)
-            } while processingBuffer.count >= samplesPerFFT
+                processingBuffer.removeFirst(audioInfo.samplesPerFFT)
+            } while processingBuffer.count >= audioInfo.samplesPerFFT
         }
         return ffts
     }
@@ -217,14 +219,15 @@ fileprivate extension WaveformAnalyzer {
     }
 
     // swiftlint:disable force_cast
-    private func totalSamplesOfTrack() -> Int {
+    private func audioInfoOfTrack() -> AudioInfo {
         var totalSamples = 0
+        var channelCount = 0
 
         autoreleasepool {
             let descriptions = audioAssetTrack.formatDescriptions as! [CMFormatDescription]
             descriptions.forEach { formatDescription in
                 guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
-                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
                 let sampleRate = basicDescription.pointee.mSampleRate
                 let duration = Double(assetReader.asset.duration.value)
                 let timescale = Double(assetReader.asset.duration.timescale)
@@ -233,9 +236,14 @@ fileprivate extension WaveformAnalyzer {
             }
         }
 
-        return totalSamples
+        return AudioInfo(totalSamples: totalSamples, channelCount: channelCount)
     }
     // swiftlint:enable force_cast
+
+    private func convertToMono(buffer: [Float], audioInfo: AudioInfo) -> [Float] {
+        // TODO: proper mono conversion here
+        return stride(from: 0, to: buffer.count, by: audioInfo.channelCount).map { buffer[$0] }
+    }
 }
 
 // MARK: - Configuration
