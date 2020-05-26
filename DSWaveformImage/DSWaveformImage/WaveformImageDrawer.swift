@@ -67,18 +67,34 @@ private extension WaveformImageDrawer {
     }
 
     private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
-        let context = UIGraphicsGetCurrentContext()!
+        if #available(iOS 10.0, *) {
+            let format = UIGraphicsImageRendererFormat()
+            format.scale = configuration.scale
+            let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
+
+            return renderer.image { renderContext in
+                draw(on: renderContext.cgContext, from: samples, with: configuration)
+            }
+        } else {
+            UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
+            
+            let context = UIGraphicsGetCurrentContext()!
+            
+            draw(on: context, from: samples, with: configuration)
+
+            let graphImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            return graphImage
+        }
+    }
+    
+    private func draw(on context: CGContext, from samples: [Float], with configuration: WaveformConfiguration) {
         context.setAllowsAntialiasing(true)
         context.setShouldAntialias(true)
 
         drawBackground(on: context, with: configuration)
         drawGraph(from: samples, on: context, with: configuration)
-
-        let graphImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return graphImage
     }
 
     private func drawBackground(on context: CGContext, with configuration: WaveformConfiguration) {
