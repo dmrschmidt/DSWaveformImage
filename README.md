@@ -42,7 +42,8 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
     DispatchQueue.main.async {
         self.topWaveformView.image = image
     }
-}```
+}
+```
 
 To create a `WaveformImageView` (`UIImageView` subclass):
 
