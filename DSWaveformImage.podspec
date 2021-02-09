@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.author             = "Dennis Schmidt"
   s.social_media_url   = "http://twitter.com/dmrschmidt"
 
-  s.platform      = :ios, "8.0"
+  s.platform      = :ios, "9.0"
   s.source        = { :git => "https://github.com/dmrschmidt/DSWaveformImage.git", :tag => "#{s.version}" }
   s.source_files  = 'DSWaveformImage', 'DSWaveformImage/**/*.swift'
   s.frameworks    = 'AVFoundation'
