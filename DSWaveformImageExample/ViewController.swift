@@ -21,10 +21,12 @@ class ViewController: UIViewController {
         let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 
         // always uses background thread rendering
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
-                                          size: topWaveformView.bounds.size,
-                                          style: .filled,
-                                          position: .top) { image in
+        waveformImageDrawer.waveformImage(
+            fromAudioAt: audioURL,
+            size: topWaveformView.bounds.size,
+            style: .filled,
+            position: .top
+        ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
                 self.topWaveformView.image = image
@@ -34,12 +36,14 @@ class ViewController: UIViewController {
         middleWaveformView.waveformColor = UIColor.red
         middleWaveformView.waveformAudioURL = audioURL
 
-        let configuration = WaveformConfiguration(size: bottomWaveformView.bounds.size,
-                                                  color: UIColor.blue,
-                                                  style: .striped,
-                                                  position: .bottom,
-                                                  stripeWidth: 5,
-                                                  stripeSpacing: 2)
+        let configuration = WaveformConfiguration(
+            size: bottomWaveformView.bounds.size,
+            color: UIColor.blue,
+            style: .striped,
+            position: .bottom,
+            stripeWidth: 5,
+            stripeSpacing: 2
+        )
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in
             DispatchQueue.main.async {
@@ -54,4 +58,3 @@ class ViewController: UIViewController {
         }
     }
 }
-
