@@ -18,14 +18,21 @@ class ViewController: UIViewController {
         super.viewDidAppear(animated)
 
         let waveformImageDrawer = WaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
 
         // always uses background thread rendering
         waveformImageDrawer.waveformImage(
             fromAudioAt: audioURL,
             size: topWaveformView.bounds.size,
-            style: .filled,
-            position: .top
+            style: .gradient(
+                [
+                    UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
+                    UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
+                    UIColor.red
+                ]
+            ),
+            position: .top,
+            paddingFactor: 0.5
         ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
@@ -33,16 +40,17 @@ class ViewController: UIViewController {
             }
         }
 
-        middleWaveformView.waveformColor = UIColor.red
+        let middleColor = UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)
+        middleWaveformView.waveformStyle = .filled(middleColor)
         middleWaveformView.waveformAudioURL = audioURL
 
         let configuration = WaveformConfiguration(
             size: bottomWaveformView.bounds.size,
-            color: UIColor.blue,
-            style: .striped,
+            style: .striped(UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1)),
             position: .bottom,
+            paddingFactor: 0.5,
             stripeWidth: 5,
-            stripeSpacing: 2
+            stripeSpacing: 3
         )
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in

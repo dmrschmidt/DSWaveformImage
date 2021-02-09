@@ -16,7 +16,6 @@ public class WaveformImageDrawer {
         let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
                                 height: configuration.size.height * configuration.scale)
         let scaledConfiguration = WaveformConfiguration(size: scaledSize,
-                                                        color: configuration.color,
                                                         backgroundColor: configuration.backgroundColor,
                                                         style: configuration.style,
                                                         position: configuration.position,
@@ -34,15 +33,14 @@ public class WaveformImageDrawer {
     /// Renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               size: CGSize,
-                              color: UIColor = UIColor.black,
                               backgroundColor: UIColor = UIColor.clear,
-                              style: WaveformStyle = .gradient,
+                              style: WaveformStyle = .gradient([UIColor.black, UIColor.darkGray]),
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
                               paddingFactor: CGFloat? = nil,
                               qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
-        let configuration = WaveformConfiguration(size: size, color: color, backgroundColor: backgroundColor,
+        let configuration = WaveformConfiguration(size: size, backgroundColor: backgroundColor,
                                                   style: style, position: position, scale: scale,
                                                   paddingFactor: paddingFactor)
         waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
@@ -120,7 +118,7 @@ private extension WaveformImageDrawer {
         let nStripes = configuration.size.width / (stripeLineWidth + (configuration.stripeSpacing ?? 5))
         let drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
 
-        if configuration.style == .striped {
+        if case .striped = configuration.style {
             context.setLineWidth(stripeLineWidth)
         } else {
             context.setLineWidth(1.0 / configuration.scale)
@@ -134,7 +132,7 @@ private extension WaveformImageDrawer {
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
 
-            if configuration.style == .striped && (Int(x) % drawEveryNSamples != 0) {
+            if case .striped = configuration.style, (Int(x) % drawEveryNSamples != 0) {
                 continue
             }
 
@@ -144,16 +142,13 @@ private extension WaveformImageDrawer {
         context.addPath(path)
 
         switch configuration.style {
-        case .filled, .striped:
-            context.setStrokeColor(configuration.color.cgColor)
+        case let .filled(color), let .striped(color):
+            context.setStrokeColor(color.cgColor)
             context.strokePath()
-        case .gradient:
+        case let .gradient(colors):
             context.replacePathWithStrokedPath()
             context.clip()
-            let colors = NSArray(array: [
-                configuration.color.cgColor,
-                configuration.color.highlighted(brightnessAdjustment: 0.5).cgColor
-            ]) as CFArray
+            let colors = NSArray(array: colors.map(\.cgColor)) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
             context.drawLinearGradient(gradient,

@@ -6,10 +6,6 @@ public class WaveformImageView: UIImageView {
     private let waveformImageDrawer: WaveformImageDrawer
     private var waveformAnalyzer: WaveformAnalyzer?
 
-    public var waveformColor: UIColor {
-        didSet { updateWaveform() }
-    }
-
     public var waveformStyle: WaveformStyle {
         didSet { updateWaveform() }
     }
@@ -23,16 +19,14 @@ public class WaveformImageView: UIImageView {
     }
 
     override public init(frame: CGRect) {
-        waveformColor = UIColor.darkGray
-        waveformStyle = .gradient
+        waveformStyle = .gradient([UIColor.black, UIColor.darkGray])
         waveformPosition = .middle
         waveformImageDrawer = WaveformImageDrawer()
         super.init(frame: frame)
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        waveformColor = UIColor.darkGray
-        waveformStyle = .gradient
+        waveformStyle = .gradient([UIColor.black, UIColor.darkGray])
         waveformPosition = .middle
         waveformImageDrawer = WaveformImageDrawer()
         super.init(coder: aDecoder)
@@ -47,7 +41,7 @@ public class WaveformImageView: UIImageView {
 private extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size, color: waveformColor,
+        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size,
                                           style: waveformStyle, position: waveformPosition,
                                           scale: UIScreen.main.scale, qos: .userInitiated) { image in
                                             DispatchQueue.main.async {

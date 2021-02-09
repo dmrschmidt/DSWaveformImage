@@ -37,7 +37,7 @@ let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                   size: topWaveformView.bounds.size,
-                                  style: .striped,
+                                  style: .striped(UIColor.black),
                                   position: .top) { image in
     // need to jump back to main queue
     DispatchQueue.main.async {
@@ -75,6 +75,8 @@ Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
 
 Migration
 ---------
+
+In 7.0.0 colors have moved into associated values on the respective `style` enum.
 
 `Waveform` and the `UIImage` category have been removed in 6.0.0 to simplify the API.
 See `Usage` for current usage.

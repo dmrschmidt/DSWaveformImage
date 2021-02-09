@@ -29,19 +29,16 @@ public enum WaveformPosition {
  - **gradient**: Use gradient based on color for the waveform.
  - **striped**: Use striped filling based on color for the waveform.
  */
-public enum WaveformStyle: Int {
-    case filled = 0
-    case gradient
-    case striped
+public enum WaveformStyle {
+    case filled(UIColor)
+    case gradient([UIColor])
+    case striped(UIColor)
 }
 
 /// Allows customization of the waveform output image.
 public struct WaveformConfiguration {
     /// Desired output size of the waveform image, works together with scale.
     let size: CGSize
-
-    /// Color of the waveform, defaults to black.
-    let color: UIColor
 
     /// Background color of the waveform, defaults to clear.
     let backgroundColor: UIColor
@@ -65,15 +62,13 @@ public struct WaveformConfiguration {
     let stripeSpacing: CGFloat?
 
     public init(size: CGSize,
-                color: UIColor = UIColor.black,
                 backgroundColor: UIColor = UIColor.clear,
-                style: WaveformStyle = .gradient,
+                style: WaveformStyle = .gradient([UIColor.black, UIColor.gray]),
                 position: WaveformPosition = .middle,
                 scale: CGFloat = UIScreen.main.scale,
                 paddingFactor: CGFloat? = nil,
                 stripeWidth: CGFloat? = nil,
                 stripeSpacing: CGFloat? = nil) {
-        self.color = color
         self.backgroundColor = backgroundColor
         self.style = style
         self.position = position
