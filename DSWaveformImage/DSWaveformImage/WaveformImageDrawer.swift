@@ -21,7 +21,9 @@ public class WaveformImageDrawer {
                                                         style: configuration.style,
                                                         position: configuration.position,
                                                         scale: configuration.scale,
-                                                        paddingFactor: configuration.paddingFactor)
+                                                        paddingFactor: configuration.paddingFactor,
+                                                        stripeWidth: configuration.stripeWidth,
+                                                        stripeSpacing: configuration.stripeSpacing)
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
@@ -113,7 +115,17 @@ private extension WaveformImageDrawer {
 
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
-        context.setLineWidth(1.0 / configuration.scale)
+
+        let stripeLineWidth = configuration.stripeWidth ?? 1
+        let nStripes = configuration.size.width / (stripeLineWidth + (configuration.stripeSpacing ?? 5))
+        let drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
+
+        if configuration.style == .striped {
+            context.setLineWidth(stripeLineWidth)
+        } else {
+            context.setLineWidth(1.0 / configuration.scale)
+        }
+
         for (x, sample) in samples.enumerated() {
             let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
@@ -122,7 +134,9 @@ private extension WaveformImageDrawer {
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
 
-            if configuration.style == .striped && (Int(xPos) % 5 != 0) { continue }
+            if configuration.style == .striped && (Int(x) % drawEveryNSamples != 0) {
+                continue
+            }
 
             path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
             path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))

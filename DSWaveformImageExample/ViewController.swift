@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         // always uses background thread rendering
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                           size: topWaveformView.bounds.size,
-                                          style: .striped,
+                                          style: .filled,
                                           position: .top) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
@@ -36,8 +36,10 @@ class ViewController: UIViewController {
 
         let configuration = WaveformConfiguration(size: bottomWaveformView.bounds.size,
                                                   color: UIColor.blue,
-                                                  style: .filled,
-                                                  position: .bottom)
+                                                  style: .striped,
+                                                  position: .bottom,
+                                                  stripeWidth: 5,
+                                                  stripeSpacing: 2)
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in
             DispatchQueue.main.async {
