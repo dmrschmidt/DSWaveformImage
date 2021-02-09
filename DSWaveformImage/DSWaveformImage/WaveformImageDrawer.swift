@@ -79,9 +79,9 @@ private extension WaveformImageDrawer {
             }
         } else {
             UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
-            
+
             let context = UIGraphicsGetCurrentContext()!
-            
+
             draw(on: context, from: samples, with: configuration)
 
             let graphImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -90,7 +90,7 @@ private extension WaveformImageDrawer {
             return graphImage
         }
     }
-    
+
     private func draw(on context: CGContext, from samples: [Float], with configuration: WaveformConfiguration) {
         context.setAllowsAntialiasing(true)
         context.setShouldAntialias(true)
