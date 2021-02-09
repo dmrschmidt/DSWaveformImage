@@ -19,8 +19,9 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 6.1`
-* use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "7.0.0"
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0`
+* use cocoapods: `pod 'DSWaveformImage', '~> 6.1'` (deprecated since 6.1.1)
 * manually: checkout the repo and build the DSWaveformImage.framework, then add to your project
 * or simply add the DSWaveformImage folder directly into your project.
 
