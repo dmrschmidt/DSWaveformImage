@@ -1,4 +1,5 @@
 import AVFoundation
+import UIKit
 
 /**
  Position of the drawn waveform:
@@ -11,7 +12,7 @@ public enum WaveformPosition {
     case middle
     case bottom
     case custom(Double)
-    
+
     func value() -> Double {
         switch self {
         case .top: return 0.0
