@@ -109,7 +109,14 @@ import Accelerate
         // Init the complexBuffer
         var real = [Float](repeating: 0.0, count: self.halfSize)
         var imaginary = [Float](repeating: 0.0, count: self.halfSize)
-        self.complexBuffer = DSPSplitComplex(realp: &real, imagp: &imaginary)
+
+        super.init()
+
+        real.withUnsafeMutableBufferPointer { realBP in
+            imaginary.withUnsafeMutableBufferPointer { imaginaryBP in
+                self.complexBuffer = DSPSplitComplex(realp: realBP.baseAddress!, imagp: imaginaryBP.baseAddress!)
+            }
+        }
     }
 
     deinit {
@@ -160,7 +167,11 @@ import Accelerate
                 imags.append(element)
             }
         }
-        self.complexBuffer = DSPSplitComplex(realp: UnsafeMutablePointer(mutating: reals), imagp: UnsafeMutablePointer(mutating: imags))
+        reals.withUnsafeMutableBufferPointer { realsBP in
+            imags.withUnsafeMutableBufferPointer { imagsBP in
+                self.complexBuffer = DSPSplitComplex(realp: realsBP.baseAddress!, imagp: imagsBP.baseAddress!)
+            }
+        }
 
         // This compiles without error but doesn't actually work. It results in garbage values being stored to the complexBuffer's real and imag parts. Why? The above workaround is undoubtedly tons slower so it would be good to get vDSP_ctoz working again.
         //        withUnsafePointer(to: &analysisBuffer, { $0.withMemoryRebound(to: DSPComplex.self, capacity: analysisBuffer.count) {
@@ -220,8 +231,9 @@ import Accelerate
     // On arrays of 1024 elements, this is ~35x faster than an iterational algorithm. Thanks Accelerate.framework!
     @inline(__always) private func fastAverage(_ array:[Float], _ startIdx: Int, _ stopIdx: Int) -> Float {
         var mean: Float = 0
-        let ptr = UnsafePointer<Float>(array)
-        vDSP_meanv(ptr + startIdx, 1, &mean, UInt(stopIdx - startIdx))
+        array.withUnsafeBufferPointer { arrayBP in
+            vDSP_meanv(arrayBP.baseAddress! + startIdx, 1, &mean, UInt(stopIdx - startIdx))
+        }
 
         return mean
     }
