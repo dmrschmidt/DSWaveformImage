@@ -11,8 +11,6 @@
 		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
 		C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */; };
 		C343C9FD22469EA500D76273 /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343C9FC22469EA500D76273 /* TempiFFT.swift */; };
-		C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
-		C365501D1E49278700D24131 /* DSWaveformImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365501C1E49278700D24131 /* DSWaveformImageTests.swift */; };
 		C365501F1E49278700D24131 /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C36550111E49278600D24131 /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C365502F1E4927A300D24131 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C365502E1E4927A300D24131 /* AppDelegate.swift */; };
 		C36550311E4927A300D24131 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36550301E4927A300D24131 /* ViewController.swift */; };
@@ -26,16 +24,6 @@
 		C36550471E4927EC00D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C36550491E49298100D24131 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C36550481E49298100D24131 /* example_sound.m4a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C36550191E49278700D24131 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C36550051E49278600D24131 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C365500D1E49278600D24131;
-			remoteInfo = DSWaveformImage;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		427707DB2242400B0001C80B /* CopyFiles */ = {
@@ -57,9 +45,6 @@
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C36550111E49278600D24131 /* DSWaveformImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
 		C36550121E49278600D24131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C36550171E49278700D24131 /* DSWaveformImageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DSWaveformImageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C365501C1E49278700D24131 /* DSWaveformImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSWaveformImageTests.swift; sourceTree = "<group>"; };
-		C365501E1E49278700D24131 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C365502C1E4927A300D24131 /* DSWaveformImageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSWaveformImageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C365502E1E4927A300D24131 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C36550301E4927A300D24131 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -82,14 +67,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C36550141E49278700D24131 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C36550181E49278700D24131 /* DSWaveformImage.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C36550291E4927A300D24131 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -105,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				C36550101E49278600D24131 /* DSWaveformImage */,
-				C365501B1E49278700D24131 /* DSWaveformImageTests */,
 				C365502D1E4927A300D24131 /* DSWaveformImageExample */,
 				C365500F1E49278600D24131 /* Products */,
 			);
@@ -115,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				C365500E1E49278600D24131 /* DSWaveformImage.framework */,
-				C36550171E49278700D24131 /* DSWaveformImageTests.xctest */,
 				C365502C1E4927A300D24131 /* DSWaveformImageExample.app */,
 			);
 			name = Products;
@@ -129,15 +104,6 @@
 				C36550121E49278600D24131 /* Info.plist */,
 			);
 			path = DSWaveformImage;
-			sourceTree = "<group>";
-		};
-		C365501B1E49278700D24131 /* DSWaveformImageTests */ = {
-			isa = PBXGroup;
-			children = (
-				C365501C1E49278700D24131 /* DSWaveformImageTests.swift */,
-				C365501E1E49278700D24131 /* Info.plist */,
-			);
-			path = DSWaveformImageTests;
 			sourceTree = "<group>";
 		};
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
@@ -200,24 +166,6 @@
 			productReference = C365500E1E49278600D24131 /* DSWaveformImage.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C36550161E49278700D24131 /* DSWaveformImageTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C36550251E49278700D24131 /* Build configuration list for PBXNativeTarget "DSWaveformImageTests" */;
-			buildPhases = (
-				C36550131E49278700D24131 /* Sources */,
-				C36550141E49278700D24131 /* Frameworks */,
-				C36550151E49278700D24131 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				C365501A1E49278700D24131 /* PBXTargetDependency */,
-			);
-			name = DSWaveformImageTests;
-			productName = DSWaveformImageTests;
-			productReference = C36550171E49278700D24131 /* DSWaveformImageTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		C365502B1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C365503B1E4927A300D24131 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample" */;
@@ -251,11 +199,6 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
-					C36550161E49278700D24131 = {
-						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 1100;
-						ProvisioningStyle = Automatic;
-					};
 					C365502B1E4927A300D24131 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 1020;
@@ -277,7 +220,6 @@
 			projectRoot = "";
 			targets = (
 				C365500D1E49278600D24131 /* DSWaveformImage */,
-				C36550161E49278700D24131 /* DSWaveformImageTests */,
 				C365502B1E4927A300D24131 /* DSWaveformImageExample */,
 			);
 		};
@@ -285,13 +227,6 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		C365500C1E49278600D24131 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C36550151E49278700D24131 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -326,14 +261,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C36550131E49278700D24131 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C365501D1E49278700D24131 /* DSWaveformImageTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C36550281E4927A300D24131 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -344,14 +271,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C365501A1E49278700D24131 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C365500D1E49278600D24131 /* DSWaveformImage */;
-			targetProxy = C36550191E49278700D24131 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C36550321E4927A300D24131 /* Main.storyboard */ = {
@@ -532,32 +451,6 @@
 			};
 			name = Release;
 		};
-		C36550261E49278700D24131 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = DSWaveformImageTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		C36550271E49278700D24131 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				INFOPLIST_FILE = DSWaveformImageTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 		C365503C1E4927A300D24131 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -607,15 +500,6 @@
 			buildConfigurations = (
 				C36550231E49278700D24131 /* Debug */,
 				C36550241E49278700D24131 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C36550251E49278700D24131 /* Build configuration list for PBXNativeTarget "DSWaveformImageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C36550261E49278700D24131 /* Debug */,
-				C36550271E49278700D24131 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
