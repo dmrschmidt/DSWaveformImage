@@ -118,12 +118,6 @@ private extension WaveformImageDrawer {
         let nStripes = configuration.size.width / (stripeLineWidth + (configuration.stripeSpacing ?? 5))
         let drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
 
-        if case .striped = configuration.style {
-            context.setLineWidth(stripeLineWidth)
-        } else {
-            context.setLineWidth(1.0 / configuration.scale)
-        }
-
         for (x, sample) in samples.enumerated() {
             let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
@@ -139,7 +133,16 @@ private extension WaveformImageDrawer {
             path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
             path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
         }
+
         context.addPath(path)
+        context.setAlpha(1.0)
+        context.setShouldAntialias(configuration.shouldAntialias)
+
+        if case .striped = configuration.style {
+            context.setLineWidth(stripeLineWidth)
+        } else {
+            context.setLineWidth(1.0 / configuration.scale)
+        }
 
         switch configuration.style {
         case let .filled(color), let .striped(color):
