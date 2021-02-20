@@ -66,6 +66,10 @@ waveformAnalyzer.samples(count: 200) { samples in
 }
 ```
 
+### Playback Indication
+
+If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21). There's various other ways of course, depending on your use case and design.
+
 What it looks like
 ------------------
 
