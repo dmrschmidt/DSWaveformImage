@@ -1,5 +1,8 @@
 DSWaveformImage
 ===============
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
+
 
 DSWaveformImage offers a few interfaces with the main purpose of drawing the
 envelope waveform of audio files in iOS. To do so, you can use
@@ -70,7 +73,7 @@ Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
 `.striped`. Similarly, there are 3 positions `.top`, `.middle` and `.bottom`
 - relative to the canvas. The effect of each of those can be seen here:
 
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot.png" width="500" alt="Screenshot">
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/screenshot.png" width="500" alt="Screenshot">
 
 Migration
 ---------
@@ -88,4 +91,4 @@ DSWaveformImage is used to draw the waveforms of the audio messages on postcards
 
 Check it out on the [App Store](http://bit.ly/soundcardio).
 
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/master/screenshot3.png" alt="Screenshot">
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/screenshot3.png" alt="Screenshot">
