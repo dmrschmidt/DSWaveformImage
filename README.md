@@ -70,6 +70,10 @@ waveformAnalyzer.samples(count: 200) { samples in
 
 If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21). There's various other ways of course, depending on your use case and design.
 
+### Loading remote audio files from URL
+
+For one example way to display waveforms for audio files on remote URLs see https://github.com/dmrschmidt/DSWaveformImage/issues/22.
+
 What it looks like
 ------------------
 
