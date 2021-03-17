@@ -115,7 +115,10 @@ fileprivate extension WaveformAnalyzer {
             var readBufferPointer: UnsafeMutablePointer<Int8>? = nil
             CMBlockBufferGetDataPointer(blockBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
-            sampleBufferFFT.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
+            if fftBands != nil {
+                //don't append data to this buffer unless we're going to clear it.
+                sampleBufferFFT.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
+            }
             CMSampleBufferInvalidate(nextSampleBuffer)
 
             let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
@@ -124,6 +127,9 @@ fileprivate extension WaveformAnalyzer {
             if processedSamples.count > 0 {
                 // vDSP_desamp uses strides of samplesPerPixel; remove only the processed ones
                 sampleBuffer.removeFirst(processedSamples.count * samplesPerPixel * MemoryLayout<Int16>.size)
+
+                //this takes care of a memory leak where Memory continues to increase even though it should clear after calling .removeFirst(…) above.
+                sampleBuffer = Data(sampleBuffer)
             }
 
             if let fftBands = fftBands, sampleBufferFFT.count / MemoryLayout<Int16>.size >= samplesPerFFT {
@@ -154,6 +160,9 @@ fileprivate extension WaveformAnalyzer {
                          downsampleTo samplesPerPixel: Int) -> [Float] {
         var downSampledData = [Float]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
+
+        guard sampleLength / samplesPerPixel > 0 else { return downSampledData }
+
         sampleBuffer.withUnsafeBytes { (samplesRawPointer: UnsafeRawBufferPointer) in
             let unsafeSamplesBufferPointer = samplesRawPointer.bindMemory(to: Int16.self)
             let unsafeSamplesPointer = unsafeSamplesBufferPointer.baseAddress!
