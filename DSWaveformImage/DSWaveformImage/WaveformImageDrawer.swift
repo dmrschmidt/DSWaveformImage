@@ -20,9 +20,7 @@ public class WaveformImageDrawer {
                                                         style: configuration.style,
                                                         position: configuration.position,
                                                         scale: configuration.scale,
-                                                        paddingFactor: configuration.paddingFactor,
-                                                        stripeWidth: configuration.stripeWidth,
-                                                        stripeSpacing: configuration.stripeSpacing)
+                                                        paddingFactor: configuration.paddingFactor)
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
@@ -39,10 +37,11 @@ public class WaveformImageDrawer {
                               scale: CGFloat = UIScreen.main.scale,
                               paddingFactor: CGFloat? = nil,
                               qos: DispatchQoS.QoSClass = .userInitiated,
+                              shouldAntialias: Bool = false,
                               completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
         let configuration = WaveformConfiguration(size: size, backgroundColor: backgroundColor,
                                                   style: style, position: position, scale: scale,
-                                                  paddingFactor: paddingFactor)
+                                                  paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
         waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
     }
 
@@ -90,8 +89,8 @@ private extension WaveformImageDrawer {
     }
 
     private func draw(on context: CGContext, from samples: [Float], with configuration: WaveformConfiguration) {
-        context.setAllowsAntialiasing(true)
-        context.setShouldAntialias(true)
+        context.setAllowsAntialiasing(configuration.shouldAntialias)
+        context.setShouldAntialias(configuration.shouldAntialias)
 
         drawBackground(on: context, with: configuration)
         drawGraph(from: samples, on: context, with: configuration)
@@ -114,9 +113,11 @@ private extension WaveformImageDrawer {
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
-        let stripeLineWidth = configuration.stripeWidth ?? 1
-        let nStripes = configuration.size.width / (stripeLineWidth + (configuration.stripeSpacing ?? 5))
-        let drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
+        var drawEveryNSamples: Int = 0
+        if case let .striped(config) = configuration.style {
+            let nStripes = configuration.size.width / (config.width + (config.spacing))
+            drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
+        }
 
         for (x, sample) in samples.enumerated() {
             let xPos = CGFloat(x) / configuration.scale
@@ -138,15 +139,18 @@ private extension WaveformImageDrawer {
         context.setAlpha(1.0)
         context.setShouldAntialias(configuration.shouldAntialias)
 
-        if case .striped = configuration.style {
-            context.setLineWidth(stripeLineWidth)
+        if case let .striped(config) = configuration.style {
+            context.setLineWidth(config.width)
         } else {
             context.setLineWidth(1.0 / configuration.scale)
         }
 
         switch configuration.style {
-        case let .filled(color), let .striped(color):
+        case let .filled(color):
             context.setStrokeColor(color.cgColor)
+            context.strokePath()
+        case let .striped(config):
+            context.setStrokeColor(config.color.cgColor)
             context.strokePath()
         case let .gradient(colors):
             context.replacePathWithStrokedPath()

@@ -30,9 +30,26 @@ public enum WaveformPosition {
  - **striped**: Use striped filling based on color for the waveform.
  */
 public enum WaveformStyle {
+    public struct StripeConfig {
+        /// Color of the waveform stripes. Default is clear.
+        public let color: UIColor
+
+        /// Width of stripes drawn. Default is 1
+        public let width: CGFloat
+
+        /// Space between stripes. Default is 5
+        public let spacing: CGFloat
+
+        public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5) {
+            self.color = color
+            self.width = width
+            self.spacing = spacing
+        }
+    }
+
     case filled(UIColor)
     case gradient([UIColor])
-    case striped(UIColor)
+    case striped(StripeConfig)
 }
 
 /// Allows customization of the waveform output image.
@@ -55,12 +72,6 @@ public struct WaveformConfiguration {
     /// Optional padding or vertical shrinking factor for the waveform.
     let paddingFactor: CGFloat?
 
-    /// Width of stripes drawn when style is .striped. Default is 1
-    let stripeWidth: CGFloat?
-
-    /// Space between strips when style is .striped. Default is 5
-    let stripeSpacing: CGFloat?
-
     /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is false.
     let shouldAntialias: Bool
 
@@ -70,8 +81,6 @@ public struct WaveformConfiguration {
                 position: WaveformPosition = .middle,
                 scale: CGFloat = UIScreen.main.scale,
                 paddingFactor: CGFloat? = nil,
-                stripeWidth: CGFloat? = nil,
-                stripeSpacing: CGFloat? = nil,
                 shouldAntialias: Bool = false) {
         self.backgroundColor = backgroundColor
         self.style = style
@@ -79,8 +88,6 @@ public struct WaveformConfiguration {
         self.size = size
         self.scale = scale
         self.paddingFactor = paddingFactor
-        self.stripeWidth = stripeWidth
-        self.stripeSpacing = stripeSpacing
         self.shouldAntialias = shouldAntialias
     }
 }

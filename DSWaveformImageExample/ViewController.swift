@@ -46,11 +46,10 @@ class ViewController: UIViewController {
 
         let configuration = WaveformConfiguration(
             size: bottomWaveformView.bounds.size,
-            style: .striped(UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1)),
+            style: .striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5)),
             position: .bottom,
             paddingFactor: 0.5,
-            stripeWidth: 5,
-            stripeSpacing: 3
+            shouldAntialias: false
         )
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in

@@ -39,7 +39,7 @@ let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
                                   size: topWaveformView.bounds.size,
-                                  style: .striped(UIColor.black),
+                                  style: .filled(UIColor.black),
                                   position: .top) { image in
     // need to jump back to main queue
     DispatchQueue.main.async {
