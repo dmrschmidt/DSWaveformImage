@@ -46,7 +46,7 @@ class ViewController: UIViewController {
 
         let configuration = WaveformConfiguration(
             size: bottomWaveformView.bounds.size,
-            style: .striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5)),
+            style: .striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 10, spacing: 10, lineCap: .round)),
             position: .bottom,
             paddingFactor: 0.5,
             shouldAntialias: false

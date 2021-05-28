@@ -150,6 +150,7 @@ private extension WaveformImageDrawer {
             context.setStrokeColor(color.cgColor)
             context.strokePath()
         case let .striped(config):
+            context.setLineCap(config.lineCap)
             context.setStrokeColor(config.color.cgColor)
             context.strokePath()
         case let .gradient(colors):

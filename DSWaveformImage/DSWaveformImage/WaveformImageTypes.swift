@@ -34,16 +34,20 @@ public enum WaveformStyle {
         /// Color of the waveform stripes. Default is clear.
         public let color: UIColor
 
-        /// Width of stripes drawn. Default is 1
+        /// Width of stripes drawn. Default is `1`
         public let width: CGFloat
 
-        /// Space between stripes. Default is 5
+        /// Space between stripes. Default is `5`
         public let spacing: CGFloat
 
-        public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5) {
+        /// Line cap style. Default is `.square`.
+        public let lineCap: CGLineCap
+
+        public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5, lineCap: CGLineCap = .square) {
             self.color = color
             self.width = width
             self.spacing = spacing
+            self.lineCap = lineCap
         }
     }
 
