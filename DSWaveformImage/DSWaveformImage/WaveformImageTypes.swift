@@ -40,10 +40,10 @@ public enum WaveformStyle {
         /// Space between stripes. Default is `5`
         public let spacing: CGFloat
 
-        /// Line cap style. Default is `.square`.
+        /// Line cap style. Default is `.round`.
         public let lineCap: CGLineCap
 
-        public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5, lineCap: CGLineCap = .square) {
+        public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5, lineCap: CGLineCap = .round) {
             self.color = color
             self.width = width
             self.spacing = spacing

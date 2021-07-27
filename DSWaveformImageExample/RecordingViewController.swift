@@ -5,7 +5,7 @@ import DSWaveformImage
 
 class RecordingViewController: UIViewController {
     @IBOutlet weak var recordButton: UIButton!
-    @IBOutlet weak var waveformView: UIImageView!
+    @IBOutlet weak var waveformView: WaveformSampleView!
 
     private let audioManager: SCAudioManager!
     private let imageDrawer: WaveformImageDrawer!
@@ -23,6 +23,7 @@ class RecordingViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        waveformView.waveformConfiguration = WaveformConfiguration(size: waveformView.bounds.size, style: .filled(.red), paddingFactor: 1)
         audioManager.prepareAudioRecording()
     }
 
@@ -53,19 +54,6 @@ extension RecordingViewController: RecordingDelegate {
         print("current power: \(manager.lastAveragePower()) dB")
         let linear = 1 - pow(10, manager.lastAveragePower() / 20)
         amplitudes.append(linear)
-
-        let amplitudes = amplitudes
-        let imageSize = waveformView.bounds.size
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            let image = self.imageDrawer.waveformImage(
-                from: amplitudes,
-                with: .init(size: imageSize)
-            )
-
-            DispatchQueue.main.async {
-                self.waveformView.image = image
-            }
-        }
+        waveformView.samples = amplitudes
     }
 }

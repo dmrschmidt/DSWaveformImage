@@ -90,26 +90,27 @@
                                     <action selector="didTapRecording" destination="ogB-yT-rId" eventType="touchUpInside" id="GnN-sK-J1C"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QBH-vY-xPb">
-                                <rect key="frame" x="16" y="185.5" width="288" height="197"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcG-A7-gKZ" customClass="WaveformSampleView" customModule="DSWaveformImage">
+                                <rect key="frame" x="16" y="184" width="288" height="200"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="QBH-vY-xPb" secondAttribute="height" multiplier="288:197" id="doe-80-7IX"/>
+                                    <constraint firstAttribute="height" constant="200" id="PcT-qV-d0h"/>
                                 </constraints>
-                            </imageView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4uO-ab-r8j"/>
-                            <constraint firstItem="QBH-vY-xPb" firstAttribute="trailing" secondItem="Qez-1m-x4e" secondAttribute="trailingMargin" id="5pr-93-EHR"/>
-                            <constraint firstItem="QBH-vY-xPb" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" id="JHR-kw-14w"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="Ajd-ux-gn2"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" id="BXp-Z2-Mxu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="I9l-E2-2I8"/>
                             <constraint firstItem="v3e-Lg-ebC" firstAttribute="centerX" secondItem="Qez-1m-x4e" secondAttribute="centerX" id="oVv-Bi-OKm"/>
-                            <constraint firstItem="QBH-vY-xPb" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="xZv-yv-uq5"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Live Recording" id="LYU-YT-ptE"/>
                     <connections>
                         <outlet property="recordButton" destination="v3e-Lg-ebC" id="I93-tT-s1o"/>
-                        <outlet property="waveformView" destination="QBH-vY-xPb" id="Kcn-Ns-feB"/>
+                        <outlet property="waveformView" destination="rcG-A7-gKZ" id="Yet-Fd-ttG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zmF-Oi-Vr3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

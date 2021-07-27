@@ -52,11 +52,31 @@ public class WaveformImageDrawer {
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = configuration.scale
-        let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
+        let size = CGSize(width: max(configuration.size.width, CGFloat(samples.count) / configuration.scale), height: configuration.size.height)
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
 
         return renderer.image { renderContext in
             draw(on: renderContext.cgContext, from: samples, with: configuration)
         }
+    }
+
+    public func waveformImage(from samples: [Float], with configuration: WaveformConfiguration, context: CGContext) {
+        guard samples.count > 0 else {
+            return
+        }
+
+        var clampedSamples = samples
+        if case .striped = configuration.style {
+            let stripeDivisableLeftover = samples.count % stripeCount(configuration)
+            clampedSamples = Array(samples[0..<(samples.count - stripeDivisableLeftover)])
+        }
+
+        let samplesNeeded = Int(configuration.size.width) * Int(configuration.scale)
+        let startSample = max(0, clampedSamples.count - samplesNeeded)
+        let clippedSamples = Array(clampedSamples[startSample..<clampedSamples.count])
+        let paddedSamples = clippedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count)
+
+        draw(on: context, from: paddedSamples, with: configuration)
     }
 
     // swiftlint:enable function_parameter_count
@@ -99,28 +119,22 @@ private extension WaveformImageDrawer {
         let positionAdjustedGraphCenter = CGFloat(configuration.position.value()) * graphRect.size.height
         let verticalPaddingDivisor = configuration.paddingFactor ?? CGFloat(configuration.position.value() == 0.5 ? 2.5 : 1.5)
         let drawMappingFactor = graphRect.size.height / verticalPaddingDivisor
-        let minimumGraphAmplitude: CGFloat = 1 // we want to see at least a 1pt line for silence
+        let minimumGraphAmplitude: CGFloat = 1 / configuration.scale / 2 // we want to see at least a 1px line for silence
 
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
-        var drawEveryNSamples: Int = 0
-        if case let .striped(config) = configuration.style {
-            let nStripes = configuration.size.width / (config.width + (config.spacing))
-            drawEveryNSamples = Int(ceil(CGFloat(samples.count)) / nStripes)
-        }
-
         for (x, sample) in samples.enumerated() {
+            if case .striped = configuration.style, x % stripeCount(configuration) != 0 {
+                continue
+            }
+
             let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
-
-            if case .striped = configuration.style, (Int(x) % drawEveryNSamples != 0) {
-                continue
-            }
 
             path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
             path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
@@ -154,6 +168,14 @@ private extension WaveformImageDrawer {
                                        start: CGPoint(x: 0, y: positionAdjustedGraphCenter - maxAmplitude),
                                        end: CGPoint(x: 0, y: positionAdjustedGraphCenter + maxAmplitude),
                                        options: .drawsAfterEndLocation)
+        }
+    }
+
+    private func stripeCount(_ configuration: WaveformConfiguration) -> Int {
+        if case let .striped(stripeConfig) = configuration.style {
+            return Int(configuration.size.width / (stripeConfig.width + stripeConfig.spacing))
+        } else {
+            return 0
         }
     }
 }
