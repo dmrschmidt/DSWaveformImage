@@ -94,4 +94,8 @@ public struct WaveformConfiguration {
         self.paddingFactor = paddingFactor
         self.shouldAntialias = shouldAntialias
     }
+
+    func withSize(size: CGSize) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
 }
