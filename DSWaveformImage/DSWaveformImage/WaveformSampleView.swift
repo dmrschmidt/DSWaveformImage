@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 public class WaveformSampleView: UIView {
     private var sampleLayer: WaveformSampleLayer! {
