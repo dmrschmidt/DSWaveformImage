@@ -23,6 +23,8 @@
 		C36550471E4927EC00D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C36550491E49298100D24131 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C36550481E49298100D24131 /* example_sound.m4a */; };
 		C37C6E5C25D329DC00B96481 /* example_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C37C6E5B25D329DC00B96481 /* example_sound.wav */; };
+		C3C8221426A96FFA0026591C /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221326A96FFA0026591C /* RecordingViewController.swift */; };
+		C3C8221926A9DF610026591C /* SCAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221826A9DF610026591C /* SCAudioManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +59,10 @@
 		C36550421E4927BC00D24131 /* WaveformImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageView.swift; sourceTree = "<group>"; };
 		C36550481E49298100D24131 /* example_sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound.m4a; sourceTree = "<group>"; };
 		C37C6E5B25D329DC00B96481 /* example_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = example_sound.wav; sourceTree = "<group>"; };
+		C3C8221326A96FFA0026591C /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
+		C3C8221726A9DF610026591C /* DSWaveformImageExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DSWaveformImageExample-Bridging-Header.h"; sourceTree = "<group>"; };
+		C3C8221826A9DF610026591C /* SCAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCAudioManager.m; sourceTree = "<group>"; };
+		C3C8221A26A9DF7E0026591C /* SCAudioManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCAudioManager.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,15 +115,19 @@
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXGroup;
 			children = (
-				C37C6E5B25D329DC00B96481 /* example_sound.wav */,
+				C365502E1E4927A300D24131 /* AppDelegate.swift */,
+				C36550351E4927A300D24131 /* Assets.xcassets */,
 				C322CC551E4A475800B52247 /* example_sound_2.m4a */,
 				C36550481E49298100D24131 /* example_sound.m4a */,
-				C365502E1E4927A300D24131 /* AppDelegate.swift */,
-				C36550301E4927A300D24131 /* ViewController.swift */,
-				C36550321E4927A300D24131 /* Main.storyboard */,
-				C36550351E4927A300D24131 /* Assets.xcassets */,
-				C36550371E4927A300D24131 /* LaunchScreen.storyboard */,
+				C37C6E5B25D329DC00B96481 /* example_sound.wav */,
 				C365503A1E4927A300D24131 /* Info.plist */,
+				C36550371E4927A300D24131 /* LaunchScreen.storyboard */,
+				C36550321E4927A300D24131 /* Main.storyboard */,
+				C3C8221326A96FFA0026591C /* RecordingViewController.swift */,
+				C36550301E4927A300D24131 /* ViewController.swift */,
+				C3C8221826A9DF610026591C /* SCAudioManager.m */,
+				C3C8221A26A9DF7E0026591C /* SCAudioManager.h */,
+				C3C8221726A9DF610026591C /* DSWaveformImageExample-Bridging-Header.h */,
 			);
 			path = DSWaveformImageExample;
 			sourceTree = "<group>";
@@ -201,7 +211,7 @@
 					};
 					C365502B1E4927A300D24131 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 1020;
+						LastSwiftMigration = 1250;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -266,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C36550311E4927A300D24131 /* ViewController.swift in Sources */,
+				C3C8221426A96FFA0026591C /* RecordingViewController.swift in Sources */,
+				C3C8221926A9DF610026591C /* SCAudioManager.m in Sources */,
 				C365502F1E4927A300D24131 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,7 +433,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DSWaveformImage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 8.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
@@ -441,7 +453,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = DSWaveformImage/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 8.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
@@ -455,14 +467,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DSWaveformImageExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 8.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -471,14 +486,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DSWaveformImageExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 8.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

@@ -45,6 +45,20 @@ public class WaveformImageDrawer {
         waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
     }
 
+    public func waveformImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
+        guard samples.count > 0 else {
+            return nil
+        }
+
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = configuration.scale
+        let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
+
+        return renderer.image { renderContext in
+            draw(on: renderContext.cgContext, from: samples, with: configuration)
+        }
+    }
+
     // swiftlint:enable function_parameter_count
 }
 
@@ -61,30 +75,7 @@ private extension WaveformImageDrawer {
                 completionHandler(nil)
                 return
             }
-            completionHandler(self.graphImage(from: samples, with: configuration))
-        }
-    }
-
-    private func graphImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        if #available(iOS 10.0, *) {
-            let format = UIGraphicsImageRendererFormat()
-            format.scale = configuration.scale
-            let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
-
-            return renderer.image { renderContext in
-                draw(on: renderContext.cgContext, from: samples, with: configuration)
-            }
-        } else {
-            UIGraphicsBeginImageContextWithOptions(configuration.size, false, configuration.scale)
-
-            let context = UIGraphicsGetCurrentContext()!
-
-            draw(on: context, from: samples, with: configuration)
-
-            let graphImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-
-            return graphImage
+            completionHandler(self.waveformImage(from: samples, with: configuration))
         }
     }
 
@@ -116,7 +107,7 @@ private extension WaveformImageDrawer {
         var drawEveryNSamples: Int = 0
         if case let .striped(config) = configuration.style {
             let nStripes = configuration.size.width / (config.width + (config.spacing))
-            drawEveryNSamples = Int(CGFloat(samples.count) / nStripes)
+            drawEveryNSamples = Int(ceil(CGFloat(samples.count)) / nStripes)
         }
 
         for (x, sample) in samples.enumerated() {
