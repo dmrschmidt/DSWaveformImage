@@ -95,11 +95,31 @@ public struct WaveformConfiguration {
         self.shouldAntialias = shouldAntialias
     }
 
-    public func withSize(size: CGSize) -> WaveformConfiguration {
+    public func with(size: CGSize) -> WaveformConfiguration {
         WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
     }
 
-    public func withStyle(style: WaveformStyle) -> WaveformConfiguration {
+    public func with(backgroundColor: UIColor) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
+
+    public func with(style: WaveformStyle) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
+
+    public func with(position: WaveformPosition) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
+
+    public func with(scale: CGFloat) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
+
+    public func with(paddingFactor: CGFloat) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
+
+    public func with(shouldAntialias: Bool) -> WaveformConfiguration {
         WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
     }
 }
