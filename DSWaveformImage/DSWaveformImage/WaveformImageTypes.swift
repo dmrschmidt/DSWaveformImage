@@ -98,4 +98,8 @@ public struct WaveformConfiguration {
     func withSize(size: CGSize) -> WaveformConfiguration {
         WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
     }
+
+    func withStyle(style: WaveformStyle) -> WaveformConfiguration {
+        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    }
 }
