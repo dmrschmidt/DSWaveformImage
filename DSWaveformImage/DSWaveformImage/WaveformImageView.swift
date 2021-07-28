@@ -36,6 +36,12 @@ public class WaveformImageView: UIImageView {
         super.layoutSubviews()
         updateWaveform()
     }
+
+    /// Clears the audio data, emptying the waveform view.
+    public func reset() {
+        waveformAudioURL = nil
+        image = nil
+    }
 }
 
 private extension WaveformImageView {

@@ -31,6 +31,11 @@ public class WaveformSampleView: UIView {
         super.init(coder: coder)
         contentMode = .redraw
     }
+
+    /// Clears the samples, emptying the waveform view.
+    public func reset() {
+        samples = []
+    }
 }
 
 class WaveformSampleLayer: CALayer {
