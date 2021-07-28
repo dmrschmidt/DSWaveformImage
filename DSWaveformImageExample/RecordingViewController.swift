@@ -23,7 +23,7 @@ class RecordingViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        waveformView.waveformConfiguration = WaveformConfiguration(size: waveformView.bounds.size, style: .filled(.red), paddingFactor: 1)
+        waveformView.configuration = WaveformConfiguration(size: waveformView.bounds.size, style: .filled(.red), paddingFactor: 1)
         audioManager.prepareAudioRecording()
     }
 

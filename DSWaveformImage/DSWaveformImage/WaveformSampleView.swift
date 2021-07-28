@@ -12,9 +12,9 @@ public class WaveformSampleView: UIView {
         }
     }
 
-    public var waveformConfiguration = WaveformConfiguration(size: .zero) {
+    public var configuration = WaveformConfiguration(size: .zero) {
         didSet {
-            sampleLayer.waveformConfiguration = waveformConfiguration
+            sampleLayer.configuration = configuration
         }
     }
 
@@ -41,8 +41,8 @@ public class WaveformSampleView: UIView {
 class WaveformSampleLayer: CALayer {
     @NSManaged var samples: [Float]
 
-    var waveformConfiguration = WaveformConfiguration(size: .zero) {
-        didSet { contentsScale = waveformConfiguration.scale }
+    var configuration = WaveformConfiguration(size: .zero) {
+        didSet { contentsScale = configuration.scale }
     }
 
     private let imageDrawer = WaveformImageDrawer()
@@ -63,7 +63,7 @@ class WaveformSampleLayer: CALayer {
 
         UIGraphicsPushContext(context)
 
-        imageDrawer.waveformImage(from: samples, with: waveformConfiguration.with(size: bounds.size), context: context)
+        imageDrawer.waveformImage(from: samples, with: configuration.with(size: bounds.size), context: context)
 
         UIGraphicsPopContext()
     }
