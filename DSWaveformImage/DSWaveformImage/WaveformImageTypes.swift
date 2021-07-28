@@ -59,25 +59,25 @@ public enum WaveformStyle {
 /// Allows customization of the waveform output image.
 public struct WaveformConfiguration {
     /// Desired output size of the waveform image, works together with scale.
-    let size: CGSize
+    public let size: CGSize
 
     /// Background color of the waveform, defaults to clear.
-    let backgroundColor: UIColor
+    public let backgroundColor: UIColor
 
     /// Waveform drawing style, defaults to .gradient.
-    let style: WaveformStyle
+    public let style: WaveformStyle
 
     /// Waveform drawing position, defaults to .middle.
-    let position: WaveformPosition
+    public let position: WaveformPosition
 
     /// Scale to be applied to the image, defaults to main screen's scale.
-    let scale: CGFloat
+    public let scale: CGFloat
 
     /// Optional padding or vertical shrinking factor for the waveform.
-    let paddingFactor: CGFloat?
+    public let paddingFactor: CGFloat?
 
     /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is false.
-    let shouldAntialias: Bool
+    public let shouldAntialias: Bool
 
     public init(size: CGSize,
                 backgroundColor: UIColor = UIColor.clear,
@@ -95,11 +95,11 @@ public struct WaveformConfiguration {
         self.shouldAntialias = shouldAntialias
     }
 
-    func withSize(size: CGSize) -> WaveformConfiguration {
+    public func withSize(size: CGSize) -> WaveformConfiguration {
         WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
     }
 
-    func withStyle(style: WaveformStyle) -> WaveformConfiguration {
+    public func withStyle(style: WaveformStyle) -> WaveformConfiguration {
         WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
     }
 }
