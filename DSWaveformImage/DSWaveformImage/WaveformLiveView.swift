@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
 
-public class WaveformSampleView: UIView {
-    private var sampleLayer: WaveformSampleLayer! {
-        return layer as? WaveformSampleLayer
+public class WaveformLiveView: UIView {
+    private var sampleLayer: WaveformLiveLayer! {
+        return layer as? WaveformLiveLayer
     }
 
     public var samples: [Float] = [] {
@@ -19,7 +19,7 @@ public class WaveformSampleView: UIView {
     }
 
     override public class var layerClass: AnyClass {
-        return WaveformSampleLayer.self
+        return WaveformLiveLayer.self
     }
 
     public override init(frame: CGRect) {
@@ -38,7 +38,7 @@ public class WaveformSampleView: UIView {
     }
 }
 
-class WaveformSampleLayer: CALayer {
+class WaveformLiveLayer: CALayer {
     @NSManaged var samples: [Float]
 
     var configuration = WaveformConfiguration(size: .zero) {

@@ -23,7 +23,7 @@
 		C36550471E4927EC00D24131 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
 		C36550491E49298100D24131 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C36550481E49298100D24131 /* example_sound.m4a */; };
 		C37C6E5C25D329DC00B96481 /* example_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C37C6E5B25D329DC00B96481 /* example_sound.wav */; };
-		C38B81C026B00EBC000AF386 /* WaveformSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B81BF26B00EBC000AF386 /* WaveformSampleView.swift */; };
+		C38B81C026B00EBC000AF386 /* WaveformLiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */; };
 		C3C8221426A96FFA0026591C /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221326A96FFA0026591C /* RecordingViewController.swift */; };
 		C3C8221926A9DF610026591C /* SCAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221826A9DF610026591C /* SCAudioManager.m */; };
 /* End PBXBuildFile section */
@@ -60,7 +60,7 @@
 		C36550421E4927BC00D24131 /* WaveformImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageView.swift; sourceTree = "<group>"; };
 		C36550481E49298100D24131 /* example_sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound.m4a; sourceTree = "<group>"; };
 		C37C6E5B25D329DC00B96481 /* example_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = example_sound.wav; sourceTree = "<group>"; };
-		C38B81BF26B00EBC000AF386 /* WaveformSampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformSampleView.swift; sourceTree = "<group>"; };
+		C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformLiveView.swift; sourceTree = "<group>"; };
 		C3C8221326A96FFA0026591C /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		C3C8221726A9DF610026591C /* DSWaveformImageExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DSWaveformImageExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		C3C8221826A9DF610026591C /* SCAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCAudioManager.m; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 				C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */,
 				C36550411E4927BC00D24131 /* WaveformImageTypes.swift */,
 				C36550421E4927BC00D24131 /* WaveformImageView.swift */,
-				C38B81BF26B00EBC000AF386 /* WaveformSampleView.swift */,
+				C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */,
 			);
 			path = DSWaveformImage;
 			sourceTree = "<group>";
@@ -271,7 +271,7 @@
 				C36550441E4927BC00D24131 /* WaveformImageDrawer.swift in Sources */,
 				C36550451E4927BC00D24131 /* WaveformImageTypes.swift in Sources */,
 				C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */,
-				C38B81C026B00EBC000AF386 /* WaveformSampleView.swift in Sources */,
+				C38B81C026B00EBC000AF386 /* WaveformLiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

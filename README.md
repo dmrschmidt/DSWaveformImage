@@ -4,11 +4,14 @@ DSWaveformImage
 [![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
 
-DSWaveformImage offers a few interfaces with the main purpose of drawing the
-envelope waveform of audio files in iOS. To do so, you can use
-`WaveformImageDrawer` or `WaveformImageView`.
+DSWaveformImage offers a few interfaces for the purpose of drawing the
+envelope waveform of audio data in iOS. To do so, you can use
 
-Additionally, you can get a waveform's (normalized) samples directly as well by
+* `WaveformImageDrawer` to generate a waveform `UIImage` from an audio file
+* `WaveformImageView` to render a static waveform from an audio file or 
+* `WaveformLiveView` to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
+
+Additionally, you can get a waveform's (normalized) `[Float]` samples directly as well by
 creating an instance of `WaveformAnalyzer`.
 
 More related iOS Controls
@@ -22,7 +25,7 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "8.1.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "8.2.0"
 * use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0`
 * simply copy the `DSWaveformImage` folder directly into your project.
 * or, sunset since 6.1.1: ~~use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`~~
@@ -32,7 +35,7 @@ Usage
 
 Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
 
-To create a `UIImage` using `WaveformImageDrawer`:
+### To create a `UIImage` using `WaveformImageDrawer`:
 
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
@@ -48,7 +51,7 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
 }
 ```
 
-To create a `WaveformImageView` (`UIImageView` subclass):
+### To create a `WaveformImageView` (`UIImageView` subclass):
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
@@ -56,7 +59,24 @@ waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, heig
 waveformImageView.waveformAudioURL = audioURL
 ```
 
-And finally, to get an audio file's waveform samples:
+### To get render realtime waveform data from [0,1] normalized samples:
+
+Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
+
+```swift
+let waveformView = WaveformLiveView()
+
+// configure and start AVAudioRecorder
+let recorder = AVAudioRecorder()
+recorder.isMeteringEnabled = true // required to get current power levels
+
+// after all the other recording (omitted for focus) setup, periodically (every 20ms or so):
+recorder.updateMeters() // gets the current value
+let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
+waveformView.samples.append(currentAmplitude)
+```
+
+### And finally, to get an audio file's waveform samples:
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
@@ -68,7 +88,9 @@ waveformAnalyzer.samples(count: 200) { samples in
 
 ### Playback Indication
 
-If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21). There's various other ways of course, depending on your use case and design.
+If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21).
+There's various other ways of course, depending on your use case and design. Using `WaveformLiveView` may be another one in conjunction with `AVAudioPlayer` (note that `AVPlayer` does *not* offer
+the same simple access to its audio metering data, so is not as suitable out of the box).
 
 ### Loading remote audio files from URL
 
