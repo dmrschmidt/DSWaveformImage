@@ -18,6 +18,10 @@ struct WaveformAnalysis {
 
 /// Calculates the waveform of the initialized asset URL.
 public class WaveformAnalyzer {
+
+    /// Everything below this noise floor cutoff will be clipped and interpreted as silence. Default is `-50.0`.
+    public var noiseFloorDecibelCutoff: Float = -50.0
+
     private let assetReader: AVAssetReader
     private let audioAssetTrack: AVAssetTrack
 
@@ -34,8 +38,12 @@ public class WaveformAnalyzer {
         self.assetReader = assetReader
         self.audioAssetTrack = assetTrack
     }
-    
-    /// Returns the calculated waveform of the initialized asset URL.
+
+    /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
+    /// Calls the completionHandler on a background thread.
+    /// - Parameter count: amount of samples to be calculated. Downsamples.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    /// - Parameter completionHandler: called from a background thread. Returns the sampled result or nil in edge-error cases.
     public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (_ amplitudes: [Float]?) -> ()) {
         waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
             completionHandler(analysis?.amplitudes)
@@ -46,8 +54,6 @@ public class WaveformAnalyzer {
 // MARK: - Private
 
 fileprivate extension WaveformAnalyzer {
-    private var silenceDbThreshold: Float { return -50.0 } // everything below -50 dB will be clipped
-    
     func waveformSamples(
             count requiredNumberOfSamples: Int,
             qos: DispatchQoS.QoSClass,
@@ -151,7 +157,7 @@ fileprivate extension WaveformAnalyzer {
             let unsafeSamplesBufferPointer = samplesRawPointer.bindMemory(to: Int16.self)
             let unsafeSamplesPointer = unsafeSamplesBufferPointer.baseAddress!
             var loudestClipValue: Float = 0.0
-            var quietestClipValue = silenceDbThreshold
+            var quietestClipValue = noiseFloorDecibelCutoff
             var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
             let samplesToProcess = vDSP_Length(sampleLength)
 
@@ -204,7 +210,7 @@ fileprivate extension WaveformAnalyzer {
     }
 
     func normalize(_ samples: [Float]) -> [Float] {
-        return samples.map { $0 / silenceDbThreshold }
+        return samples.map { $0 / noiseFloorDecibelCutoff }
     }
 
     // swiftlint:disable force_cast
