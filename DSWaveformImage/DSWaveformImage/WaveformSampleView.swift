@@ -63,7 +63,7 @@ class WaveformSampleLayer: CALayer {
 
         UIGraphicsPushContext(context)
 
-        imageDrawer.waveformImage(from: samples, with: waveformConfiguration.withSize(size: bounds.size), context: context)
+        imageDrawer.waveformImage(from: samples, with: waveformConfiguration.with(size: bounds.size), context: context)
 
         UIGraphicsPopContext()
     }
