@@ -138,6 +138,7 @@ public struct WaveformConfiguration {
                      position: WaveformPosition? = nil,
                      scale: CGFloat? = nil,
                      verticalScalingFactor: CGFloat? = nil,
+                     shouldDampenSides: Bool? = nil,
                      shouldAntialias: Bool? = nil
     ) -> WaveformConfiguration {
         WaveformConfiguration(
@@ -147,6 +148,7 @@ public struct WaveformConfiguration {
             position: position ?? self.position,
             scale: scale ?? self.scale,
             verticalScalingFactor: verticalScalingFactor ?? self.verticalScalingFactor,
+            shouldDampenSides: shouldDampenSides ?? self.shouldDampenSides,
             shouldAntialias: shouldAntialias ?? self.shouldAntialias
         )
     }
