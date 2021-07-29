@@ -37,17 +37,17 @@ class ViewController: UIViewController {
     private func updateWaveformImages() {
         // always uses background thread rendering
         waveformImageDrawer.waveformImage(
-            fromAudioAt: audioURL,
-            size: topWaveformView.bounds.size,
-            style: .gradient(
-                [
-                    UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
-                    UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
-                    UIColor.red
-                ]
-            ),
-            position: .top,
-            verticalScalingFactor: 0.5
+            fromAudioAt: audioURL, with: .init(
+                size: topWaveformView.bounds.size,
+                style: .gradient(
+                    [
+                        UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
+                        UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
+                        UIColor.red
+                    ]
+                ),
+                position: .top,
+                verticalScalingFactor: 0.5)
         ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         }
 
         let style = WaveformStyle.striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5, lineCap: .round))
-        middleWaveformView.configuration = WaveformConfiguration(backgroundColor: .lightGray.withAlphaComponent(0.1), style: style, verticalScalingFactor: 0.4)
+        middleWaveformView.configuration = WaveformConfiguration(backgroundColor: .lightGray.withAlphaComponent(0.1), style: style)
         middleWaveformView.waveformAudioURL = audioURL
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration) { image in
@@ -71,7 +71,6 @@ class ViewController: UIViewController {
             size: bottomWaveformView.bounds.size,
             style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)),
             position: .bottom,
-            verticalScalingFactor: 0.5,
             shouldAntialias: false
         )
     }

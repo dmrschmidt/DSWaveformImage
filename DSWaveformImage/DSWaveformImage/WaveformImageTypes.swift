@@ -29,8 +29,8 @@ public enum WaveformPosition: Equatable {
  - **gradient**: Use gradient based on color for the waveform.
  - **striped**: Use striped filling based on color for the waveform.
  */
-public enum WaveformStyle {
-    public struct StripeConfig {
+public enum WaveformStyle: Equatable {
+    public struct StripeConfig: Equatable {
         /// Color of the waveform stripes. Default is clear.
         public let color: UIColor
 
@@ -89,6 +89,9 @@ public struct WaveformConfiguration {
      */
     public let verticalScalingFactor: CGFloat
 
+    /// If true, both graph sides (1/5th each) are linearly dampened. Default is `false`.
+    public let shouldDampenSides: Bool
+
     /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is `false`.
     public let shouldAntialias: Bool
 
@@ -100,13 +103,10 @@ public struct WaveformConfiguration {
                 scale: CGFloat = UIScreen.main.scale,
                 paddingFactor: CGFloat?,
                 shouldAntialias: Bool = false) {
-        self.backgroundColor = backgroundColor
-        self.style = style
-        self.position = position
-        self.size = size
-        self.scale = scale
-        self.verticalScalingFactor = 1 / (paddingFactor ?? 1)
-        self.shouldAntialias = shouldAntialias
+        self.init(
+            size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale,
+            verticalScalingFactor: 1 / (paddingFactor ?? 1), shouldAntialias: shouldAntialias
+        )
     }
 
     public init(size: CGSize = .zero,
@@ -115,6 +115,7 @@ public struct WaveformConfiguration {
                 position: WaveformPosition = .middle,
                 scale: CGFloat = UIScreen.main.scale,
                 verticalScalingFactor: CGFloat = 0.95,
+                shouldDampenSides: Bool = false,
                 shouldAntialias: Bool = false) {
         guard (0...1).contains(Float(verticalScalingFactor)) else {
             preconditionFailure("scalingFactor must be within [0...1]")
@@ -126,6 +127,7 @@ public struct WaveformConfiguration {
         self.size = size
         self.scale = scale
         self.verticalScalingFactor = verticalScalingFactor
+        self.shouldDampenSides = shouldDampenSides
         self.shouldAntialias = shouldAntialias
     }
 

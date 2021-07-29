@@ -7,8 +7,7 @@ import CoreGraphics
 public class WaveformImageDrawer {
     public init() {}
 
-    // swiftlint:disable function_parameter_count
-    /// Renders a UIImage of the waveform data calculated by the analyzer.
+    /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: WaveformConfiguration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
@@ -20,22 +19,9 @@ public class WaveformImageDrawer {
         render(from: waveformAnalyzer, with: configuration, qos: qos, completionHandler: completionHandler)
     }
 
-    /// Renders a UIImage of the waveform data calculated by the analyzer.
-    public func waveformImage(fromAudioAt audioAssetURL: URL,
-                              size: CGSize,
-                              backgroundColor: UIColor = UIColor.clear,
-                              style: WaveformStyle = .gradient([UIColor.black, UIColor.darkGray]),
-                              position: WaveformPosition = .middle,
-                              scale: CGFloat = UIScreen.main.scale,
-                              verticalScalingFactor: CGFloat = 0.95,
-                              qos: DispatchQoS.QoSClass = .userInitiated,
-                              shouldAntialias: Bool = false,
-                              completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
-        let configuration = WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position,
-                                                  scale: scale, verticalScalingFactor: verticalScalingFactor, shouldAntialias: shouldAntialias)
-        waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
-    }
-
+    /// Renders a UIImage of the provided waveform samples.
+    ///
+    /// Samples need to be normalized within interval `(0...1)`.
     public func waveformImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
         guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
             print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
@@ -45,12 +31,17 @@ public class WaveformImageDrawer {
         let format = UIGraphicsImageRendererFormat()
         format.scale = configuration.scale
         let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
+        let dampenedSamples = configuration.shouldDampenSides ? dampen(samples) : samples
 
         return renderer.image { renderContext in
-            draw(on: renderContext.cgContext, from: samples, with: configuration)
+            draw(on: renderContext.cgContext, from: dampenedSamples, with: configuration)
         }
     }
 
+    /// Renders the waveform from the provided samples into the provided `CGContext`.
+    ///
+    /// Samples need to be normalized within interval `(0...1)`.
+    /// Ensure context size & scale match with the configuration's size & scale.
     public func draw(waveform samples: [Float], on context: CGContext, with configuration: WaveformConfiguration) {
         guard samples.count > 0 else {
             return
@@ -58,19 +49,20 @@ public class WaveformImageDrawer {
 
         var clampedSamples = samples
         if case .striped = configuration.style {
+            // clamp the sample window so that we always draw lines from the same samples, even as we add more
             let stripeDivisableLeftover = samples.count % stripeCount(configuration)
             clampedSamples = Array(samples[0..<(samples.count - stripeDivisableLeftover)])
         }
 
-        let samplesNeeded = Int(configuration.size.width) * Int(configuration.scale)
+        // move the window, so that its always at the end (moves the graph after it reached the right side)
+        let samplesNeeded = Int(configuration.size.width * configuration.scale)
         let startSample = max(0, clampedSamples.count - samplesNeeded)
         let clippedSamples = Array(clampedSamples[startSample..<clampedSamples.count])
-        let paddedSamples = clippedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count)
+        let dampenedSamples = dampen(clippedSamples)
+        let paddedSamples = dampenedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count)
 
         draw(on: context, from: paddedSamples, with: configuration)
     }
-
-    // swiftlint:enable function_parameter_count
 }
 
 // MARK: Image generation
@@ -86,7 +78,8 @@ private extension WaveformImageDrawer {
                 completionHandler(nil)
                 return
             }
-            completionHandler(self.waveformImage(from: samples, with: configuration))
+            let dampenedSamples = configuration.shouldDampenSides ? self.dampen(samples) : samples
+            completionHandler(self.waveformImage(from: dampenedSamples, with: configuration))
         }
     }
 
@@ -124,7 +117,7 @@ private extension WaveformImageDrawer {
 
             let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
-            let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor) * configuration.scale
+            let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
@@ -165,7 +158,11 @@ private extension WaveformImageDrawer {
                                        options: .drawsAfterEndLocation)
         }
     }
+}
 
+// MARK: - Helpers
+
+private extension WaveformImageDrawer {
     private func stripeCount(_ configuration: WaveformConfiguration) -> Int {
         if case .striped = configuration.style {
             return Int(configuration.size.width * configuration.scale) / stripeBucket(configuration)
@@ -180,5 +177,26 @@ private extension WaveformImageDrawer {
         } else {
             return 0
         }
+    }
+
+    /// Dampen the samples linearly on both sides (1/5th each) for a smoother animation.
+    private func dampen(_ samples: [Float]) -> [Float] {
+        let count = Float(samples.count)
+        return samples.enumerated().map { x, value -> Float in
+            1 - ((1 - value) * dampFactor(x: Float(x), count: count))
+        }
+    }
+
+    private func dampFactor(x: Float, count: Float) -> Float {
+        if x < count / 5 {
+            // increasing linear dampening within the left 5th
+            // basically (x : 1/5) with x in (0..<1/5)
+            return x / (count / 5)
+        } else if x > 4 * (count / 5) {
+            // decaying linear dampening within the right 5th
+            // basically also (x : 1/5), but since x in (4/5>...1) x is "inverted" as x = x - 4/5
+            return 1 - (x - (4 * (count / 5))) / (count / 5)
+        }
+        return 1
     }
 }

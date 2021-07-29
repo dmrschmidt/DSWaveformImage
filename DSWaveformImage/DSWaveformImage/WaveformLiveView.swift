@@ -1,10 +1,11 @@
 import Foundation
 import UIKit
 
+/// Renders a live waveform everytime its `(0...1)`-normalized samples are changed.
 public class WaveformLiveView: UIView {
-    private var sampleLayer: WaveformLiveLayer! {
-        return layer as? WaveformLiveLayer
-    }
+
+    /// Default configuration with dampening enabled.
+    public static let defaultConfiguration = WaveformConfiguration(shouldDampenSides: true)
 
     public var samples: [Float] = [] {
         didSet {
@@ -12,22 +13,34 @@ public class WaveformLiveView: UIView {
         }
     }
 
-    public var configuration = WaveformConfiguration(size: .zero) {
+    public var configuration: WaveformConfiguration {
         didSet {
             sampleLayer.configuration = configuration
         }
+    }
+
+    private var sampleLayer: WaveformLiveLayer! {
+        return layer as? WaveformLiveLayer
     }
 
     override public class var layerClass: AnyClass {
         return WaveformLiveLayer.self
     }
 
+    public init(configuration: WaveformConfiguration = defaultConfiguration) {
+        self.configuration = configuration
+        super.init(frame: .zero)
+        self.contentMode = .redraw
+    }
+
     public override init(frame: CGRect) {
+        self.configuration = Self.defaultConfiguration
         super.init(frame: frame)
         contentMode = .redraw
     }
 
     required init?(coder: NSCoder) {
+        self.configuration = Self.defaultConfiguration
         super.init(coder: coder)
         contentMode = .redraw
     }
@@ -41,7 +54,7 @@ public class WaveformLiveView: UIView {
 class WaveformLiveLayer: CALayer {
     @NSManaged var samples: [Float]
 
-    var configuration = WaveformConfiguration() {
+    var configuration = WaveformLiveView.defaultConfiguration {
         didSet { contentsScale = configuration.scale }
     }
 
