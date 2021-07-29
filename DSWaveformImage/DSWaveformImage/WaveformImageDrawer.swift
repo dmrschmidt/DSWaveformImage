@@ -188,14 +188,14 @@ private extension WaveformImageDrawer {
     }
 
     private func dampFactor(x: Float, count: Float) -> Float {
-        if x < count / 5 {
-            // increasing linear dampening within the left 5th
-            // basically (x : 1/5) with x in (0..<1/5)
-            return x / (count / 5)
-        } else if x > 4 * (count / 5) {
-            // decaying linear dampening within the right 5th
-            // basically also (x : 1/5), but since x in (4/5>...1) x is "inverted" as x = x - 4/5
-            return 1 - (x - (4 * (count / 5))) / (count / 5)
+        if x < count / 8 {
+            // increasing linear dampening within the left 8th
+            // basically (x : 1/8) with x in (0..<1/8)
+            return pow(x / (count / 8), 2)
+        } else if x > 7 * (count / 8) {
+            // decaying linear dampening within the right 8th
+            // basically also (x : 1/8), but since x in (7/8>...1) x is "inverted" as x = x - 7/8
+            return pow(1 - (x - (7 * (count / 8))) / (count / 8), 2)
         }
         return 1
     }
