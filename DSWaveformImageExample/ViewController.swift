@@ -55,8 +55,8 @@ class ViewController: UIViewController {
             }
         }
 
-        let middleColor = UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)
-        middleWaveformView.configuration = WaveformConfiguration(style: .filled(middleColor), verticalScalingFactor: 0.3)
+        let style = WaveformStyle.striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5, lineCap: .round))
+        middleWaveformView.configuration = WaveformConfiguration(backgroundColor: .lightGray.withAlphaComponent(0.1), style: style, verticalScalingFactor: 0.4)
         middleWaveformView.waveformAudioURL = audioURL
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration) { image in
@@ -69,16 +69,9 @@ class ViewController: UIViewController {
     private var bottomWaveformConfiguration: WaveformConfiguration {
         WaveformConfiguration(
             size: bottomWaveformView.bounds.size,
-            backgroundColor: .lightGray.withAlphaComponent(0.1),
-            style: .striped(
-                .init(
-                    color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1),
-                    width: 10,
-                    spacing: 10,
-                    lineCap: .round
-                )),
+            style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)),
             position: .bottom,
-            verticalScalingFactor: 0.8,
+            verticalScalingFactor: 0.5,
             shouldAntialias: false
         )
     }

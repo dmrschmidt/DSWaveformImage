@@ -116,7 +116,7 @@ private extension WaveformImageDrawer {
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
         for (x, sample) in samples.enumerated() {
-            if case .striped = configuration.style, x % stripeCount(configuration) != 0 {
+            if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
                 continue
             }
 
@@ -136,8 +136,10 @@ private extension WaveformImageDrawer {
         context.setShouldAntialias(configuration.shouldAntialias)
 
         if case let .striped(config) = configuration.style {
-            context.setLineWidth(config.width / configuration.scale)
+            // draw scale-perfect for striped waveforms
+            context.setLineWidth(config.width)
         } else {
+            // draw pixel-perfect for filled waveforms
             context.setLineWidth(1.0 / configuration.scale)
         }
 
@@ -163,8 +165,16 @@ private extension WaveformImageDrawer {
     }
 
     private func stripeCount(_ configuration: WaveformConfiguration) -> Int {
+        if case .striped = configuration.style {
+            return Int(configuration.size.width * configuration.scale) / stripeBucket(configuration)
+        } else {
+            return 0
+        }
+    }
+
+    private func stripeBucket(_ configuration: WaveformConfiguration) -> Int {
         if case let .striped(stripeConfig) = configuration.style {
-            return Int(configuration.size.width / (stripeConfig.width + (stripeConfig.spacing / 2)))
+            return Int(stripeConfig.width + stripeConfig.spacing) * Int(configuration.scale)
         } else {
             return 0
         }
