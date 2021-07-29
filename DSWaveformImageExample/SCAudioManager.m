@@ -65,7 +65,7 @@ static NSString const *kSCRecordingsFolderName = @"recordings";
         self.currentRecordingTime = 0.0;
         [self.recorder record];
         [self.updateProgressIndicatorTimer invalidate];
-        self.updateProgressIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:.01 target:self selector:@selector(recordingStatusDidUpdate) userInfo:nil repeats:YES];
+        self.updateProgressIndicatorTimer = [NSTimer scheduledTimerWithTimeInterval:.001 target:self selector:@selector(recordingStatusDidUpdate) userInfo:nil repeats:YES];
     }
 }
 
