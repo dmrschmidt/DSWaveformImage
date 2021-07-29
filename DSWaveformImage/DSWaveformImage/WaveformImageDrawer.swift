@@ -58,7 +58,7 @@ public class WaveformImageDrawer {
         let samplesNeeded = Int(configuration.size.width * configuration.scale)
         let startSample = max(0, clampedSamples.count - samplesNeeded)
         let clippedSamples = Array(clampedSamples[startSample..<clampedSamples.count])
-        let dampenedSamples = dampen(clippedSamples)
+        let dampenedSamples = configuration.shouldDampenSides ? dampen(clippedSamples) : clippedSamples
         let paddedSamples = dampenedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count)
 
         draw(on: context, from: paddedSamples, with: configuration)
