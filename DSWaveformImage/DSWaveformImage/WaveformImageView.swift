@@ -6,11 +6,7 @@ public class WaveformImageView: UIImageView {
     private let waveformImageDrawer: WaveformImageDrawer
     private var waveformAnalyzer: WaveformAnalyzer?
 
-    public var waveformStyle: WaveformStyle {
-        didSet { updateWaveform() }
-    }
-
-    public var waveformPosition: WaveformPosition {
+    public var configuration: WaveformConfiguration {
         didSet { updateWaveform() }
     }
 
@@ -19,15 +15,13 @@ public class WaveformImageView: UIImageView {
     }
 
     override public init(frame: CGRect) {
-        waveformStyle = .gradient([UIColor.black, UIColor.darkGray])
-        waveformPosition = .middle
+        configuration = WaveformConfiguration(size: frame.size)
         waveformImageDrawer = WaveformImageDrawer()
         super.init(frame: frame)
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        waveformStyle = .gradient([UIColor.black, UIColor.darkGray])
-        waveformPosition = .middle
+        configuration = WaveformConfiguration()
         waveformImageDrawer = WaveformImageDrawer()
         super.init(coder: aDecoder)
     }
@@ -47,12 +41,14 @@ public class WaveformImageView: UIImageView {
 private extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, size: bounds.size,
-                                          style: waveformStyle, position: waveformPosition,
-                                          scale: UIScreen.main.scale, qos: .userInitiated) { image in
-                                            DispatchQueue.main.async {
-                                                self.image = image
-                                            }
+        waveformImageDrawer.waveformImage(
+            fromAudioAt: audioURL,
+            with: configuration.with(size: bounds.size),
+            qos: .userInteractive
+        ) { image in
+            DispatchQueue.main.async {
+                self.image = image
+            }
         }
     }
 }

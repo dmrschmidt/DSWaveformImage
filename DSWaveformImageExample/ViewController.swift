@@ -14,12 +14,27 @@ class ViewController: UIViewController {
     @IBOutlet weak var middleWaveformView: WaveformImageView!
     @IBOutlet weak var bottomWaveformView: UIImageView!
 
+    private let waveformImageDrawer = WaveformImageDrawer()
+    private let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let waveformImageDrawer = WaveformImageDrawer()
-        let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
+        updateWaveformImages()
 
+        // get access to the raw, normalized amplitude samples
+        let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+        waveformAnalyzer?.samples(count: 10) { samples in
+            print("sampled down to 10, results are \(samples ?? [])")
+        }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateWaveformImages()
+    }
+
+    private func updateWaveformImages() {
         // always uses background thread rendering
         waveformImageDrawer.waveformImage(
             fromAudioAt: audioURL,
@@ -32,7 +47,7 @@ class ViewController: UIViewController {
                 ]
             ),
             position: .top,
-            paddingFactor: 0.5
+            verticalScalingFactor: 0.5
         ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
@@ -41,27 +56,30 @@ class ViewController: UIViewController {
         }
 
         let middleColor = UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)
-        middleWaveformView.waveformStyle = .filled(middleColor)
+        middleWaveformView.configuration = WaveformConfiguration(style: .filled(middleColor), verticalScalingFactor: 0.3)
         middleWaveformView.waveformAudioURL = audioURL
 
-        let configuration = WaveformConfiguration(
-            size: bottomWaveformView.bounds.size,
-            style: .striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 10, spacing: 10, lineCap: .round)),
-            position: .bottom,
-            paddingFactor: 0.5,
-            shouldAntialias: false
-        )
-
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: configuration) { image in
+        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration) { image in
             DispatchQueue.main.async {
                 self.bottomWaveformView.image = image
             }
         }
+    }
 
-        // get access to the raw, normalized amplitude samples
-        let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-        waveformAnalyzer?.samples(count: 10) { samples in
-            print("sampled down to 10, results are \(samples ?? [])")
-        }
+    private var bottomWaveformConfiguration: WaveformConfiguration {
+        WaveformConfiguration(
+            size: bottomWaveformView.bounds.size,
+            backgroundColor: .lightGray.withAlphaComponent(0.1),
+            style: .striped(
+                .init(
+                    color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1),
+                    width: 10,
+                    spacing: 10,
+                    lineCap: .round
+                )),
+            position: .bottom,
+            verticalScalingFactor: 0.8,
+            shouldAntialias: false
+        )
     }
 }

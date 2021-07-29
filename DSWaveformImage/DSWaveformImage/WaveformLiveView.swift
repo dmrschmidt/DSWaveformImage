@@ -41,7 +41,7 @@ public class WaveformLiveView: UIView {
 class WaveformLiveLayer: CALayer {
     @NSManaged var samples: [Float]
 
-    var configuration = WaveformConfiguration(size: .zero) {
+    var configuration = WaveformConfiguration() {
         didSet { contentsScale = configuration.scale }
     }
 
@@ -62,9 +62,7 @@ class WaveformLiveLayer: CALayer {
         }
 
         UIGraphicsPushContext(context)
-
         imageDrawer.waveformImage(from: samples, with: configuration.with(size: bounds.size), context: context)
-
         UIGraphicsPopContext()
     }
 }

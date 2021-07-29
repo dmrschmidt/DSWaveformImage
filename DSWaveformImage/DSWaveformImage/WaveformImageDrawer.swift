@@ -13,19 +13,11 @@ public class WaveformImageDrawer {
                               with configuration: WaveformConfiguration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
-        let scaledSize = CGSize(width: configuration.size.width * configuration.scale,
-                                height: configuration.size.height * configuration.scale)
-        let scaledConfiguration = WaveformConfiguration(size: scaledSize,
-                                                        backgroundColor: configuration.backgroundColor,
-                                                        style: configuration.style,
-                                                        position: configuration.position,
-                                                        scale: configuration.scale,
-                                                        paddingFactor: configuration.paddingFactor)
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
         }
-        render(from: waveformAnalyzer, with: scaledConfiguration, qos: qos, completionHandler: completionHandler)
+        render(from: waveformAnalyzer, with: configuration, qos: qos, completionHandler: completionHandler)
     }
 
     /// Renders a UIImage of the waveform data calculated by the analyzer.
@@ -35,13 +27,12 @@ public class WaveformImageDrawer {
                               style: WaveformStyle = .gradient([UIColor.black, UIColor.darkGray]),
                               position: WaveformPosition = .middle,
                               scale: CGFloat = UIScreen.main.scale,
-                              paddingFactor: CGFloat? = nil,
+                              verticalScalingFactor: CGFloat = 0.95,
                               qos: DispatchQoS.QoSClass = .userInitiated,
                               shouldAntialias: Bool = false,
                               completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
-        let configuration = WaveformConfiguration(size: size, backgroundColor: backgroundColor,
-                                                  style: style, position: position, scale: scale,
-                                                  paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+        let configuration = WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position,
+                                                  scale: scale, verticalScalingFactor: verticalScalingFactor, shouldAntialias: shouldAntialias)
         waveformImage(fromAudioAt: audioAssetURL, with: configuration, completionHandler: completionHandler)
     }
 
@@ -52,6 +43,7 @@ public class WaveformImageDrawer {
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = configuration.scale
+        // TODO: check this size
         let size = CGSize(width: max(configuration.size.width, CGFloat(samples.count) / configuration.scale), height: configuration.size.height)
         let renderer = UIGraphicsImageRenderer(size: size, format: format)
 
@@ -117,9 +109,9 @@ private extension WaveformImageDrawer {
                            with configuration: WaveformConfiguration) {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
         let positionAdjustedGraphCenter = CGFloat(configuration.position.value()) * graphRect.size.height
-        let verticalPaddingDivisor = configuration.paddingFactor ?? CGFloat(configuration.position.value() == 0.5 ? 2.5 : 1.5)
-        let drawMappingFactor = graphRect.size.height / verticalPaddingDivisor
-        let minimumGraphAmplitude: CGFloat = 1 / configuration.scale / 2 // we want to see at least a 1px line for silence
+        let positionCorrectionFactor = CGFloat(0.5 + abs(configuration.position.value() - 0.5)) // middle has only half the size available
+        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor * positionCorrectionFactor
+        let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
 
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
@@ -131,7 +123,7 @@ private extension WaveformImageDrawer {
 
             let xPos = CGFloat(x) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
-            let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
+            let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor) * configuration.scale
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
             maxAmplitude = max(drawingAmplitude, maxAmplitude)
@@ -145,7 +137,7 @@ private extension WaveformImageDrawer {
         context.setShouldAntialias(configuration.shouldAntialias)
 
         if case let .striped(config) = configuration.style {
-            context.setLineWidth(config.width)
+            context.setLineWidth(config.width / configuration.scale)
         } else {
             context.setLineWidth(1.0 / configuration.scale)
         }

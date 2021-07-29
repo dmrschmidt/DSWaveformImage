@@ -7,7 +7,7 @@ import UIKit
  - **top**: Draws the waveform in the middle the image, such that the entire waveform is visible.
  - **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
  */
-public enum WaveformPosition {
+public enum WaveformPosition: Equatable {
     case top
     case middle
     case bottom
@@ -58,68 +58,94 @@ public enum WaveformStyle {
 
 /// Allows customization of the waveform output image.
 public struct WaveformConfiguration {
-    /// Desired output size of the waveform image, works together with scale.
+    /// Desired output size of the waveform image, works together with scale. Default is `.zero`.
     public let size: CGSize
 
-    /// Background color of the waveform, defaults to clear.
+    /// Background color of the waveform, defaults to `clear`.
     public let backgroundColor: UIColor
 
-    /// Waveform drawing style, defaults to .gradient.
+    /// Waveform drawing style, defaults to `.gradient`.
     public let style: WaveformStyle
 
-    /// Waveform drawing position, defaults to .middle.
+    /// Waveform drawing position, defaults to `.middle`.
     public let position: WaveformPosition
 
-    /// Scale to be applied to the image, defaults to main screen's scale.
+    /// Scale (@2x, @3x, etc.) to be applied to the image, defaults to `UIScreen.main.scale`.
     public let scale: CGFloat
 
-    /// Optional padding or vertical shrinking factor for the waveform.
-    public let paddingFactor: CGFloat?
+    /// *Optional* padding or vertical shrinking factor for the waveform.
+    @available(swift, obsoleted: 3.0, message: "Please use scalingFactor instead")
+    public let paddingFactor: CGFloat? = nil
 
-    /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is false.
+    /**
+     Vertical scaling factor in range `(0...1)`. Default is `0.95`, leaving a small vertical padding.
+
+     The `verticalScalingFactor` replaced `paddingFactor` to be more approachable.
+     It describes the maximum vertical amplitude of the envelope being drawn
+     in relation to its view's (image's) size.
+
+     * `0`: the waveform has no vertical amplitude and is just a line.
+     * `1`: the waveform uses the full available vertical space.
+     */
+    public let verticalScalingFactor: CGFloat
+
+    /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is `false`.
     public let shouldAntialias: Bool
 
-    public init(size: CGSize,
+    @available(*, deprecated, message: "paddingFactor has been replaced by scalingFactor")
+    public init(size: CGSize = .zero,
                 backgroundColor: UIColor = UIColor.clear,
                 style: WaveformStyle = .gradient([UIColor.black, UIColor.gray]),
                 position: WaveformPosition = .middle,
                 scale: CGFloat = UIScreen.main.scale,
-                paddingFactor: CGFloat? = nil,
+                paddingFactor: CGFloat?,
                 shouldAntialias: Bool = false) {
         self.backgroundColor = backgroundColor
         self.style = style
         self.position = position
         self.size = size
         self.scale = scale
-        self.paddingFactor = paddingFactor
+        self.verticalScalingFactor = 1 / (paddingFactor ?? 1)
         self.shouldAntialias = shouldAntialias
     }
 
-    public func with(size: CGSize) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    public init(size: CGSize = .zero,
+                backgroundColor: UIColor = UIColor.clear,
+                style: WaveformStyle = .gradient([UIColor.black, UIColor.gray]),
+                position: WaveformPosition = .middle,
+                scale: CGFloat = UIScreen.main.scale,
+                verticalScalingFactor: CGFloat = 0.95,
+                shouldAntialias: Bool = false) {
+        guard (0...1).contains(Float(verticalScalingFactor)) else {
+            preconditionFailure("scalingFactor must be within [0...1]")
+        }
+
+        self.backgroundColor = backgroundColor
+        self.style = style
+        self.position = position
+        self.size = size
+        self.scale = scale
+        self.verticalScalingFactor = verticalScalingFactor
+        self.shouldAntialias = shouldAntialias
     }
 
-    public func with(backgroundColor: UIColor) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
-    }
-
-    public func with(style: WaveformStyle) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
-    }
-
-    public func with(position: WaveformPosition) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
-    }
-
-    public func with(scale: CGFloat) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
-    }
-
-    public func with(paddingFactor: CGFloat) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
-    }
-
-    public func with(shouldAntialias: Bool) -> WaveformConfiguration {
-        WaveformConfiguration(size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale, paddingFactor: paddingFactor, shouldAntialias: shouldAntialias)
+    /// Build a new `WaveformConfiguration` with only the given parameters replaced.
+    public func with(size: CGSize? = nil,
+                     backgroundColor: UIColor? = nil,
+                     style: WaveformStyle? = nil,
+                     position: WaveformPosition? = nil,
+                     scale: CGFloat? = nil,
+                     verticalScalingFactor: CGFloat? = nil,
+                     shouldAntialias: Bool? = nil
+    ) -> WaveformConfiguration {
+        WaveformConfiguration(
+            size: size ?? self.size,
+            backgroundColor: backgroundColor ?? self.backgroundColor,
+            style: style ?? self.style,
+            position: position ?? self.position,
+            scale: scale ?? self.scale,
+            verticalScalingFactor: verticalScalingFactor ?? self.verticalScalingFactor,
+            shouldAntialias: shouldAntialias ?? self.shouldAntialias
+        )
     }
 }
