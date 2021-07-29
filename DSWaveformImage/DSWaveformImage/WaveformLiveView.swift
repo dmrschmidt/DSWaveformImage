@@ -45,7 +45,7 @@ class WaveformLiveLayer: CALayer {
         didSet { contentsScale = configuration.scale }
     }
 
-    private let imageDrawer = WaveformImageDrawer()
+    private let waveformDrawer = WaveformImageDrawer()
 
     override class func needsDisplay(forKey key: String) -> Bool {
         if key == #keyPath(samples) {
@@ -62,7 +62,7 @@ class WaveformLiveLayer: CALayer {
         }
 
         UIGraphicsPushContext(context)
-        imageDrawer.waveformImage(from: samples, with: configuration.with(size: bounds.size), context: context)
+        waveformDrawer.draw(waveform: samples, on: context, with: configuration.with(size: bounds.size))
         UIGraphicsPopContext()
     }
 }

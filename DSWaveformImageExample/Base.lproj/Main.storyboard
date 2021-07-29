@@ -102,7 +102,8 @@
                         <constraints>
                             <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4uO-ab-r8j"/>
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="Ajd-ux-gn2"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" id="BXp-Z2-Mxu"/>
+                            <constraint firstItem="v3e-Lg-ebC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rcG-A7-gKZ" secondAttribute="bottom" constant="8" symbolic="YES" id="AsU-po-NSN"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" priority="750" id="BXp-Z2-Mxu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="I9l-E2-2I8"/>
                             <constraint firstItem="v3e-Lg-ebC" firstAttribute="centerX" secondItem="Qez-1m-x4e" secondAttribute="centerX" id="oVv-Bi-OKm"/>
                         </constraints>

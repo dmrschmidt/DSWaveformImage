@@ -51,7 +51,7 @@ public class WaveformImageDrawer {
         }
     }
 
-    public func waveformImage(from samples: [Float], with configuration: WaveformConfiguration, context: CGContext) {
+    public func draw(waveform samples: [Float], on context: CGContext, with configuration: WaveformConfiguration) {
         guard samples.count > 0 else {
             return
         }
@@ -117,6 +117,8 @@ private extension WaveformImageDrawer {
 
         for (x, sample) in samples.enumerated() {
             if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
+                // skip sub-pixels - any x value not scale aligned
+                // skip any point that is not a multiple of our bucket width (width + spacing)
                 continue
             }
 
