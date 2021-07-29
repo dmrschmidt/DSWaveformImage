@@ -37,15 +37,14 @@ public class WaveformImageDrawer {
     }
 
     public func waveformImage(from samples: [Float], with configuration: WaveformConfiguration) -> UIImage? {
-        guard samples.count > 0 else {
+        guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
+            print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
             return nil
         }
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = configuration.scale
-        // TODO: check this size
-        let size = CGSize(width: max(configuration.size.width, CGFloat(samples.count) / configuration.scale), height: configuration.size.height)
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
 
         return renderer.image { renderContext in
             draw(on: renderContext.cgContext, from: samples, with: configuration)
@@ -165,7 +164,7 @@ private extension WaveformImageDrawer {
 
     private func stripeCount(_ configuration: WaveformConfiguration) -> Int {
         if case let .striped(stripeConfig) = configuration.style {
-            return Int(configuration.size.width / (stripeConfig.width + stripeConfig.spacing))
+            return Int(configuration.size.width / (stripeConfig.width + (stripeConfig.spacing / 2)))
         } else {
             return 0
         }

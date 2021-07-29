@@ -145,7 +145,8 @@ fileprivate extension WaveformAnalyzer {
             outputSamples += processedSamples
         }
 
-        return WaveformAnalysis(amplitudes: normalize(outputSamples), fft: outputFFT)
+        let targetSamples = Array(outputSamples[0..<targetSampleCount])
+        return WaveformAnalysis(amplitudes: normalize(targetSamples), fft: outputFFT)
     }
 
     private func process(_ sampleBuffer: Data,
