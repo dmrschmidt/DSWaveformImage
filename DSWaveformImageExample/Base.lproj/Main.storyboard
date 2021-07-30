@@ -97,39 +97,58 @@
                                     <constraint firstAttribute="height" constant="200" id="PcT-qV-d0h"/>
                                 </constraints>
                             </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="zI1-aQ-J0k">
-                                <rect key="frame" x="16" y="145" width="288" height="32"/>
-                                <segments>
-                                    <segment title="Filled"/>
-                                    <segment title="Gradient"/>
-                                    <segment title="Striped"/>
-                                </segments>
-                                <connections>
-                                    <action selector="didChangeStyle:" destination="ogB-yT-rId" eventType="valueChanged" id="rfq-WN-VK5"/>
-                                </connections>
-                            </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waveform Style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL4-R3-jtk">
-                                <rect key="frame" x="16" y="116" width="288" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GbK-7o-DjF">
+                                <rect key="frame" x="16" y="77.5" width="288" height="98.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQx-IP-opZ">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Draw Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jop-sf-ips">
+                                                <rect key="frame" x="0.0" y="0.0" width="239" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="S9Q-aA-ZyM">
+                                                <rect key="frame" x="239" y="0.0" width="51" height="31"/>
+                                                <connections>
+                                                    <action selector="didChangeSilence:" destination="ogB-yT-rId" eventType="valueChanged" id="NHv-pv-ioM"/>
+                                                </connections>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waveform Style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL4-R3-jtk">
+                                        <rect key="frame" x="0.0" y="39" width="288" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="zI1-aQ-J0k">
+                                        <rect key="frame" x="0.0" y="67.5" width="288" height="32"/>
+                                        <segments>
+                                            <segment title="Filled"/>
+                                            <segment title="Gradient"/>
+                                            <segment title="Striped"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="didChangeStyle:" destination="ogB-yT-rId" eventType="valueChanged" id="rfq-WN-VK5"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="zI1-aQ-J0k" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="0KH-hz-cbD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="zI1-aQ-J0k" secondAttribute="trailing" id="2yF-SM-d9k"/>
                             <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4uO-ab-r8j"/>
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="Ajd-ux-gn2"/>
                             <constraint firstItem="v3e-Lg-ebC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rcG-A7-gKZ" secondAttribute="bottom" constant="8" symbolic="YES" id="AsU-po-NSN"/>
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" priority="750" id="BXp-Z2-Mxu"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="DzZ-na-yAS"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="I9l-E2-2I8"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="kL4-R3-jtk" secondAttribute="trailing" id="V7I-fC-84b"/>
-                            <constraint firstItem="kL4-R3-jtk" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="hHR-Jq-O5o"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="zI1-aQ-J0k" secondAttribute="bottom" constant="8" symbolic="YES" id="inn-KU-wak"/>
-                            <constraint firstItem="zI1-aQ-J0k" firstAttribute="top" secondItem="kL4-R3-jtk" secondAttribute="bottom" constant="8" symbolic="YES" id="oTm-Yo-1wQ"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WrP-B3-eP6" secondAttribute="bottom" constant="8" symbolic="YES" id="NEc-Zo-DL8"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="e1h-Bk-g9U"/>
                             <constraint firstItem="v3e-Lg-ebC" firstAttribute="centerX" secondItem="Qez-1m-x4e" secondAttribute="centerX" id="oVv-Bi-OKm"/>
-                            <constraint firstItem="zI1-aQ-J0k" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WrP-B3-eP6" secondAttribute="bottom" constant="8" symbolic="YES" id="zPz-bz-Mfv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GbK-7o-DjF" secondAttribute="trailing" id="vw6-XE-5ah"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Live Recording" id="LYU-YT-ptE"/>

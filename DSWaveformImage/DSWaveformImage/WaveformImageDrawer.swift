@@ -7,6 +7,8 @@ import CoreGraphics
 public class WaveformImageDrawer {
     public init() {}
 
+    var shouldDrawSilencePadding: Bool = false
+
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: WaveformConfiguration,
@@ -38,6 +40,9 @@ public class WaveformImageDrawer {
         }
     }
 
+    /// Makes sure we always look at the same samples while animating
+    private var lastOffset: Int = 0
+
     /// Renders the waveform from the provided samples into the provided `CGContext`.
     ///
     /// Samples need to be normalized within interval `(0...1)`.
@@ -47,19 +52,17 @@ public class WaveformImageDrawer {
             return
         }
 
-        var clampedSamples = samples
-        if case .striped = configuration.style {
-            // clamp the sample window so that we always draw lines from the same samples, even as we add more
-            let stripeDivisableLeftover = samples.count % stripeCount(configuration)
-            clampedSamples = Array(samples[0..<(samples.count - stripeDivisableLeftover)])
+        let samplesNeeded = Int(configuration.size.width * configuration.scale)
+
+        if case .striped = configuration.style, samples.count >= samplesNeeded {
+            lastOffset = (lastOffset + 1) % stripeBucket(configuration)
         }
 
         // move the window, so that its always at the end (moves the graph after it reached the right side)
-        let samplesNeeded = Int(configuration.size.width * configuration.scale)
-        let startSample = max(0, clampedSamples.count - samplesNeeded)
-        let clippedSamples = Array(clampedSamples[startSample..<clampedSamples.count])
+        let startSample = max(0, samples.count - samplesNeeded)
+        let clippedSamples = Array(samples[startSample..<samples.count])
         let dampenedSamples = configuration.shouldDampenSides ? dampen(clippedSamples) : clippedSamples
-        let paddedSamples = dampenedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count)
+        let paddedSamples = shouldDrawSilencePadding ? dampenedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count) : dampenedSamples
 
         draw(on: context, from: paddedSamples, with: configuration)
     }
@@ -108,14 +111,15 @@ private extension WaveformImageDrawer {
         let path = CGMutablePath()
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
-        for (x, sample) in samples.enumerated() {
+        for (y, sample) in samples.enumerated() {
+            let x = y + lastOffset
             if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
                 // skip sub-pixels - any x value not scale aligned
                 // skip any point that is not a multiple of our bucket width (width + spacing)
                 continue
             }
 
-            let xPos = CGFloat(x) / configuration.scale
+            let xPos = CGFloat(x - lastOffset) / configuration.scale
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude

@@ -7,6 +7,16 @@ public class WaveformLiveView: UIView {
     /// Default configuration with dampening enabled.
     public static let defaultConfiguration = WaveformConfiguration(shouldDampenSides: true)
 
+    /// If set to `true`, a zero line, indicating silence, is being drawn while the received
+    /// samples are not filling up the entire view's width yet.
+    public var shouldDrawSilencePadding: Bool = false {
+        didSet {
+            sampleLayer.shouldDrawSilencePadding = shouldDrawSilencePadding
+        }
+    }
+
+    /// The samples to be used. Re-draws the waveform when being mutated.
+    /// Values must be within `(0...1)` to make sense (0 being loweset and 1 being maximum amplitude).
     public var samples: [Float] = [] {
         didSet {
             sampleLayer.samples = samples
@@ -56,6 +66,12 @@ class WaveformLiveLayer: CALayer {
 
     var configuration = WaveformLiveView.defaultConfiguration {
         didSet { contentsScale = configuration.scale }
+    }
+
+    var shouldDrawSilencePadding: Bool = false {
+        didSet {
+            waveformDrawer.shouldDrawSilencePadding = shouldDrawSilencePadding
+        }
     }
 
     private let waveformDrawer = WaveformImageDrawer()

@@ -35,6 +35,10 @@ class RecordingViewController: UIViewController {
         )
     }
 
+    @IBAction func didChangeSilence(_ sender: UISwitch) {
+        waveformView.shouldDrawSilencePadding = sender.isOn
+    }
+
     @IBAction func didTapRecording() {
         if audioManager.recording() {
             audioManager.stopRecording()
