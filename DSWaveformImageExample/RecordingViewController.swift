@@ -97,7 +97,10 @@ extension RecordingViewController: RecordingDelegate {
 
     func audioManager(_ manager: SCAudioManager!, didUpdateRecordProgress progress: CGFloat) {
         print("current power: \(manager.lastAveragePower()) dB")
-        let linear = 1 - pow(10, Float(0) / 20)
-        waveformView.samples.append(linear)
+        let linear = 1 - pow(10, manager.lastAveragePower() / 20)
+
+        // Here we add the same sample 3 times to speed up the animation.
+        // Usually you'd just add the sample once.
+        waveformView.add(samples: [linear, linear, linear])
     }
 }

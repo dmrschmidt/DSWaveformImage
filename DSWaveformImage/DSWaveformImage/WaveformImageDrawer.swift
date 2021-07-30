@@ -10,6 +10,9 @@ public class WaveformImageDrawer {
     /// only internal; determines whether to draw silence lines in live mode.
     var shouldDrawSilencePadding: Bool = false
 
+    /// Makes sure we always look at the same samples while animating
+    private var lastOffset: Int = 0
+
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
@@ -40,15 +43,14 @@ public class WaveformImageDrawer {
             draw(on: renderContext.cgContext, from: dampenedSamples, with: configuration)
         }
     }
+}
 
-    /// Makes sure we always look at the same samples while animating
-    private var lastOffset: Int = 0
-
+extension WaveformImageDrawer {
     /// Renders the waveform from the provided samples into the provided `CGContext`.
     ///
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
-    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration) {
+    func draw(waveform samples: [Float], newSampleCount: Int, on context: CGContext, with configuration: Waveform.Configuration) {
         guard samples.count > 0 else {
             return
         }
@@ -56,7 +58,7 @@ public class WaveformImageDrawer {
         let samplesNeeded = Int(configuration.size.width * configuration.scale)
 
         if case .striped = configuration.style, samples.count >= samplesNeeded {
-            lastOffset = (lastOffset + 1) % stripeBucket(configuration)
+            lastOffset = (lastOffset + newSampleCount) % stripeBucket(configuration)
         }
 
         // move the window, so that its always at the end (moves the graph after it reached the right side)

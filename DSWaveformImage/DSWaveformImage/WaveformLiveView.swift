@@ -15,14 +15,6 @@ public class WaveformLiveView: UIView {
         }
     }
 
-    /// The samples to be used. Re-draws the waveform when being mutated.
-    /// Values must be within `(0...1)` to make sense (0 being loweset and 1 being maximum amplitude).
-    public var samples: [Float] = [] {
-        didSet {
-            sampleLayer.samples = samples
-        }
-    }
-
     public var configuration: Waveform.Configuration {
         didSet {
             sampleLayer.configuration = configuration
@@ -55,14 +47,28 @@ public class WaveformLiveView: UIView {
         contentMode = .redraw
     }
 
+    /// The sample to be added. Re-draws the waveform with the pre-existing samples and the new one.
+    /// Value must be within `(0...1)` to make sense (0 being loweset and 1 being maximum amplitude).
+    public func add(sample: Float) {
+        sampleLayer.add([sample])
+    }
+
+    /// The samples to be added. Re-draws the waveform with the pre-existing samples and the new ones.
+    /// Values must be within `(0...1)` to make sense (0 being loweset and 1 being maximum amplitude).
+    public func add(samples: [Float]) {
+        sampleLayer.add(samples)
+    }
+
     /// Clears the samples, emptying the waveform view.
     public func reset() {
-        samples = []
+        sampleLayer.reset()
     }
 }
 
 class WaveformLiveLayer: CALayer {
-    @NSManaged var samples: [Float]
+    @NSManaged private var samples: [Float]
+
+    private var lastNewSampleCount: Int = 0
 
     var configuration = WaveformLiveView.defaultConfiguration {
         didSet { contentsScale = configuration.scale }
@@ -91,7 +97,17 @@ class WaveformLiveLayer: CALayer {
         }
 
         UIGraphicsPushContext(context)
-        waveformDrawer.draw(waveform: samples, on: context, with: configuration.with(size: bounds.size))
+        waveformDrawer.draw(waveform: samples, newSampleCount: lastNewSampleCount, on: context, with: configuration.with(size: bounds.size))
         UIGraphicsPopContext()
+    }
+
+    func add(_ newSamples: [Float]) {
+        lastNewSampleCount = newSamples.count
+        samples += newSamples
+    }
+
+    func reset() {
+        lastNewSampleCount = 0
+        samples = []
     }
 }
