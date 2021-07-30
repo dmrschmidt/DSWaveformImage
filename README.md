@@ -25,7 +25,7 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "8.2.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "9.0.0"
 * use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0`
 * simply copy the `DSWaveformImage` folder directly into your project.
 * or, sunset since 6.1.1: ~~use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`~~
