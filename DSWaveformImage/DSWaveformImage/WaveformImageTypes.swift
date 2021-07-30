@@ -121,7 +121,7 @@ public enum Waveform {
         public let paddingFactor: CGFloat? = nil
 
         /**
-         Vertical scaling factor in range `(0...1)`. Default is `0.95`, leaving a small vertical padding.
+         Vertical scaling factor. Default is `0.95`, leaving a small vertical padding.
 
          The `verticalScalingFactor` replaced `paddingFactor` to be more approachable.
          It describes the maximum vertical amplitude of the envelope being drawn
@@ -129,6 +129,7 @@ public enum Waveform {
 
          * `0`: the waveform has no vertical amplitude and is just a line.
          * `1`: the waveform uses the full available vertical space.
+         * `> 1`: louder waveform samples will extend out of the view boundaries and clip.
          */
         public let verticalScalingFactor: CGFloat
 
@@ -161,8 +162,8 @@ public enum Waveform {
                     scale: CGFloat = UIScreen.main.scale,
                     verticalScalingFactor: CGFloat = 0.95,
                     shouldAntialias: Bool = false) {
-            guard (0...1).contains(Float(verticalScalingFactor)) else {
-                preconditionFailure("scalingFactor must be within [0...1]")
+            guard verticalScalingFactor > 0 else {
+                preconditionFailure("verticalScalingFactor must be greater 0")
             }
 
             self.backgroundColor = backgroundColor

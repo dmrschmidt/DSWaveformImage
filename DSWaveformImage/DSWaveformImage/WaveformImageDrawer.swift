@@ -107,8 +107,7 @@ private extension WaveformImageDrawer {
                            with configuration: Waveform.Configuration) {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
         let positionAdjustedGraphCenter = CGFloat(configuration.position.value()) * graphRect.size.height
-        let positionCorrectionFactor = CGFloat(0.5 + abs(configuration.position.value() - 0.5)) // middle has only half the size available
-        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor * positionCorrectionFactor
+        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
         let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
 
         let path = CGMutablePath()
