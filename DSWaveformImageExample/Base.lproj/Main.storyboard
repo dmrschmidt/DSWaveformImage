@@ -91,29 +91,37 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcG-A7-gKZ" customClass="WaveformLiveView" customModule="DSWaveformImage">
-                                <rect key="frame" x="16" y="184" width="288" height="200"/>
+                                <rect key="frame" x="16" y="220" width="288" height="128"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="PcT-qV-d0h"/>
-                                </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GbK-7o-DjF">
-                                <rect key="frame" x="16" y="11" width="288" height="165"/>
+                                <rect key="frame" x="16" y="8" width="288" height="204"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dampening" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tiy-X1-2KO">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dampening" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hy1-ka-Pzi">
                                         <rect key="frame" x="0.0" y="0.0" width="288" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.125" minValue="0.0" maxValue="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NxC-DE-nEF">
-                                        <rect key="frame" x="-2" y="28.5" width="292" height="31"/>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="tgJ-mP-oPh">
+                                        <rect key="frame" x="0.0" y="28.5" width="288" height="32"/>
+                                        <segments>
+                                            <segment title="Left"/>
+                                            <segment title="Right"/>
+                                            <segment title="Both"/>
+                                        </segments>
                                         <connections>
-                                            <action selector="didChangeDampening:" destination="ogB-yT-rId" eventType="valueChanged" id="9Lo-lS-QDh"/>
+                                            <action selector="didChangeDampeningSides:" destination="ogB-yT-rId" eventType="valueChanged" id="Aic-e2-phE"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.125" minValue="0.0" maxValue="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NxC-DE-nEF">
+                                        <rect key="frame" x="-2" y="67.5" width="292" height="31"/>
+                                        <connections>
+                                            <action selector="didChangeDampeningPercentage:" destination="ogB-yT-rId" eventType="valueChanged" id="9Lo-lS-QDh"/>
                                         </connections>
                                     </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQx-IP-opZ">
-                                        <rect key="frame" x="0.0" y="66.5" width="288" height="31"/>
+                                        <rect key="frame" x="0.0" y="105.5" width="288" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Draw Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jop-sf-ips">
                                                 <rect key="frame" x="0.0" y="0.0" width="239" height="31"/>
@@ -130,13 +138,13 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waveform Style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL4-R3-jtk">
-                                        <rect key="frame" x="0.0" y="105.5" width="288" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="144.5" width="288" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="zI1-aQ-J0k">
-                                        <rect key="frame" x="0.0" y="134" width="288" height="32"/>
+                                        <rect key="frame" x="0.0" y="173" width="288" height="32"/>
                                         <segments>
                                             <segment title="Filled"/>
                                             <segment title="Gradient"/>
@@ -151,16 +159,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4uO-ab-r8j"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="Ajd-ux-gn2"/>
-                            <constraint firstItem="v3e-Lg-ebC" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rcG-A7-gKZ" secondAttribute="bottom" constant="8" symbolic="YES" id="AsU-po-NSN"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" priority="750" id="BXp-Z2-Mxu"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="DzZ-na-yAS"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="I9l-E2-2I8"/>
-                            <constraint firstItem="GbK-7o-DjF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="WrP-B3-eP6" secondAttribute="bottom" constant="8" symbolic="YES" id="NEc-Zo-DL8"/>
-                            <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="e1h-Bk-g9U"/>
-                            <constraint firstItem="v3e-Lg-ebC" firstAttribute="centerX" secondItem="Qez-1m-x4e" secondAttribute="centerX" id="oVv-Bi-OKm"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GbK-7o-DjF" secondAttribute="trailing" id="vw6-XE-5ah"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="trailing" secondItem="Qez-1m-x4e" secondAttribute="trailingMargin" id="0oP-5X-T6Y"/>
+                            <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4ZX-TM-dUJ"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="trailing" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="ATm-sV-96c"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="top" secondItem="WrP-B3-eP6" secondAttribute="bottom" constant="8" symbolic="YES" id="G9Q-3i-og4"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="rcG-A7-gKZ" secondAttribute="leading" id="TsT-3h-3cr"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" id="jIN-Je-6GS"/>
+                            <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="jgD-AP-WDP"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerX" secondItem="v3e-Lg-ebC" secondAttribute="centerX" id="tVQ-Jy-QPC"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="z0e-Zg-p8K"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Live Recording" id="LYU-YT-ptE"/>

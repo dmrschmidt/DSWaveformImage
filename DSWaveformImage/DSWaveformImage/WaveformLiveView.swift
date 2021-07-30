@@ -5,21 +5,13 @@ import UIKit
 public class WaveformLiveView: UIView {
 
     /// Default configuration with dampening enabled.
-    public static let defaultConfiguration = WaveformConfiguration(shouldDampenSides: true)
+    public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
 
     /// If set to `true`, a zero line, indicating silence, is being drawn while the received
     /// samples are not filling up the entire view's width yet.
     public var shouldDrawSilencePadding: Bool = false {
         didSet {
             sampleLayer.shouldDrawSilencePadding = shouldDrawSilencePadding
-        }
-    }
-
-    /// Determines how much percentage of the resulting graph should be dampened
-    /// on either sides. Must be within `(0..<0.5)` to leave an undapmened area.
-    public var dampeningPercentage: Float = 0.125 {
-        didSet {
-            sampleLayer.dampeningPercentage = dampeningPercentage
         }
     }
 
@@ -31,7 +23,7 @@ public class WaveformLiveView: UIView {
         }
     }
 
-    public var configuration: WaveformConfiguration {
+    public var configuration: Waveform.Configuration {
         didSet {
             sampleLayer.configuration = configuration
         }
@@ -45,7 +37,7 @@ public class WaveformLiveView: UIView {
         return WaveformLiveLayer.self
     }
 
-    public init(configuration: WaveformConfiguration = defaultConfiguration) {
+    public init(configuration: Waveform.Configuration = defaultConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         self.contentMode = .redraw
@@ -79,12 +71,6 @@ class WaveformLiveLayer: CALayer {
     var shouldDrawSilencePadding: Bool = false {
         didSet {
             waveformDrawer.shouldDrawSilencePadding = shouldDrawSilencePadding
-        }
-    }
-
-    var dampeningPercentage: Float = 0.125 {
-        didSet {
-            waveformDrawer.dampeningPercentage = dampeningPercentage
         }
     }
 

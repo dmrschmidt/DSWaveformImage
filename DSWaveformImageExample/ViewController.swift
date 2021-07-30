@@ -46,8 +46,9 @@ class ViewController: UIViewController {
                         UIColor.red
                     ]
                 ),
+                dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
                 position: .top,
-                verticalScalingFactor: 0.5)
+                verticalScalingFactor: 0.9)
         ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {
@@ -55,8 +56,8 @@ class ViewController: UIViewController {
             }
         }
 
-        let style = WaveformStyle.striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5, lineCap: .round))
-        middleWaveformView.configuration = WaveformConfiguration(backgroundColor: .lightGray.withAlphaComponent(0.1), style: style)
+        let style = Waveform.Style.striped(.init(color: UIColor(red: 51/255.0, green: 92/255.0, blue: 103/255.0, alpha: 1), width: 5, spacing: 5, lineCap: .round))
+        middleWaveformView.configuration = Waveform.Configuration(backgroundColor: .lightGray.withAlphaComponent(0.1), style: style)
         middleWaveformView.waveformAudioURL = audioURL
 
         waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration) { image in
@@ -66,8 +67,8 @@ class ViewController: UIViewController {
         }
     }
 
-    private var bottomWaveformConfiguration: WaveformConfiguration {
-        WaveformConfiguration(
+    private var bottomWaveformConfiguration: Waveform.Configuration {
+        Waveform.Configuration(
             size: bottomWaveformView.bounds.size,
             style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)),
             position: .bottom,

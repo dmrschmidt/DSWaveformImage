@@ -6,7 +6,7 @@ public class WaveformImageView: UIImageView {
     private let waveformImageDrawer: WaveformImageDrawer
     private var waveformAnalyzer: WaveformAnalyzer?
 
-    public var configuration: WaveformConfiguration {
+    public var configuration: Waveform.Configuration {
         didSet { updateWaveform() }
     }
 
@@ -15,13 +15,13 @@ public class WaveformImageView: UIImageView {
     }
 
     override public init(frame: CGRect) {
-        configuration = WaveformConfiguration(size: frame.size)
+        configuration = Waveform.Configuration(size: frame.size)
         waveformImageDrawer = WaveformImageDrawer()
         super.init(frame: frame)
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        configuration = WaveformConfiguration()
+        configuration = Waveform.Configuration()
         waveformImageDrawer = WaveformImageDrawer()
         super.init(coder: aDecoder)
     }

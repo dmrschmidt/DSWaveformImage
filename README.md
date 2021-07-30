@@ -33,14 +33,18 @@ Installation
 Usage
 -----
 
-Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
+*Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
+
+### Configuration
+
+Check `Waveform.Configuration` for various configuration options.
 
 ### To create a `UIImage` using `WaveformImageDrawer`:
 
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformImageDrawer.waveformImage(fromAudioAt: audioURL,
+waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
                                   size: topWaveformView.bounds.size,
                                   style: .filled(UIColor.black),
                                   position: .top) { image in

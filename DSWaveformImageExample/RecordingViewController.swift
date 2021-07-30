@@ -39,9 +39,18 @@ class RecordingViewController: UIViewController {
         waveformView.shouldDrawSilencePadding = sender.isOn
     }
 
-    @IBAction func didChangeDampening(_ sender: UISlider) {
-        print("\(sender.value)")
-        waveformView.dampeningPercentage = sender.value
+    @IBAction func didChangeDampeningPercentage(_ sender: UISlider) {
+        waveformView.configuration = waveformView.configuration.with(
+            dampening: waveformView.configuration.dampening?.with(percentage: sender.value)
+        )
+    }
+
+    @IBAction func didChangeDampeningSides(_ sender: UISegmentedControl) {
+        waveformView.configuration = waveformView.configuration.with(
+            dampening: waveformView.configuration.dampening?.with(
+                sides: sideForSelection(index: sender.selectedSegmentIndex)
+            )
+        )
     }
 
     @IBAction func didTapRecording() {
@@ -55,11 +64,20 @@ class RecordingViewController: UIViewController {
         }
     }
 
-    private func styleForSelection(index: Int) -> WaveformStyle {
+    private func styleForSelection(index: Int) -> Waveform.Style {
         switch index {
         case 0: return .filled(.red)
         case 1: return .gradient([.red, .yellow])
         case 2: return .striped(.init(color: .red, width: 3, spacing: 3))
+        default: fatalError()
+        }
+    }
+
+    private func sideForSelection(index: Int) -> Waveform.Dampening.Sides {
+        switch index {
+        case 0: return .left
+        case 1: return .right
+        case 2: return .both
         default: fatalError()
         }
     }
@@ -79,7 +97,7 @@ extension RecordingViewController: RecordingDelegate {
 
     func audioManager(_ manager: SCAudioManager!, didUpdateRecordProgress progress: CGFloat) {
         print("current power: \(manager.lastAveragePower()) dB")
-        let linear = 1 - pow(10, manager.lastAveragePower() / 20)
+        let linear = 1 - pow(10, Float(0) / 20)
         waveformView.samples.append(linear)
     }
 }
