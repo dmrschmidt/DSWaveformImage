@@ -98,10 +98,22 @@
                                 </constraints>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GbK-7o-DjF">
-                                <rect key="frame" x="16" y="77.5" width="288" height="98.5"/>
+                                <rect key="frame" x="16" y="11" width="288" height="165"/>
                                 <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dampening" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tiy-X1-2KO">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.125" minValue="0.0" maxValue="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NxC-DE-nEF">
+                                        <rect key="frame" x="-2" y="28.5" width="292" height="31"/>
+                                        <connections>
+                                            <action selector="didChangeDampening:" destination="ogB-yT-rId" eventType="valueChanged" id="9Lo-lS-QDh"/>
+                                        </connections>
+                                    </slider>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HQx-IP-opZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="31"/>
+                                        <rect key="frame" x="0.0" y="66.5" width="288" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Draw Silence" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jop-sf-ips">
                                                 <rect key="frame" x="0.0" y="0.0" width="239" height="31"/>
@@ -118,13 +130,13 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Waveform Style" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kL4-R3-jtk">
-                                        <rect key="frame" x="0.0" y="39" width="288" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="105.5" width="288" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="zI1-aQ-J0k">
-                                        <rect key="frame" x="0.0" y="67.5" width="288" height="32"/>
+                                        <rect key="frame" x="0.0" y="134" width="288" height="32"/>
                                         <segments>
                                             <segment title="Filled"/>
                                             <segment title="Gradient"/>

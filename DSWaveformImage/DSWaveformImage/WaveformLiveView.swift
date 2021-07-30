@@ -15,6 +15,14 @@ public class WaveformLiveView: UIView {
         }
     }
 
+    /// Determines how much percentage of the resulting graph should be dampened
+    /// on either sides. Must be within `(0..<0.5)` to leave an undapmened area.
+    public var dampeningPercentage: Float = 0.125 {
+        didSet {
+            sampleLayer.dampeningPercentage = dampeningPercentage
+        }
+    }
+
     /// The samples to be used. Re-draws the waveform when being mutated.
     /// Values must be within `(0...1)` to make sense (0 being loweset and 1 being maximum amplitude).
     public var samples: [Float] = [] {
@@ -71,6 +79,12 @@ class WaveformLiveLayer: CALayer {
     var shouldDrawSilencePadding: Bool = false {
         didSet {
             waveformDrawer.shouldDrawSilencePadding = shouldDrawSilencePadding
+        }
+    }
+
+    var dampeningPercentage: Float = 0.125 {
+        didSet {
+            waveformDrawer.dampeningPercentage = dampeningPercentage
         }
     }
 

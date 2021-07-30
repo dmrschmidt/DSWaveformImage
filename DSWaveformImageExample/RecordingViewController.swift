@@ -39,6 +39,11 @@ class RecordingViewController: UIViewController {
         waveformView.shouldDrawSilencePadding = sender.isOn
     }
 
+    @IBAction func didChangeDampening(_ sender: UISlider) {
+        print("\(sender.value)")
+        waveformView.dampeningPercentage = sender.value
+    }
+
     @IBAction func didTapRecording() {
         if audioManager.recording() {
             audioManager.stopRecording()

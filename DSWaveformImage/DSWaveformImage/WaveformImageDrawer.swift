@@ -7,6 +7,16 @@ import CoreGraphics
 public class WaveformImageDrawer {
     public init() {}
 
+    /// Determines how much percentage of the resulting graph should be dampened
+    /// on either sides. Must be within `(0..<0.5)` to leave an undapmened area.
+    public var dampeningPercentage: Float = 0.125 {
+        didSet {
+            guard (0...0.5).contains(dampeningPercentage) else {
+                preconditionFailure("dampeningPercentage must be within (0..<0.5)")
+            }
+        }
+    }
+
     var shouldDrawSilencePadding: Bool = false
 
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
@@ -192,14 +202,18 @@ private extension WaveformImageDrawer {
     }
 
     private func dampFactor(x: Float, count: Float) -> Float {
-        if x < count / 8 {
-            // increasing linear dampening within the left 8th
+        guard dampeningPercentage > 0 else {
+            return 1
+        }
+
+        if x < count * dampeningPercentage {
+            // increasing linear dampening within the left 8th (default)
             // basically (x : 1/8) with x in (0..<1/8)
-            return pow(x / (count / 8), 2)
-        } else if x > 7 * (count / 8) {
+            return pow(x / (count * dampeningPercentage), 2)
+        } else if x > ((1 / dampeningPercentage) - 1) * (count * dampeningPercentage) {
             // decaying linear dampening within the right 8th
             // basically also (x : 1/8), but since x in (7/8>...1) x is "inverted" as x = x - 7/8
-            return pow(1 - (x - (7 * (count / 8))) / (count / 8), 2)
+            return pow(1 - (x - (((1 / dampeningPercentage) - 1) * (count * dampeningPercentage))) / (count * dampeningPercentage), 2)
         }
         return 1
     }
