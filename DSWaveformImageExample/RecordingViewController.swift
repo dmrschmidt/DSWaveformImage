@@ -6,7 +6,8 @@ import DSWaveformImage
 class RecordingViewController: UIViewController {
     @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var waveformView: WaveformLiveView!
-
+    @IBOutlet weak var styleSelector: UISegmentedControl!
+    
     private let audioManager: SCAudioManager!
     private let imageDrawer: WaveformImageDrawer!
 
@@ -21,11 +22,17 @@ class RecordingViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        waveformView.configuration = WaveformConfiguration(
+        waveformView.configuration = waveformView.configuration.with(
             backgroundColor: .lightGray.withAlphaComponent(0.1),
-            style: .striped(.init(color: .red, width: 3, spacing: 3))
+            style: styleForSelection(index: styleSelector.selectedSegmentIndex)
         )
         audioManager.prepareAudioRecording()
+    }
+
+    @IBAction func didChangeStyle(_ sender: UISegmentedControl) {
+        waveformView.configuration = waveformView.configuration.with(
+            style: styleForSelection(index: sender.selectedSegmentIndex)
+        )
     }
 
     @IBAction func didTapRecording() {
@@ -36,6 +43,15 @@ class RecordingViewController: UIViewController {
             waveformView.reset()
             audioManager.startRecording()
             recordButton.setTitle("Stop Recording", for: .normal)
+        }
+    }
+
+    private func styleForSelection(index: Int) -> WaveformStyle {
+        switch index {
+        case 0: return .filled(.red)
+        case 1: return .gradient([.red, .yellow])
+        case 2: return .striped(.init(color: .red, width: 3, spacing: 3))
+        default: fatalError()
         }
     }
 }
@@ -49,6 +65,7 @@ extension RecordingViewController: RecordingDelegate {
 
     func audioManager(_ manager: SCAudioManager!, didFinishRecordingSuccessfully success: Bool) {
         print("did finish recording with success=\(success)")
+        recordButton.setTitle("Start Recording", for: .normal)
     }
 
     func audioManager(_ manager: SCAudioManager!, didUpdateRecordProgress progress: CGFloat) {
