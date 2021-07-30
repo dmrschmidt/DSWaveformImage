@@ -23,7 +23,6 @@ class RecordingViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         waveformView.configuration = waveformView.configuration.with(
-            backgroundColor: .lightGray.withAlphaComponent(0.1),
             style: styleForSelection(index: styleSelector.selectedSegmentIndex)
         )
         audioManager.prepareAudioRecording()
