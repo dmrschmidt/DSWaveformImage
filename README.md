@@ -80,7 +80,7 @@ recorder.isMeteringEnabled = true // required to get current power levels
 // after all the other recording (omitted for focus) setup, periodically (every 20ms or so):
 recorder.updateMeters() // gets the current value
 let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
-waveformView.samples.append(currentAmplitude)
+waveformView.add(sample: currentAmplitude)
 ```
 
 ### `WaveformAnalyzer` - calculates an audio file's waveform sample:
