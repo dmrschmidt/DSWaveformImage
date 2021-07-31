@@ -112,6 +112,9 @@ The effect of each of those can be seen here:
 
 <img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/screenshot.png" width="500" alt="Screenshot">
 
+https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd6-f7cfbe1268c9.mov
+
+
 Migration
 ---------
 In 9.0.0 a few public API's have been slightly changed to be more concise. All types have also been grouped under the `Waveform` enum-namespace. Meaning `WaveformConfiguration` for instance has become `Waveform.Configuration` and so on.
