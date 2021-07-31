@@ -21,6 +21,11 @@ public class WaveformLiveView: UIView {
         }
     }
 
+    /// Returns the currently used samples.
+    public var samples: [Float] {
+        sampleLayer.samples
+    }
+
     private var sampleLayer: WaveformLiveLayer! {
         return layer as? WaveformLiveLayer
     }
@@ -66,7 +71,7 @@ public class WaveformLiveView: UIView {
 }
 
 class WaveformLiveLayer: CALayer {
-    @NSManaged private var samples: [Float]
+    @NSManaged var samples: [Float]
 
     private var lastNewSampleCount: Int = 0
 
