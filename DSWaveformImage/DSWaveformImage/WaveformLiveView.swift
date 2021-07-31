@@ -82,6 +82,7 @@ class WaveformLiveLayer: CALayer {
     var shouldDrawSilencePadding: Bool = false {
         didSet {
             waveformDrawer.shouldDrawSilencePadding = shouldDrawSilencePadding
+            setNeedsDisplay()
         }
     }
 
@@ -96,10 +97,6 @@ class WaveformLiveLayer: CALayer {
 
     override func draw(in context: CGContext) {
         super.draw(in: context)
-
-        guard samples.count > 0 else {
-            return
-        }
 
         UIGraphicsPushContext(context)
         waveformDrawer.draw(waveform: samples, newSampleCount: lastNewSampleCount, on: context, with: configuration.with(size: bounds.size))

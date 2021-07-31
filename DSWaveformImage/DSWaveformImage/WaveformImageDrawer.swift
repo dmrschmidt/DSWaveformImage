@@ -51,7 +51,7 @@ extension WaveformImageDrawer {
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
     func draw(waveform samples: [Float], newSampleCount: Int, on context: CGContext, with configuration: Waveform.Configuration) {
-        guard samples.count > 0 else {
+        guard samples.count > 0 || shouldDrawSilencePadding else {
             return
         }
 
