@@ -39,7 +39,7 @@ Usage
 
 Check `Waveform.Configuration` for various configuration options.
 
-### To create a `UIImage` using `WaveformImageDrawer`:
+### `WaveformImageDrawer` - creates a `UIImage` waveform from an audio file:
 
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
@@ -55,7 +55,7 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
 }
 ```
 
-### To create a `WaveformImageView` (`UIImageView` subclass):
+### `WaveformImageView` - a view rendering a one-off waveform from an audio file (`UIImageView` subclass):
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
@@ -63,7 +63,7 @@ waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, heig
 waveformImageView.waveformAudioURL = audioURL
 ```
 
-### To get render realtime waveform data from [0,1] normalized samples:
+### `WaveformLiveView` - a view rendering a live waveform from `(0...1)` normalized samples:
 
 Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
 
@@ -80,7 +80,7 @@ let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
 waveformView.samples.append(currentAmplitude)
 ```
 
-### And finally, to get an audio file's waveform samples:
+### `WaveformAnalyzer` - calculates an audio file's waveform sample:
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
