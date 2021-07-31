@@ -116,7 +116,7 @@ fileprivate extension WaveformAnalyzer {
             CMBlockBufferGetDataPointer(blockBuffer, atOffset: 0, lengthAtOffsetOut: &readBufferLength, totalLengthOut: nil, dataPointerOut: &readBufferPointer)
             sampleBuffer.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             if fftBands != nil {
-                //don't append data to this buffer unless we're going to clear it.
+                // don't append data to this buffer unless we're going to use it.
                 sampleBufferFFT.append(UnsafeBufferPointer(start: readBufferPointer, count: readBufferLength))
             }
             CMSampleBufferInvalidate(nextSampleBuffer)
@@ -128,7 +128,7 @@ fileprivate extension WaveformAnalyzer {
                 // vDSP_desamp uses strides of samplesPerPixel; remove only the processed ones
                 sampleBuffer.removeFirst(processedSamples.count * samplesPerPixel * MemoryLayout<Int16>.size)
 
-                //this takes care of a memory leak where Memory continues to increase even though it should clear after calling .removeFirst(…) above.
+                // this takes care of a memory leak where Memory continues to increase even though it should clear after calling .removeFirst(…) above.
                 sampleBuffer = Data(sampleBuffer)
             }
 
@@ -161,6 +161,7 @@ fileprivate extension WaveformAnalyzer {
         var downSampledData = [Float]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
 
+        // guard for crash in very long audio files
         guard sampleLength / samplesPerPixel > 0 else { return downSampledData }
 
         sampleBuffer.withUnsafeBytes { (samplesRawPointer: UnsafeRawBufferPointer) in
