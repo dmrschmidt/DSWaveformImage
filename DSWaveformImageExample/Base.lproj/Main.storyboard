@@ -91,7 +91,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcG-A7-gKZ" customClass="WaveformLiveView" customModule="DSWaveformImage">
-                                <rect key="frame" x="16" y="220" width="288" height="128"/>
+                                <rect key="frame" x="16" y="220" width="288" height="253"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GbK-7o-DjF">
@@ -161,12 +161,13 @@
                         <constraints>
                             <constraint firstItem="GbK-7o-DjF" firstAttribute="trailing" secondItem="Qez-1m-x4e" secondAttribute="trailingMargin" id="0oP-5X-T6Y"/>
                             <constraint firstItem="olD-WM-dbM" firstAttribute="top" secondItem="v3e-Lg-ebC" secondAttribute="bottom" constant="8" symbolic="YES" id="4ZX-TM-dUJ"/>
+                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="A2T-oU-C0l"/>
                             <constraint firstItem="GbK-7o-DjF" firstAttribute="trailing" secondItem="rcG-A7-gKZ" secondAttribute="trailing" id="ATm-sV-96c"/>
                             <constraint firstItem="GbK-7o-DjF" firstAttribute="top" secondItem="WrP-B3-eP6" secondAttribute="bottom" constant="8" symbolic="YES" id="G9Q-3i-og4"/>
                             <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="rcG-A7-gKZ" secondAttribute="leading" id="TsT-3h-3cr"/>
-                            <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerY" secondItem="Qez-1m-x4e" secondAttribute="centerY" id="jIN-Je-6GS"/>
                             <constraint firstItem="GbK-7o-DjF" firstAttribute="leading" secondItem="Qez-1m-x4e" secondAttribute="leadingMargin" id="jgD-AP-WDP"/>
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="centerX" secondItem="v3e-Lg-ebC" secondAttribute="centerX" id="tVQ-Jy-QPC"/>
+                            <constraint firstItem="v3e-Lg-ebC" firstAttribute="top" secondItem="rcG-A7-gKZ" secondAttribute="bottom" constant="8" symbolic="YES" id="xyY-gU-fdp"/>
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="z0e-Zg-p8K"/>
                         </constraints>
                     </view>
