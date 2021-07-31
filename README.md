@@ -58,7 +58,7 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
 }
 ```
 
-### `WaveformImageView` - a view rendering a one-off waveform from an audio file (`UIImageView` subclass):
+### `WaveformImageView` - renders a one-off waveform from an audio file:
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
@@ -66,7 +66,7 @@ waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, heig
 waveformImageView.waveformAudioURL = audioURL
 ```
 
-### `WaveformLiveView` - a view rendering a live waveform from `(0...1)` normalized samples:
+### `WaveformLiveView` - renders a live waveform from `(0...1)` normalized samples:
 
 Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
 
