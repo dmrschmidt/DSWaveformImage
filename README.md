@@ -40,7 +40,7 @@ Usage
 
 ### Configuration
 
-Check `Waveform.Configuration` for various configuration options.
+Check `Waveform.Configuration` in [WaveformImageTypes](./DSWaveformImage/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
 
 ### `WaveformImageDrawer` - creates a `UIImage` waveform from an audio file:
 
