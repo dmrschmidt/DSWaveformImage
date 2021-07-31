@@ -184,7 +184,6 @@ public enum Waveform {
                          position: Position? = nil,
                          scale: CGFloat? = nil,
                          verticalScalingFactor: CGFloat? = nil,
-                         shouldDampenSides: Bool? = nil,
                          shouldAntialias: Bool? = nil
         ) -> Configuration {
             Configuration(
