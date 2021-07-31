@@ -26,8 +26,11 @@ Installation
 ------------
 
 * use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "9.0.0"
+
+**Deprecated or discouraged** but still possible alternative ways for older apps:
+
+* since it has no other dependencies you may simply copy the `DSWaveformImage` folder directly into your project
 * use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0`
-* simply copy the `DSWaveformImage` folder directly into your project.
 * or, sunset since 6.1.1: ~~use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`~~
 
 Usage
