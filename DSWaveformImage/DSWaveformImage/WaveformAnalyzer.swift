@@ -59,6 +59,11 @@ fileprivate extension WaveformAnalyzer {
             qos: DispatchQoS.QoSClass,
             fftBands: Int?,
             completionHandler: @escaping (_ analysis: WaveformAnalysis?) -> ()) {
+        guard requiredNumberOfSamples > 0 else {
+            completionHandler(nil)
+            return
+        }
+
         let trackOutput = AVAssetReaderTrackOutput(track: audioAssetTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
