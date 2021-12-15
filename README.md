@@ -38,7 +38,9 @@ Usage
 
 ### SwiftUI Support
 
-All DSWaveformImage views, while native UIKit, can be used from within SwiftUI easily by wrapping them as [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable). [Check out WaveformImageViewUI](./DSWaveformImageExample/SwiftUIExample/WaveformImageViewUI.swift) in the example app for a copy & paste ready starting point.
+All DSWaveformImage views, while native UIKit, can be used from within SwiftUI easily by wrapping them as [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable).
+
+[Check out WaveformImageViewUI](./DSWaveformImageExample/SwiftUIExample/WaveformImageViewUI.swift) in the example app for a copy & paste ready starting point.
 
 A more full-featured out of the box SwiftUI support will be coming eventually. Until then it should be straightforward to use via `UIViewRepresentable`.
 
