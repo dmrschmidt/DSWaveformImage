@@ -36,9 +36,16 @@ Installation
 Usage
 -----
 
-*Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
+### SwiftUI Support
+
+All DSWaveformImage views, while native UIKit, can be used from within SwiftUI easily by wrapping them as [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable). [Check out WaveformImageViewUI](./DSWaveformImageExample/SwiftUIExample/WaveformImageViewUI.swift) in the example app for a copy & paste ready starting point.
+
+A more full-featured out of the box SwiftUI support will be coming eventually. Until then it should be straightforward to use via `UIViewRepresentable`.
+
 
 ### Configuration
+
+*Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
 
 Check `Waveform.Configuration` in [WaveformImageTypes](./DSWaveformImage/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
 
