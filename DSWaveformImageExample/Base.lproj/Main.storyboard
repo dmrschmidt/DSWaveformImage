@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Pyc-yZ-fIy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Pyc-yZ-fIy">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -60,7 +60,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="w9S-UI-8uW" secondAttribute="bottom" id="w7f-ap-sas"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Static Files" id="KTs-bX-E3A"/>
+                    <tabBarItem key="tabBarItem" title="Static Files" image="folder" catalog="system" id="KTs-bX-E3A"/>
                     <connections>
                         <outlet property="bottomWaveformView" destination="aQM-Ik-oVa" id="iev-uC-R8S"/>
                         <outlet property="middleWaveformView" destination="J48-qg-hXd" id="zoE-RX-g3F"/>
@@ -70,6 +70,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1136.25" y="138.38028169014083"/>
+        </scene>
+        <!--SwiftUI-->
+        <scene sceneID="4Hc-Es-F5z">
+            <objects>
+                <viewController id="Gdo-9t-qXH" customClass="SwiftUIExampleViewController" customModule="DSWaveformImageExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="idk-tB-fTb"/>
+                        <viewControllerLayoutGuide type="bottom" id="kqH-se-HcA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AXx-6z-FiD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="SwiftUI" image="swift" catalog="system" id="kSs-xf-1Uj"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ovt-Yf-vGQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="127" y="927"/>
         </scene>
         <!--Live Recording-->
         <scene sceneID="lBX-tD-Qmj">
@@ -171,7 +190,7 @@
                             <constraint firstItem="rcG-A7-gKZ" firstAttribute="top" secondItem="GbK-7o-DjF" secondAttribute="bottom" constant="8" symbolic="YES" id="z0e-Zg-p8K"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Live Recording" id="LYU-YT-ptE"/>
+                    <tabBarItem key="tabBarItem" title="Live Recording" image="record.circle" catalog="system" id="LYU-YT-ptE"/>
                     <connections>
                         <outlet property="recordButton" destination="v3e-Lg-ebC" id="I93-tT-s1o"/>
                         <outlet property="styleSelector" destination="zI1-aQ-J0k" id="78v-um-9CB"/>
@@ -195,6 +214,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="m9o-Xe-wz1"/>
                         <segue destination="ogB-yT-rId" kind="relationship" relationship="viewControllers" id="k0A-Dy-j1K"/>
+                        <segue destination="Gdo-9t-qXH" kind="relationship" relationship="viewControllers" id="wjy-DZ-h16"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qD-za-aZv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -203,6 +223,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="folder" catalog="system" width="128" height="97"/>
+        <image name="record.circle" catalog="system" width="128" height="121"/>
+        <image name="swift" catalog="system" width="128" height="113"/>
         <systemColor name="groupTableViewBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
