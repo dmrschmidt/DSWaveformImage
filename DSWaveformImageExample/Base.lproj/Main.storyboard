@@ -35,20 +35,40 @@
                                             <constraint firstAttribute="width" secondItem="J48-qg-hXd" secondAttribute="height" multiplier="16:9" priority="900" id="t5F-rm-fdn"/>
                                         </constraints>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aQM-Ik-oVa">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CYg-li-IN5" userLabel="Blend Mode Illustration View">
                                         <rect key="frame" x="0.0" y="346" width="320" height="173"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="1Wo-Xw-tr3">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aQM-Ik-oVa">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="aQM-Ik-oVa" secondAttribute="height" multiplier="16:9" priority="900" id="Exg-81-t2N"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="aQM-Ik-oVa" secondAttribute="height" multiplier="16:9" priority="900" id="Exg-81-t2N"/>
+                                            <constraint firstAttribute="bottom" secondItem="aQM-Ik-oVa" secondAttribute="bottom" id="1jv-D6-JKC"/>
+                                            <constraint firstItem="aQM-Ik-oVa" firstAttribute="leading" secondItem="CYg-li-IN5" secondAttribute="leading" id="Z1P-ni-i9H"/>
+                                            <constraint firstItem="aQM-Ik-oVa" firstAttribute="top" secondItem="CYg-li-IN5" secondAttribute="top" id="c9a-mM-xqw"/>
+                                            <constraint firstItem="1Wo-Xw-tr3" firstAttribute="leading" secondItem="CYg-li-IN5" secondAttribute="leading" id="cXl-fr-1Tt"/>
+                                            <constraint firstItem="1Wo-Xw-tr3" firstAttribute="top" secondItem="CYg-li-IN5" secondAttribute="top" id="dVY-vO-Zw9"/>
+                                            <constraint firstAttribute="trailing" secondItem="1Wo-Xw-tr3" secondAttribute="trailing" id="omP-UE-HHP"/>
+                                            <constraint firstAttribute="bottom" secondItem="1Wo-Xw-tr3" secondAttribute="bottom" id="q2E-DC-gBW"/>
+                                            <constraint firstAttribute="width" secondItem="CYg-li-IN5" secondAttribute="height" multiplier="16:9" priority="900" id="uqc-Mc-SEZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="aQM-Ik-oVa" secondAttribute="trailing" id="zHW-iX-9P1"/>
                                         </constraints>
-                                    </imageView>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="aQM-Ik-oVa" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Cmd-wL-qej"/>
+                                    <constraint firstItem="CYg-li-IN5" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="1F6-fO-nmV"/>
                                     <constraint firstAttribute="trailing" secondItem="3wf-8h-Skp" secondAttribute="trailing" id="KFG-p3-CgC"/>
                                     <constraint firstAttribute="trailing" secondItem="J48-qg-hXd" secondAttribute="trailing" id="UiG-kY-hqs"/>
                                     <constraint firstItem="J48-qg-hXd" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="Vov-c9-DGA"/>
-                                    <constraint firstAttribute="trailing" secondItem="aQM-Ik-oVa" secondAttribute="trailing" id="hUn-Ry-snr"/>
                                     <constraint firstItem="3wf-8h-Skp" firstAttribute="leading" secondItem="w9S-UI-8uW" secondAttribute="leading" id="kSa-YC-z5V"/>
+                                    <constraint firstAttribute="trailing" secondItem="CYg-li-IN5" secondAttribute="trailing" id="pFi-Pa-iLj"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -223,6 +243,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="background" width="3000" height="2000"/>
         <image name="folder" catalog="system" width="128" height="97"/>
         <image name="record.circle" catalog="system" width="128" height="121"/>
         <image name="swift" catalog="system" width="128" height="113"/>

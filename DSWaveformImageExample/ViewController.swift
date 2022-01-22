@@ -63,18 +63,25 @@ class ViewController: UIViewController {
         )
         middleWaveformView.waveformAudioURL = audioURL
 
-        waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration) { image in
-            DispatchQueue.main.async {
-                self.bottomWaveformView.image = image
-            }
+        // basic illustration of async / await API usage
+        Task {
+            let image = try! await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration)
+
+            // as an added bonus, use CALayer's compositingFilter for more elaborate image display
+            self.bottomWaveformView.layer.compositingFilter = "multiplyBlendMode"
+            self.bottomWaveformView.image = image
         }
+
+        // Photo by Alexander Popov on Unsplash
+        // https://unsplash.com/@5tep5?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
+        // https://unsplash.com/s/photos/techno?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
     }
 
     private var bottomWaveformConfiguration: Waveform.Configuration {
         Waveform.Configuration(
             size: bottomWaveformView.bounds.size,
             style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)),
-            position: .bottom
+            position: .middle
         )
     }
 }

@@ -5,6 +5,8 @@ import CoreGraphics
 
 /// Renders a UIImage of the waveform data calculated by the analyzer.
 public class WaveformImageDrawer {
+    public enum GenerationError: Error { case generic }
+
     public init() {}
 
     /// only internal; determines whether to draw silence lines in live mode.
@@ -12,6 +14,24 @@ public class WaveformImageDrawer {
 
     /// Makes sure we always look at the same samples while animating
     private var lastOffset: Int = 0
+
+#if compiler(>=5.5) && canImport(_Concurrency)
+    /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
+    @available(iOS 13, *)
+    public func waveformImage(fromAudioAt audioAssetURL: URL,
+                              with configuration: Waveform.Configuration,
+                              qos: DispatchQoS.QoSClass = .userInitiated) async throws -> UIImage {
+        try await withCheckedThrowingContinuation { continuation in
+            waveformImage(fromAudioAt: audioAssetURL, with: configuration, qos: qos) { waveformImage in
+                if let waveformImage = waveformImage {
+                    continuation.resume(with: .success(waveformImage))
+                } else {
+                    continuation.resume(with: .failure(GenerationError.generic))
+                }
+            }
+        }
+    }
+#endif
 
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,

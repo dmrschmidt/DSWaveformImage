@@ -25,7 +25,7 @@ You may also find the following iOS controls written in Swift interesting:
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "9.0.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "9.1.0"
 
 **Deprecated or discouraged** but still possible alternative ways for older apps:
 
@@ -35,6 +35,24 @@ Installation
 
 Usage
 -----
+
+### `async` / `await` Support
+
+The public API has been updated in 9.1 to support `async` / `await`. See the example app for an illustration.
+
+```swift
+public class WaveformAnalyzer {
+    func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float]
+}
+
+public class WaveformImageDrawer {
+    public func waveformImage(
+        fromAudioAt audioAssetURL: URL,
+        with configuration: Waveform.Configuration,
+        qos: DispatchQoS.QoSClass = .userInitiated
+    ) async throws -> UIImage
+}
+```
 
 ### SwiftUI Support
 

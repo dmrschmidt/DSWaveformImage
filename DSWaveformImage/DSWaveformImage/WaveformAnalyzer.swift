@@ -18,6 +18,7 @@ struct WaveformAnalysis {
 
 /// Calculates the waveform of the initialized asset URL.
 public class WaveformAnalyzer {
+    public enum AnalyzeError: Error { case generic }
 
     /// Everything below this noise floor cutoff will be clipped and interpreted as silence. Default is `-50.0`.
     public var noiseFloorDecibelCutoff: Float = -50.0
@@ -38,6 +39,27 @@ public class WaveformAnalyzer {
         self.assetReader = assetReader
         self.audioAssetTrack = assetTrack
     }
+
+#if compiler(>=5.5) && canImport(_Concurrency)
+    /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
+    /// Calls the completionHandler on a background thread.
+    /// - Parameter count: amount of samples to be calculated. Downsamples.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    ///
+    /// Returns sampled result or nil in edge-error cases.
+    @available(iOS 13, *)
+    public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
+        try await withCheckedThrowingContinuation { continuation in
+            waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
+                if let amplitudes = analysis?.amplitudes {
+                    continuation.resume(with: .success(amplitudes))
+                } else {
+                    continuation.resume(with: .failure(AnalyzeError.generic))
+                }
+            }
+        }
+    }
+#endif
 
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
     /// Calls the completionHandler on a background thread.
