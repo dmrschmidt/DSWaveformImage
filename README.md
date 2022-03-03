@@ -5,7 +5,7 @@ DSWaveformImage - Realtime audio waveform rendering
 
 
 DSWaveformImage offers a few interfaces for the purpose of drawing the
-envelope waveform of audio data in iOS. To do so, you can use
+envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you can use
 
 * `WaveformImageDrawer` to generate a waveform `UIImage` from an audio file
 * `WaveformImageView` to render a static waveform from an audio file or 
