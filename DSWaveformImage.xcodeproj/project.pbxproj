@@ -67,6 +67,7 @@
 		C37883C4274851DF0041816B /* WaveformImageViewUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformImageViewUI.swift; sourceTree = "<group>"; };
 		C37C6E5B25D329DC00B96481 /* example_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = example_sound.wav; sourceTree = "<group>"; };
 		C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformLiveView.swift; sourceTree = "<group>"; };
+		C3A436B327D05FFB00A7E844 /* DSWaveformImageExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSWaveformImageExample.entitlements; sourceTree = "<group>"; };
 		C3C8221326A96FFA0026591C /* RecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
 		C3C8221726A9DF610026591C /* DSWaveformImageExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DSWaveformImageExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		C3C8221826A9DF610026591C /* SCAudioManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCAudioManager.m; sourceTree = "<group>"; };
@@ -123,6 +124,7 @@
 		C365502D1E4927A300D24131 /* DSWaveformImageExample */ = {
 			isa = PBXGroup;
 			children = (
+				C3A436B327D05FFB00A7E844 /* DSWaveformImageExample.entitlements */,
 				C37883BF27484AAC0041816B /* SwiftUIExample */,
 				C365502E1E4927A300D24131 /* AppDelegate.swift */,
 				C36550351E4927A300D24131 /* Assets.xcassets */,
@@ -492,6 +494,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DSWaveformImageExample/DSWaveformImageExample.entitlements;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DSWaveformImageExample/Info.plist;
@@ -500,6 +503,7 @@
 				MARKETING_VERSION = 9.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -511,6 +515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DSWaveformImageExample/DSWaveformImageExample.entitlements;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DSWaveformImageExample/Info.plist;
@@ -519,6 +524,7 @@
 				MARKETING_VERSION = 9.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImageExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample/DSWaveformImageExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
