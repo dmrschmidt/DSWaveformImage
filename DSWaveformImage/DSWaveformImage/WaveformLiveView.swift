@@ -101,10 +101,12 @@ class WaveformLiveLayer: CALayer {
         UIGraphicsPushContext(context)
         waveformDrawer.draw(waveform: samples, newSampleCount: lastNewSampleCount, on: context, with: configuration.with(size: bounds.size))
         UIGraphicsPopContext()
+        
+        lastNewSampleCount = 0
     }
 
     func add(_ newSamples: [Float]) {
-        lastNewSampleCount = newSamples.count
+        lastNewSampleCount += newSamples.count
         samples += newSamples
     }
 
