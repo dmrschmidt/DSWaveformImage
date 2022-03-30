@@ -83,7 +83,7 @@ extension WaveformImageDrawer {
         }
 
         if case .striped = configuration.style, samples.count >= samplesNeeded {
-            lastOffset = (lastOffset + newSampleCount) % stripeBucket(configuration)
+            lastOffset = (lastOffset + min(newSampleCount, samples.count - samplesNeeded)) % stripeBucket(configuration)
         }
 
         // move the window, so that its always at the end (moves the graph after it reached the right side)
