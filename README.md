@@ -22,6 +22,14 @@ You may also find the following iOS controls written in Swift interesting:
 * [SwiftColorWheel](https://github.com/dmrschmidt/SwiftColorWheel) - a delightful color picker
 * [QRCode](https://github.com/dmrschmidt/QRCode) - a customizable QR code generator
 
+If you really like this library (aka Sponsoring)
+------------
+I'm doing all this for fun and joy and because I strongly believe in the power of open source. On the off-chance though, that using my library has brought joy to you and you just feel like saying "thank you", I would smile like a 4-year old getting a huge ice cream cone, if you'd support my via one of the sponsoring buttons ☺️💕
+
+If you're feeling in the mood of sending someone else a lovely gesture of appreciation, maybe check out my iOS app [💌 SoundCard](https://www.soundcard.io) to send them a real postcard with a personal audio message.
+
+<a href="https://www.buymeacoffee.com/dmrschmidt" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
 Installation
 ------------
 
