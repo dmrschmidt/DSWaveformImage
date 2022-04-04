@@ -82,16 +82,20 @@ extension WaveformImageDrawer {
             lastOffset = 0
         }
 
-        if case .striped = configuration.style, samples.count >= samplesNeeded {
-            lastOffset = (lastOffset + min(newSampleCount, samples.count - samplesNeeded)) % stripeBucket(configuration)
+        if case .striped = configuration.style {
+            if shouldDrawSilencePadding {
+                lastOffset = (lastOffset + newSampleCount) % stripeBucket(configuration)
+            } else if samples.count >= samplesNeeded {
+                lastOffset = (lastOffset + min(newSampleCount, samples.count - samplesNeeded)) % stripeBucket(configuration)
+            }
         }
 
-        // move the window, so that its always at the end (moves the graph after it reached the right side)
+        // move the window, so that its always at the end (appears to move from right to left)
         let startSample = max(0, samples.count - samplesNeeded)
         let clippedSamples = Array(samples[startSample..<samples.count])
         let dampenedSamples = configuration.shouldDampen ? dampen(clippedSamples, with: configuration) : clippedSamples
-        let paddedSamples = shouldDrawSilencePadding ? dampenedSamples + Array(repeating: 1, count: samplesNeeded - clippedSamples.count) : dampenedSamples
-
+        let paddedSamples = shouldDrawSilencePadding ? Array(repeating: 1, count: samplesNeeded - clippedSamples.count) + dampenedSamples : dampenedSamples
+        
         draw(on: context, from: paddedSamples, with: configuration)
     }
 }
@@ -146,7 +150,9 @@ private extension WaveformImageDrawer {
                 continue
             }
 
-            let xPos = CGFloat(x - lastOffset) / configuration.scale
+            let samplesNeeded = Int(configuration.size.width * configuration.scale)
+            let xOffset = CGFloat(samplesNeeded - samples.count) / configuration.scale // When there's extra space, draw waveform on the right
+            let xPos = (CGFloat(x - lastOffset) / configuration.scale) + xOffset
             let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
