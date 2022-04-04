@@ -33,7 +33,7 @@ If you're feeling in the mood of sending someone else a lovely gesture of apprec
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "9.1.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "10.0.0"
 
 **Deprecated or discouraged** but still possible alternative ways for older apps:
 
