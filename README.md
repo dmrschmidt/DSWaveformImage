@@ -166,9 +166,9 @@ See `Usage` for current usage.
 
 ## See it live in action
 
-[SoundCard](https://www.soundcard.io) lets you send real, physical postcards with audio messages. Right from your iOS device.
+[SoundCard - postcards with sound](https://www.soundcard.io) lets you send real, physical postcards with audio messages. Right from your iOS device.
 
-DSWaveformImage is used to draw the waveforms of the audio messages that get printed on the postcards sent by [SoundCard](https://www.soundcard.io).
+DSWaveformImage is used to draw the waveforms of the audio messages that get printed on the postcards sent by [SoundCard - postcards with audio](https://www.soundcard.io).
 
 &nbsp;
 
