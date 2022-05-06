@@ -186,7 +186,7 @@ private extension WaveformImageDrawer {
         case let .gradient(colors):
             context.replacePathWithStrokedPath()
             context.clip()
-            let colors = NSArray(array: colors.map(\.cgColor)) as CFArray
+            let colors = NSArray(array: colors.map { (color: UIColor) -> CGColor in color.cgColor }) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
             context.drawLinearGradient(gradient,
