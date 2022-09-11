@@ -44,6 +44,88 @@ Installation
 Usage
 -----
 
+`DSWaveformImage` provides 3 kinds of tools to use
+* native SwiftUI views
+* native UIKit views
+* access to the raw renderes and processors
+
+### SwiftUI
+
+#### `WaveformView` - renders a one-off waveform from an audio file:
+
+```swift
+@State var audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+WaveformView(audioURL: $audioURL)
+```
+
+#### `WaveformLiveCanvas` - renders a live waveform from `(0...1)` normalized samples:
+
+```swift
+@StateObject private var audioRecorder: AudioRecorder = AudioRecorder() // just an example
+WaveformLiveCanvas(samples: $audioRecorder.samples)
+```
+
+### UIKit
+
+#### `WaveformImageView` - renders a one-off waveform from an audio file:
+
+```swift
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, height: 300)
+waveformImageView.waveformAudioURL = audioURL
+```
+
+#### `WaveformLiveView` - renders a live waveform from `(0...1)` normalized samples:
+
+Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
+
+```swift
+let waveformView = WaveformLiveView()
+
+// configure and start AVAudioRecorder
+let recorder = AVAudioRecorder()
+recorder.isMeteringEnabled = true // required to get current power levels
+
+// after all the other recording (omitted for focus) setup, periodically (every 20ms or so):
+recorder.updateMeters() // gets the current value
+let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
+waveformView.add(sample: currentAmplitude)
+```
+
+### Raw API
+
+#### Configuration
+
+*Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
+
+Check `Waveform.Configuration` in [WaveformImageTypes](./DSWaveformImage/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
+
+#### `WaveformImageDrawer` - creates a `UIImage` waveform from an audio file:
+
+```swift
+let waveformImageDrawer = WaveformImageDrawer()
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
+                                  size: topWaveformView.bounds.size,
+                                  style: .filled(UIColor.black),
+                                  position: .top) { image in
+    // need to jump back to main queue
+    DispatchQueue.main.async {
+        self.topWaveformView.image = image
+    }
+}
+```
+
+#### `WaveformAnalyzer` - calculates an audio file's waveform sample:
+
+```swift
+let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
+waveformAnalyzer.samples(count: 200) { samples in
+    print("so many samples: \(samples)")
+}
+```
+
 ### `async` / `await` Support
 
 The public API has been updated in 9.1 to support `async` / `await`. See the example app for an illustration.
@@ -62,71 +144,6 @@ public class WaveformImageDrawer {
 }
 ```
 
-### SwiftUI Support
-
-All DSWaveformImage views, while native UIKit, can be used from within SwiftUI easily by wrapping them as [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable).
-
-[Check out WaveformImageViewUI](./DSWaveformImageExample/SwiftUIExample/WaveformImageViewUI.swift) in the example app for a copy & paste ready starting point.
-
-A more full-featured out of the box SwiftUI support will be coming eventually. Until then it should be straightforward to use via `UIViewRepresentable`.
-
-
-### Configuration
-
-*Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
-
-Check `Waveform.Configuration` in [WaveformImageTypes](./DSWaveformImage/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
-
-### `WaveformImageDrawer` - creates a `UIImage` waveform from an audio file:
-
-```swift
-let waveformImageDrawer = WaveformImageDrawer()
-let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
-                                  size: topWaveformView.bounds.size,
-                                  style: .filled(UIColor.black),
-                                  position: .top) { image in
-    // need to jump back to main queue
-    DispatchQueue.main.async {
-        self.topWaveformView.image = image
-    }
-}
-```
-
-### `WaveformImageView` - renders a one-off waveform from an audio file:
-
-```swift
-let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformImageView = WaveformImageView(frame: CGRect(x: 0, y: 0, width: 500, height: 300)
-waveformImageView.waveformAudioURL = audioURL
-```
-
-### `WaveformLiveView` - renders a live waveform from `(0...1)` normalized samples:
-
-Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
-
-```swift
-let waveformView = WaveformLiveView()
-
-// configure and start AVAudioRecorder
-let recorder = AVAudioRecorder()
-recorder.isMeteringEnabled = true // required to get current power levels
-
-// after all the other recording (omitted for focus) setup, periodically (every 20ms or so):
-recorder.updateMeters() // gets the current value
-let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
-waveformView.add(sample: currentAmplitude)
-```
-
-### `WaveformAnalyzer` - calculates an audio file's waveform sample:
-
-```swift
-let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-waveformAnalyzer.samples(count: 200) { samples in
-    print("so many samples: \(samples)")
-}
-```
 
 ### Playback Indication
 
