@@ -7,9 +7,9 @@ DSWaveformImage - Realtime audio waveform rendering
 DSWaveformImage offers a few interfaces for the purpose of drawing the
 envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you can use
 
+* [`WaveformImageView`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/WaveformImageView.swift) (UIKit) / `WaveformView` (SwiftUI) to render a static waveform from an audio file or 
+* [`WaveformLiveView`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/WaveformLiveView.swift) (UIKit) / `WaveformLiveCanvas` (SwiftUI) to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
 * `WaveformImageDrawer` to generate a waveform `UIImage` from an audio file
-* `WaveformImageView` to render a static waveform from an audio file or 
-* `WaveformLiveView` to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
 
 Additionally, you can get a waveform's (normalized) `[Float]` samples directly as well by
 creating an instance of `WaveformAnalyzer`.
