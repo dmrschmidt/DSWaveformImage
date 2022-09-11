@@ -45,14 +45,18 @@ struct SwiftUIExampleView: View {
                     configuration: $liveConfiguration,
                     shouldDrawSilencePadding: .constant(true)
                 )
+
+                RecordingIndicatorView(
+                    samples: audioRecorder.samples,
+                    duration: audioRecorder.recordingTime,
+                    isRecording: $audioRecorder.isRecording
+                )
+                    .padding()
             } else {
                 Text("WaveformView & WaveformLiveCanvas require iOS 15.0")
             }
         }
         .padding(.vertical, 20)
-        .onAppear {
-            audioRecorder.startRecording()
-        }
     }
 }
 
@@ -65,6 +69,13 @@ struct LiveRecordingView_Previews: PreviewProvider {
 
 private class AudioRecorder: NSObject, ObservableObject, RecordingDelegate {
     @Published var samples: [Float] = []
+    @Published var recordingTime: TimeInterval = 0
+    @Published var isRecording: Bool = false {
+        didSet {
+            guard oldValue != isRecording else { return }
+            isRecording ? startRecording() : stopRecording()
+        }
+    }
 
     private let audioManager: SCAudioManager
 
@@ -78,7 +89,14 @@ private class AudioRecorder: NSObject, ObservableObject, RecordingDelegate {
     }
 
     func startRecording() {
+        samples = []
         audioManager.startRecording()
+        isRecording = true
+    }
+
+    func stopRecording() {
+        audioManager.stopRecording()
+        isRecording = false
     }
 
     // MARK: - RecordingDelegate
@@ -92,6 +110,7 @@ private class AudioRecorder: NSObject, ObservableObject, RecordingDelegate {
 
         // Here we add the same sample 3 times to speed up the animation.
         // Usually you'd just add the sample once.
+        recordingTime = audioManager.currentRecordingTime
         samples += [linear, linear, linear]
     }
 }

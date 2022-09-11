@@ -11,6 +11,7 @@
 		C322CC561E4A475800B52247 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C322CC551E4A475800B52247 /* example_sound_2.m4a */; };
 		C322CC5D1E4A781B00B52247 /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */; };
 		C336FD2928CDEACB0075A75F /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C336FD2828CDEACB0075A75F /* WaveformView.swift */; };
+		C336FD2B28CE082E0075A75F /* RecordingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C336FD2A28CE082E0075A75F /* RecordingIndicatorView.swift */; };
 		C343C9FD22469EA500D76273 /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343C9FC22469EA500D76273 /* TempiFFT.swift */; };
 		C347DBAE2889249300253BF7 /* WaveformLiveCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347DBAD2889249300253BF7 /* WaveformLiveCanvas.swift */; };
 		C365501F1E49278700D24131 /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C36550111E49278600D24131 /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +50,7 @@
 		C322CC551E4A475800B52247 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
 		C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformAnalyzer.swift; sourceTree = "<group>"; };
 		C336FD2828CDEACB0075A75F /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
+		C336FD2A28CE082E0075A75F /* RecordingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingIndicatorView.swift; sourceTree = "<group>"; };
 		C343C9FC22469EA500D76273 /* TempiFFT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempiFFT.swift; sourceTree = "<group>"; };
 		C347DBAD2889249300253BF7 /* WaveformLiveCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformLiveCanvas.swift; sourceTree = "<group>"; };
 		C365500E1E49278600D24131 /* DSWaveformImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,7 @@
 			children = (
 				C37883BD27484A5A0041816B /* SwiftUIExample.swift */,
 				C37883C027484ACE0041816B /* SwiftUIExampleView.swift */,
+				C336FD2A28CE082E0075A75F /* RecordingIndicatorView.swift */,
 			);
 			path = SwiftUIExample;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				C36550311E4927A300D24131 /* ViewController.swift in Sources */,
 				C3C8221426A96FFA0026591C /* RecordingViewController.swift in Sources */,
 				C3C8221926A9DF610026591C /* SCAudioManager.m in Sources */,
+				C336FD2B28CE082E0075A75F /* RecordingIndicatorView.swift in Sources */,
 				C37883BE27484A5A0041816B /* SwiftUIExample.swift in Sources */,
 				C37883C127484ACE0041816B /* SwiftUIExampleView.swift in Sources */,
 				C365502F1E4927A300D24131 /* AppDelegate.swift in Sources */,
