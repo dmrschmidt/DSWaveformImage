@@ -97,7 +97,7 @@ public enum Waveform {
 
         public static func == (lhs: Waveform.Dampening, rhs: Waveform.Dampening) -> Bool {
             // poor-man's way to make two closures Equatable w/o too much hassle
-            let randomEqualitySample = Float.random(in: (-Float.greatestFiniteMagnitude)...Float.greatestFiniteMagnitude)
+            let randomEqualitySample = Float.random(in: (0..<Float.greatestFiniteMagnitude))
             return lhs.percentage == rhs.percentage && lhs.sides == rhs.sides && lhs.easing(randomEqualitySample) == rhs.easing(randomEqualitySample)
         }
     }
