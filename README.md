@@ -3,7 +3,6 @@ DSWaveformImage - Realtime audio waveform rendering
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
-
 DSWaveformImage offers a few interfaces for the purpose of drawing the
 envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you can use
 
@@ -13,6 +12,14 @@ envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you c
 
 Additionally, you can get a waveform's (normalized) `[Float]` samples directly as well by
 creating an instance of `WaveformAnalyzer`.
+
+Example UI (included in repository)
+------------
+
+For a practical real-world example usage of a SwiftUI live audio recording waveform rendering, see [RecordingIndicatorView](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/SwiftUIExample/RecordingIndicatorView.swift).
+
+
+<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/recorder-example.png" alt="Audio Recorder Example" width="358">
 
 More related iOS Controls
 ------------
