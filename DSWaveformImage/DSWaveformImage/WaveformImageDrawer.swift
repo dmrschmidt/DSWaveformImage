@@ -4,7 +4,7 @@ import UIKit
 import CoreGraphics
 
 /// Renders a UIImage of the waveform data calculated by the analyzer.
-public class WaveformImageDrawer {
+public class WaveformImageDrawer: ObservableObject {
     public enum GenerationError: Error { case generic }
 
     public init() {}
@@ -17,7 +17,6 @@ public class WaveformImageDrawer {
 
 #if compiler(>=5.5) && canImport(_Concurrency)
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
-    @available(iOS 13, *)
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               qos: DispatchQoS.QoSClass = .userInitiated) async throws -> UIImage {

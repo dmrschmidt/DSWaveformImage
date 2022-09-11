@@ -51,7 +51,6 @@ public class WaveformAnalyzer {
     /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
     ///
     /// Returns sampled result or nil in edge-error cases.
-    @available(iOS 13, *)
     public func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
         try await withCheckedThrowingContinuation { continuation in
             waveformSamples(count: count, qos: qos, fftBands: nil) { analysis in
