@@ -15,6 +15,9 @@ public class WaveformImageDrawer: ObservableObject {
     /// Makes sure we always look at the same samples while animating
     private var lastOffset: Int = 0
 
+    /// Keep track of how many samples we are adding each draw cycle
+    private var lastSampleCount: Int = 0
+
 #if compiler(>=5.5) && canImport(_Concurrency)
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
@@ -69,12 +72,18 @@ extension WaveformImageDrawer {
     ///
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
-    func draw(waveform samples: [Float], newSampleCount: Int, on context: CGContext, with configuration: Waveform.Configuration) {
+    func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration) {
         guard samples.count > 0 || shouldDrawSilencePadding else {
             return
         }
 
         let samplesNeeded = Int(configuration.size.width * configuration.scale)
+
+        let newSampleCount: Int = lastSampleCount > samples.count
+            ? samples.count // this implies that we have reset drawing an are starting over
+            : samples.count - lastSampleCount
+
+        lastSampleCount = samples.count
         
         // Reset the cumulative lastOffset when new drawing begins
         if samples.count == newSampleCount {

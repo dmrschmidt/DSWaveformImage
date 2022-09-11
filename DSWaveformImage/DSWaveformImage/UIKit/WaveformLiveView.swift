@@ -73,8 +73,6 @@ public class WaveformLiveView: UIView {
 class WaveformLiveLayer: CALayer {
     @NSManaged var samples: [Float]
 
-    private var lastNewSampleCount: Int = 0
-
     var configuration = WaveformLiveView.defaultConfiguration {
         didSet { contentsScale = configuration.scale }
     }
@@ -99,19 +97,15 @@ class WaveformLiveLayer: CALayer {
         super.draw(in: context)
 
         UIGraphicsPushContext(context)
-        waveformDrawer.draw(waveform: samples, newSampleCount: lastNewSampleCount, on: context, with: configuration.with(size: bounds.size))
+        waveformDrawer.draw(waveform: samples, on: context, with: configuration.with(size: bounds.size))
         UIGraphicsPopContext()
-        
-        lastNewSampleCount = 0
     }
 
     func add(_ newSamples: [Float]) {
-        lastNewSampleCount += newSamples.count
         samples += newSamples
     }
 
     func reset() {
-        lastNewSampleCount = 0
         samples = []
     }
 }
