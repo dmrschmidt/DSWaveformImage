@@ -3,13 +3,13 @@ import SwiftUI
 
 @available(iOS 14.0, *)
 struct SwiftUIExampleView: View {
-    private static let colors = [UIColor.red, UIColor.blue, UIColor.green]
+    private static let colors = [UIColor.systemPink, UIColor.systemBlue, UIColor.systemGreen]
     private static var randomColor: UIColor {
         colors[Int.random(in: 0..<colors.count)]
     }
 
     @StateObject private var audioRecorder: AudioRecorder = AudioRecorder()
-    private let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
+    @State private var audioURL: URL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
         style: .filled(randomColor),
@@ -23,25 +23,30 @@ struct SwiftUIExampleView: View {
 
     var body: some View {
         VStack {
-            Text("This is a very basic SwiftUI usage example.\nSee `WaveformImageViewUI`.")
-                .multilineTextAlignment(.center).padding()
+            Text("SwiftUI examples")
+                .font(.largeTitle.bold())
+
             Button {
                 configuration = configuration.with(style: .filled(Self.randomColor))
                 liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
             } label: {
-                Text("switch random color")
+                Label("switch color randomly", systemImage: "arrow.triangle.2.circlepath")
             }
-
-            WaveformImageViewUI(audioURL: audioURL, configuration: configuration)
+            .font(.body.bold())
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
 
             if #available(iOS 15.0, *) {
+                WaveformView(audioURL: $audioURL, configuration: $configuration)
+
                 WaveformLiveCanvas(
                     samples: $audioRecorder.samples,
                     configuration: $liveConfiguration,
                     shouldDrawSilencePadding: .constant(true)
                 )
             } else {
-                Text("WaveformLiveCanvas requires iOS 15.0")
+                Text("WaveformView & WaveformLiveCanvas require iOS 15.0")
             }
         }
         .padding(.vertical, 20)

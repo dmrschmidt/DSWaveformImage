@@ -60,8 +60,8 @@ public enum Waveform {
     /**
      Defines the dampening attributes of the waveform.
      */
-    public struct Dampening {
-        public enum Sides {
+    public struct Dampening: Equatable {
+        public enum Sides: Equatable {
             case left
             case right
             case both
@@ -94,10 +94,16 @@ public enum Waveform {
         public func with(percentage: Float? = nil, sides: Sides? = nil, easing: ((Float) -> Float)? = nil) -> Dampening {
             .init(percentage: percentage ?? self.percentage, sides: sides ?? self.sides, easing: easing ?? self.easing)
         }
+
+        public static func == (lhs: Waveform.Dampening, rhs: Waveform.Dampening) -> Bool {
+            // poor-man's way to make two closures Equatable w/o too much hassle
+            let randomEqualitySample = Float.random(in: (-Float.greatestFiniteMagnitude)...Float.greatestFiniteMagnitude)
+            return lhs.percentage == rhs.percentage && lhs.sides == rhs.sides && lhs.easing(randomEqualitySample) == rhs.easing(randomEqualitySample)
+        }
     }
 
     /// Allows customization of the waveform output image.
-    public struct Configuration {
+    public struct Configuration: Equatable {
         /// Desired output size of the waveform image, works together with scale. Default is `.zero`.
         public let size: CGSize
 

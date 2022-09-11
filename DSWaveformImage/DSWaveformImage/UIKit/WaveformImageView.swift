@@ -4,7 +4,6 @@ import UIKit
 
 public class WaveformImageView: UIImageView {
     private let waveformImageDrawer: WaveformImageDrawer
-    private var waveformAnalyzer: WaveformAnalyzer?
 
     public var configuration: Waveform.Configuration {
         didSet { updateWaveform() }
