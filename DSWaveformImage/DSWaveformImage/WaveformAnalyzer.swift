@@ -29,15 +29,19 @@ public class WaveformAnalyzer {
     public init?(audioAssetURL: URL) {
         let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
 
-        guard
-                let assetReader = try? AVAssetReader(asset: audioAsset),
-                let assetTrack = audioAsset.tracks(withMediaType: .audio).first else {
-            print("ERROR loading asset / audio track")
+        do {
+            let assetReader = try AVAssetReader(asset: audioAsset)
+            guard let assetTrack = audioAsset.tracks(withMediaType: .audio).first else {
+                print("ERROR loading asset track")
+                return nil
+            }
+
+            self.assetReader = assetReader
+            self.audioAssetTrack = assetTrack
+        } catch {
+            print("ERROR loading asset \(error)")
             return nil
         }
-
-        self.assetReader = assetReader
-        self.audioAssetTrack = assetTrack
     }
 
 #if compiler(>=5.5) && canImport(_Concurrency)
