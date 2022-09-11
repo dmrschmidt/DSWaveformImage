@@ -45,8 +45,8 @@ Usage
 -----
 
 `DSWaveformImage` provides 3 kinds of tools to use
-* native SwiftUI views
-* native UIKit views
+* native SwiftUI views - [SwiftUI example code](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/SwiftUIExample/SwiftUIExampleView.swift)
+* native UIKit views - [UIKit example code](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/ViewController.swift)
 * access to the raw renderes and processors
 
 ### SwiftUI
