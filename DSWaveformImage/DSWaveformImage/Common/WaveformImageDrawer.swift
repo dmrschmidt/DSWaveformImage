@@ -1,9 +1,8 @@
 import Foundation
-import AppKit
 import AVFoundation
 import CoreGraphics
 
-/// Renders a UIImage of the waveform data calculated by the analyzer.
+/// Renders a DSImage of the waveform data calculated by the analyzer.
 public class WaveformImageDrawer: ObservableObject {
     public enum GenerationError: Error { case generic }
 
@@ -19,10 +18,10 @@ public class WaveformImageDrawer: ObservableObject {
     private var lastSampleCount: Int = 0
 
 #if compiler(>=5.5) && canImport(_Concurrency)
-    /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
+    /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
-                              qos: DispatchQoS.QoSClass = .userInitiated) async throws -> NSImage {
+                              qos: DispatchQoS.QoSClass = .userInitiated) async throws -> DSImage {
         try await withCheckedThrowingContinuation { continuation in
             waveformImage(fromAudioAt: audioAssetURL, with: configuration, qos: qos) { waveformImage in
                 if let waveformImage = waveformImage {
@@ -35,35 +34,16 @@ public class WaveformImageDrawer: ObservableObject {
     }
 #endif
 
-    /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
+    /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
-                              completionHandler: @escaping (_ waveformImage: NSImage?) -> ()) {
+                              completionHandler: @escaping (_ waveformImage: DSImage?) -> ()) {
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
         }
         render(from: waveformAnalyzer, with: configuration, qos: qos, completionHandler: completionHandler)
-    }
-
-    /// Renders a UIImage of the provided waveform samples.
-    ///
-    /// Samples need to be normalized within interval `(0...1)`.
-    public func waveformImage(from samples: [Float], with configuration: Waveform.Configuration) -> NSImage? {
-        guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
-            print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
-            return nil
-        }
-
-      let dampenedSamples = configuration.shouldDampen ? dampen(samples, with: configuration) : samples
-      return NSImage(size: configuration.size, flipped: false) { rect in
-        guard let context = NSGraphicsContext.current?.cgContext else {
-          fatalError("Missing context")
-        }
-        self.draw(on: context, from: dampenedSamples, with: configuration)
-        return true
-      }
     }
 }
 
@@ -106,6 +86,26 @@ extension WaveformImageDrawer {
         
         draw(on: context, from: paddedSamples, with: configuration)
     }
+
+    func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration) {
+        context.setAllowsAntialiasing(configuration.shouldAntialias)
+        context.setShouldAntialias(configuration.shouldAntialias)
+
+        drawBackground(on: context, with: configuration)
+        drawGraph(from: samples, on: context, with: configuration)
+    }
+
+    /// Dampen the samples for a smoother animation.
+    func dampen(_ samples: [Float], with configuration: Waveform.Configuration) -> [Float] {
+        guard let dampening = configuration.dampening, dampening.percentage > 0 else {
+            return samples
+        }
+
+        let count = Float(samples.count)
+        return samples.enumerated().map { x, value -> Float in
+            1 - ((1 - value) * dampFactor(x: Float(x), count: count, with: dampening))
+        }
+    }
 }
 
 // MARK: Image generation
@@ -114,7 +114,7 @@ private extension WaveformImageDrawer {
     func render(from waveformAnalyzer: WaveformAnalyzer,
                 with configuration: Waveform.Configuration,
                 qos: DispatchQoS.QoSClass,
-                completionHandler: @escaping (_ waveformImage: NSImage?) -> ()) {
+                completionHandler: @escaping (_ waveformImage: DSImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
             guard let samples = samples else {
@@ -124,14 +124,6 @@ private extension WaveformImageDrawer {
             let dampenedSamples = configuration.shouldDampen ? self.dampen(samples, with: configuration) : samples
             completionHandler(self.waveformImage(from: dampenedSamples, with: configuration))
         }
-    }
-
-    private func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration) {
-        context.setAllowsAntialiasing(configuration.shouldAntialias)
-        context.setShouldAntialias(configuration.shouldAntialias)
-
-        drawBackground(on: context, with: configuration)
-        drawGraph(from: samples, on: context, with: configuration)
     }
 
     private func drawBackground(on context: CGContext, with configuration: Waveform.Configuration) {
@@ -194,7 +186,7 @@ private extension WaveformImageDrawer {
         case let .gradient(colors):
             context.replacePathWithStrokedPath()
             context.clip()
-            let colors = NSArray(array: colors.map { (color: NSColor) -> CGColor in color.cgColor }) as CFArray
+            let colors = NSArray(array: colors.map { (color: DSColor) -> CGColor in color.cgColor }) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
             context.drawLinearGradient(gradient,
@@ -221,18 +213,6 @@ private extension WaveformImageDrawer {
             return Int(stripeConfig.width + stripeConfig.spacing) * Int(configuration.scale)
         } else {
             return 0
-        }
-    }
-
-    /// Dampen the samples for a smoother animation.
-    private func dampen(_ samples: [Float], with configuration: Waveform.Configuration) -> [Float] {
-        guard let dampening = configuration.dampening, dampening.percentage > 0 else {
-            return samples
-        }
-
-        let count = Float(samples.count)
-        return samples.enumerated().map { x, value -> Float in
-            1 - ((1 - value) * dampFactor(x: Float(x), count: count, with: dampening))
         }
     }
 

@@ -8,7 +8,7 @@ public struct WaveformView: View {
     @Binding public var configuration: Waveform.Configuration
 
     @StateObject private var waveformDrawer = WaveformImageDrawer()
-    @State private var waveformImage: UIImage = UIImage()
+    @State private var waveformImage: DSImage = DSImage()
 
     public init(
         audioURL: Binding<URL>,
@@ -20,8 +20,7 @@ public struct WaveformView: View {
 
     public var body: some View {
         GeometryReader { geometry in
-            Image(uiImage: waveformImage)
-                .resizable()
+            image
                 .onAppear {
                     guard waveformImage.size == .zero else { return }
                     update(geometry: geometry)
@@ -30,6 +29,14 @@ public struct WaveformView: View {
                 .onChange(of: configuration) { _ in update(geometry: geometry) }
                 .onChange(of: geometry.size) { _ in update(geometry: geometry) }
         }
+    }
+
+    private var image: some View {
+        #if os(macOS)
+            Image(nsImage: waveformImage).resizable()
+        #else
+            Image(uiImage: waveformImage).resizable()
+        #endif
     }
 
     private func update(geometry: GeometryProxy) {
