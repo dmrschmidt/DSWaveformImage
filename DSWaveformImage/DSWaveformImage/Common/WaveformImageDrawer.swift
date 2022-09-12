@@ -1,6 +1,6 @@
 import Foundation
+import AppKit
 import AVFoundation
-import UIKit
 import CoreGraphics
 
 /// Renders a UIImage of the waveform data calculated by the analyzer.
@@ -22,7 +22,7 @@ public class WaveformImageDrawer: ObservableObject {
     /// Async analyzes the provided audio and renders a UIImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
-                              qos: DispatchQoS.QoSClass = .userInitiated) async throws -> UIImage {
+                              qos: DispatchQoS.QoSClass = .userInitiated) async throws -> NSImage {
         try await withCheckedThrowingContinuation { continuation in
             waveformImage(fromAudioAt: audioAssetURL, with: configuration, qos: qos) { waveformImage in
                 if let waveformImage = waveformImage {
@@ -39,7 +39,7 @@ public class WaveformImageDrawer: ObservableObject {
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               qos: DispatchQoS.QoSClass = .userInitiated,
-                              completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
+                              completionHandler: @escaping (_ waveformImage: NSImage?) -> ()) {
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
@@ -50,20 +50,20 @@ public class WaveformImageDrawer: ObservableObject {
     /// Renders a UIImage of the provided waveform samples.
     ///
     /// Samples need to be normalized within interval `(0...1)`.
-    public func waveformImage(from samples: [Float], with configuration: Waveform.Configuration) -> UIImage? {
+    public func waveformImage(from samples: [Float], with configuration: Waveform.Configuration) -> NSImage? {
         guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
             print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
             return nil
         }
 
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = configuration.scale
-        let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
-        let dampenedSamples = configuration.shouldDampen ? dampen(samples, with: configuration) : samples
-
-        return renderer.image { renderContext in
-            draw(on: renderContext.cgContext, from: dampenedSamples, with: configuration)
+      let dampenedSamples = configuration.shouldDampen ? dampen(samples, with: configuration) : samples
+      return NSImage(size: configuration.size, flipped: false) { rect in
+        guard let context = NSGraphicsContext.current?.cgContext else {
+          fatalError("Missing context")
         }
+        self.draw(on: context, from: dampenedSamples, with: configuration)
+        return true
+      }
     }
 }
 
@@ -114,7 +114,7 @@ private extension WaveformImageDrawer {
     func render(from waveformAnalyzer: WaveformAnalyzer,
                 with configuration: Waveform.Configuration,
                 qos: DispatchQoS.QoSClass,
-                completionHandler: @escaping (_ waveformImage: UIImage?) -> ()) {
+                completionHandler: @escaping (_ waveformImage: NSImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
             guard let samples = samples else {
@@ -194,7 +194,7 @@ private extension WaveformImageDrawer {
         case let .gradient(colors):
             context.replacePathWithStrokedPath()
             context.clip()
-            let colors = NSArray(array: colors.map { (color: UIColor) -> CGColor in color.cgColor }) as CFArray
+            let colors = NSArray(array: colors.map { (color: NSColor) -> CGColor in color.cgColor }) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
             context.drawLinearGradient(gradient,

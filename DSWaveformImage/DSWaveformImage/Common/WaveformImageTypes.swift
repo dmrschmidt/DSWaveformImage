@@ -1,5 +1,5 @@
 import AVFoundation
-import UIKit
+import AppKit
 
 public enum Waveform {
     /**
@@ -33,7 +33,7 @@ public enum Waveform {
     public enum Style: Equatable {
         public struct StripeConfig: Equatable {
             /// Color of the waveform stripes. Default is clear.
-            public let color: UIColor
+            public let color: NSColor
 
             /// Width of stripes drawn. Default is `1`
             public let width: CGFloat
@@ -44,7 +44,7 @@ public enum Waveform {
             /// Line cap style. Default is `.round`.
             public let lineCap: CGLineCap
 
-            public init(color: UIColor, width: CGFloat = 1, spacing: CGFloat = 5, lineCap: CGLineCap = .round) {
+            public init(color: NSColor, width: CGFloat = 1, spacing: CGFloat = 5, lineCap: CGLineCap = .round) {
                 self.color = color
                 self.width = width
                 self.spacing = spacing
@@ -52,8 +52,8 @@ public enum Waveform {
             }
         }
 
-        case filled(UIColor)
-        case gradient([UIColor])
+        case filled(NSColor)
+        case gradient([NSColor])
         case striped(StripeConfig)
     }
 
@@ -108,7 +108,7 @@ public enum Waveform {
         public let size: CGSize
 
         /// Background color of the waveform, defaults to `clear`.
-        public let backgroundColor: UIColor
+        public let backgroundColor: NSColor
 
         /// Waveform drawing style, defaults to `.gradient`.
         public let style: Style
@@ -148,10 +148,10 @@ public enum Waveform {
 
         @available(*, deprecated, message: "paddingFactor has been replaced by scalingFactor")
         public init(size: CGSize = .zero,
-                    backgroundColor: UIColor = UIColor.clear,
-                    style: Style = .gradient([UIColor.black, UIColor.gray]),
+                    backgroundColor: NSColor = NSColor.clear,
+                    style: Style = .gradient([NSColor.black, NSColor.gray]),
                     position: Position = .middle,
-                    scale: CGFloat = UIScreen.main.scale,
+                    scale: CGFloat = 2,
                     paddingFactor: CGFloat?,
                     shouldAntialias: Bool = false) {
             self.init(
@@ -161,11 +161,11 @@ public enum Waveform {
         }
 
         public init(size: CGSize = .zero,
-                    backgroundColor: UIColor = UIColor.clear,
-                    style: Style = .gradient([UIColor.black, UIColor.gray]),
+                    backgroundColor: NSColor = NSColor.clear,
+                    style: Style = .gradient([NSColor.black, NSColor.gray]),
                     dampening: Dampening? = nil,
                     position: Position = .middle,
-                    scale: CGFloat = UIScreen.main.scale,
+                    scale: CGFloat = 2,
                     verticalScalingFactor: CGFloat = 0.95,
                     shouldAntialias: Bool = false) {
             guard verticalScalingFactor > 0 else {
@@ -184,7 +184,7 @@ public enum Waveform {
 
         /// Build a new `Waveform.Configuration` with only the given parameters replaced.
         public func with(size: CGSize? = nil,
-                         backgroundColor: UIColor? = nil,
+                         backgroundColor: NSColor? = nil,
                          style: Style? = nil,
                          dampening: Dampening? = nil,
                          position: Position? = nil,
