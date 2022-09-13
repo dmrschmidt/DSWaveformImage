@@ -1,3 +1,4 @@
+#if os(iOS)
 import Foundation
 import UIKit
 
@@ -109,3 +110,4 @@ class WaveformLiveLayer: CALayer {
         samples = []
     }
 }
+#endif

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Dennis Schmidt. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for DSWaveformImage.
 FOUNDATION_EXPORT double DSWaveformImageVersionNumber;

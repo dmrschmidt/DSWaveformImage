@@ -1,3 +1,4 @@
+#if os(iOS)
 import Foundation
 import AVFoundation
 import UIKit
@@ -51,3 +52,4 @@ private extension WaveformImageView {
         }
     }
 }
+#endif

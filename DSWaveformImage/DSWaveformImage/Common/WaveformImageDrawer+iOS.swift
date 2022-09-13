@@ -1,3 +1,4 @@
+#if os(iOS)
 import Foundation
 import AVFoundation
 import UIKit
@@ -23,3 +24,4 @@ public extension WaveformImageDrawer {
         }
     }
 }
+#endif

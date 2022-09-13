@@ -32,18 +32,12 @@
 		C37883BE27484A5A0041816B /* SwiftUIExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37883BD27484A5A0041816B /* SwiftUIExample.swift */; };
 		C37883C127484ACE0041816B /* SwiftUIExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37883C027484ACE0041816B /* SwiftUIExampleView.swift */; };
 		C37C6E5C25D329DC00B96481 /* example_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C37C6E5B25D329DC00B96481 /* example_sound.wav */; };
-		C388241628CEFBC0008AB717 /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = C343C9FC22469EA500D76273 /* TempiFFT.swift */; };
-		C388241828CEFBC0008AB717 /* WaveformImageDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36550401E4927BC00D24131 /* WaveformImageDrawer.swift */; };
-		C388241928CEFBC0008AB717 /* WaveformImageTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C36550411E4927BC00D24131 /* WaveformImageTypes.swift */; };
-		C388241A28CEFBC0008AB717 /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C322CC5C1E4A781B00B52247 /* WaveformAnalyzer.swift */; };
-		C388241C28CEFBC0008AB717 /* WaveformLiveCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C347DBAD2889249300253BF7 /* WaveformLiveCanvas.swift */; };
-		C388241D28CEFBC0008AB717 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C336FD2828CDEACB0075A75F /* WaveformView.swift */; };
-		C388242028CEFBC0008AB717 /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = C36550111E49278600D24131 /* DSWaveformImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C38B81C026B00EBC000AF386 /* WaveformLiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */; };
 		C3C1DF8C28CF02D800737B80 /* WaveformImageDrawer+iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C1DF8B28CF02D800737B80 /* WaveformImageDrawer+iOS.swift */; };
-		C3C1DF8F28CF068000737B80 /* WaveformImageDrawer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C1DF8E28CF062A00737B80 /* WaveformImageDrawer+macOS.swift */; };
-		C3C1DF9028CF091200737B80 /* DSWaveformImage.macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C388242528CEFBC0008AB717 /* DSWaveformImage.macOS.framework */; };
-		C3C1DF9128CF091700737B80 /* DSWaveformImage.macOS.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C388242528CEFBC0008AB717 /* DSWaveformImage.macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C3C1DFE528CFDA0B00737B80 /* WaveformImageDrawer+macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C1DF8E28CF062A00737B80 /* WaveformImageDrawer+macOS.swift */; };
+		C3C1DFE628CFDA2300737B80 /* DSWaveformImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; };
+		C3C1DFE728CFDA2900737B80 /* DSWaveformImage.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C365500E1E49278600D24131 /* DSWaveformImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C3C1DFEA28CFDB8300737B80 /* example_sound.wav in Resources */ = {isa = PBXBuildFile; fileRef = C37C6E5B25D329DC00B96481 /* example_sound.wav */; };
 		C3C8221426A96FFA0026591C /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221326A96FFA0026591C /* RecordingViewController.swift */; };
 		C3C8221926A9DF610026591C /* SCAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C3C8221826A9DF610026591C /* SCAudioManager.m */; };
 /* End PBXBuildFile section */
@@ -65,7 +59,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C3C1DF9128CF091700737B80 /* DSWaveformImage.macOS.framework in CopyFiles */,
+				C3C1DFE728CFDA2900737B80 /* DSWaveformImage.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +94,6 @@
 		C37883BD27484A5A0041816B /* SwiftUIExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExample.swift; sourceTree = "<group>"; };
 		C37883C027484ACE0041816B /* SwiftUIExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIExampleView.swift; sourceTree = "<group>"; };
 		C37C6E5B25D329DC00B96481 /* example_sound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = example_sound.wav; sourceTree = "<group>"; };
-		C388242528CEFBC0008AB717 /* DSWaveformImage.macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DSWaveformImage.macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C388242628CEFBC0008AB717 /* DSWaveformImage copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DSWaveformImage copy-Info.plist"; path = "/Users/dmrschmidt/workspace/swift/DSWaveformImage/DSWaveformImage copy-Info.plist"; sourceTree = "<absolute>"; };
 		C38B81BF26B00EBC000AF386 /* WaveformLiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformLiveView.swift; sourceTree = "<group>"; };
 		C3A436B327D05FFB00A7E844 /* DSWaveformImageExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSWaveformImageExample.entitlements; sourceTree = "<group>"; };
@@ -117,7 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3C1DF9028CF091200737B80 /* DSWaveformImage.macOS.framework in Frameworks */,
+				C3C1DFE628CFDA2300737B80 /* DSWaveformImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,13 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C36550471E4927EC00D24131 /* DSWaveformImage.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C388241E28CEFBC0008AB717 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,7 +207,6 @@
 				C365500E1E49278600D24131 /* DSWaveformImage.framework */,
 				C365502C1E4927A300D24131 /* DSWaveformImageExample.app */,
 				C336FD3928CEFA200075A75F /* DSWaveformImageExample-macOS.app */,
-				C388242528CEFBC0008AB717 /* DSWaveformImage.macOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -289,14 +274,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C388241F28CEFBC0008AB717 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C388242028CEFBC0008AB717 /* DSWaveformImage.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -354,24 +331,6 @@
 			productReference = C365502C1E4927A300D24131 /* DSWaveformImageExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C388241428CEFBC0008AB717 /* DSWaveformImage.macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C388242228CEFBC0008AB717 /* Build configuration list for PBXNativeTarget "DSWaveformImage.macOS" */;
-			buildPhases = (
-				C388241528CEFBC0008AB717 /* Sources */,
-				C388241E28CEFBC0008AB717 /* Frameworks */,
-				C388241F28CEFBC0008AB717 /* Headers */,
-				C388242128CEFBC0008AB717 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DSWaveformImage.macOS;
-			productName = DSWaveformImage;
-			productReference = C388242528CEFBC0008AB717 /* DSWaveformImage.macOS.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -413,7 +372,6 @@
 			projectRoot = "";
 			targets = (
 				C365500D1E49278600D24131 /* DSWaveformImage */,
-				C388241428CEFBC0008AB717 /* DSWaveformImage.macOS */,
 				C365502B1E4927A300D24131 /* DSWaveformImageExample */,
 				C336FD3828CEFA200075A75F /* DSWaveformImageExample-macOS */,
 			);
@@ -425,6 +383,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3C1DFEA28CFDB8300737B80 /* example_sound.wav in Resources */,
 				C336FD4328CEFA210075A75F /* Preview Assets.xcassets in Resources */,
 				C336FD4028CEFA210075A75F /* Assets.xcassets in Resources */,
 			);
@@ -450,13 +409,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C388242128CEFBC0008AB717 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -473,6 +425,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3C1DFE528CFDA0B00737B80 /* WaveformImageDrawer+macOS.swift in Sources */,
 				C3C1DF8C28CF02D800737B80 /* WaveformImageDrawer+iOS.swift in Sources */,
 				C343C9FD22469EA500D76273 /* TempiFFT.swift in Sources */,
 				C36550461E4927BC00D24131 /* WaveformImageView.swift in Sources */,
@@ -496,20 +449,6 @@
 				C37883BE27484A5A0041816B /* SwiftUIExample.swift in Sources */,
 				C37883C127484ACE0041816B /* SwiftUIExampleView.swift in Sources */,
 				C365502F1E4927A300D24131 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C388241528CEFBC0008AB717 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				C3C1DF8F28CF068000737B80 /* WaveformImageDrawer+macOS.swift in Sources */,
-				C388241628CEFBC0008AB717 /* TempiFFT.swift in Sources */,
-				C388241828CEFBC0008AB717 /* WaveformImageDrawer.swift in Sources */,
-				C388241928CEFBC0008AB717 /* WaveformImageTypes.swift in Sources */,
-				C388241A28CEFBC0008AB717 /* WaveformAnalyzer.swift in Sources */,
-				C388241C28CEFBC0008AB717 /* WaveformLiveCanvas.swift in Sources */,
-				C388241D28CEFBC0008AB717 /* WaveformView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,6 +678,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 9.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -763,6 +703,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 9.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -822,52 +763,6 @@
 			};
 			name = Release;
 		};
-		C388242328CEFBC0008AB717 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "DSWaveformImage copy-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 9.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		C388242428CEFBC0008AB717 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "DSWaveformImage copy-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 9.0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dmrschmidt.DSWaveformImage;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -903,15 +798,6 @@
 			buildConfigurations = (
 				C365503C1E4927A300D24131 /* Debug */,
 				C365503D1E4927A300D24131 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C388242228CEFBC0008AB717 /* Build configuration list for PBXNativeTarget "DSWaveformImage.macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C388242328CEFBC0008AB717 /* Debug */,
-				C388242428CEFBC0008AB717 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
