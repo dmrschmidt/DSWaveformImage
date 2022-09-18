@@ -2,6 +2,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import DSWaveformImage
+import DSWaveformImageViews
 
 class RecordingViewController: UIViewController {
     @IBOutlet weak var recordButton: UIButton!

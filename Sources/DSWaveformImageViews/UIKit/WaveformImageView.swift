@@ -1,4 +1,5 @@
 #if os(iOS)
+import DSWaveformImage
 import Foundation
 import AVFoundation
 import UIKit

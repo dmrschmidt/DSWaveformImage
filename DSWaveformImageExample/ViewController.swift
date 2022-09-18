@@ -8,6 +8,7 @@
 
 import UIKit
 import DSWaveformImage
+import DSWaveformImageViews
 
 class ViewController: UIViewController {
     @IBOutlet weak var topWaveformView: UIImageView!

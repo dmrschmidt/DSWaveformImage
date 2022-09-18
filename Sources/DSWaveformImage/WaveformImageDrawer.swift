@@ -9,7 +9,7 @@ public class WaveformImageDrawer: ObservableObject {
     public init() {}
 
     /// only internal; determines whether to draw silence lines in live mode.
-    var shouldDrawSilencePadding: Bool = false
+    public var shouldDrawSilencePadding: Bool = false
 
     /// Makes sure we always look at the same samples while animating
     private var lastOffset: Int = 0
@@ -52,7 +52,7 @@ extension WaveformImageDrawer {
     ///
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
-    func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration) {
+    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration) {
         guard samples.count > 0 || shouldDrawSilencePadding else {
             return
         }

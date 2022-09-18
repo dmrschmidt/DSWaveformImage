@@ -1,4 +1,5 @@
 import SwiftUI
+import DSWaveformImage
 
 @available(iOS 15.0, macOS 12.0, *)
 public struct WaveformLiveCanvas: View {

@@ -1,5 +1,6 @@
 import SwiftUI
 import DSWaveformImage
+import DSWaveformImageViews
 
 @available(iOS 15.0, *)
 struct RecordingIndicatorView: View {

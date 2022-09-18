@@ -1,4 +1,5 @@
 import DSWaveformImage
+import DSWaveformImageViews
 import SwiftUI
 
 @available(iOS 14.0, *)

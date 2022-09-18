@@ -1,5 +1,6 @@
 import SwiftUI
 import DSWaveformImage
+import DSWaveformImageViews
 
 struct ContentView: View {
     private static let colors = [NSColor.systemPink, NSColor.systemBlue, NSColor.systemGreen]
