@@ -1,13 +1,12 @@
 DSWaveformImage - Realtime audio waveform rendering
 ===============
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
 DSWaveformImage offers a few interfaces for the purpose of drawing the
 envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you can use
 
-* [`WaveformImageView`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/UIKit/WaveformImageView.swift) (UIKit) / [`WaveformView`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/SwiftUI/WaveformView.swift) (SwiftUI) to render a static waveform from an audio file or 
-* [`WaveformLiveView`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/UIKit/WaveformLiveView.swift) (UIKit) / [`WaveformLiveCanvas`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImage/DSWaveformImage/SwiftUI/WaveformLiveCanvas.swift) (SwiftUI) to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
+* [`WaveformImageView`](Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift) (UIKit) / [`WaveformView`](Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift) (SwiftUI) to render a static waveform from an audio file or 
+* [`WaveformLiveView`](Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift) (UIKit) / [`WaveformLiveCanvas`](Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift) (SwiftUI) to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
 * `WaveformImageDrawer` to generate a waveform `UIImage` from an audio file
 
 Additionally, you can get a waveform's (normalized) `[Float]` samples directly as well by
@@ -16,7 +15,7 @@ creating an instance of `WaveformAnalyzer`.
 Example UI (included in repository)
 ------------
 
-For a practical real-world example usage of a SwiftUI live audio recording waveform rendering, see [RecordingIndicatorView](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/SwiftUIExample/RecordingIndicatorView.swift).
+For a practical real-world example usage of a SwiftUI live audio recording waveform rendering, see [RecordingIndicatorView](Example/DSWaveformImageExample-iOS/SwiftUIExample/SwiftUIExampleView.swift).
 
 
 <img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/recorder-example.png" alt="Audio Recorder Example" width="358">
@@ -52,8 +51,8 @@ Usage
 -----
 
 `DSWaveformImage` provides 3 kinds of tools to use
-* native SwiftUI views - [SwiftUI example usage code](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/SwiftUIExample/SwiftUIExampleView.swift)
-* native UIKit views - [UIKit example usage code](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/ViewController.swift)
+* native SwiftUI views - [SwiftUI example usage code](Example/DSWaveformImageExample-iOS/SwiftUIExample/SwiftUIExampleView.swift)
+* native UIKit views - [UIKit example usage code](Example/DSWaveformImageExample-iOS/ViewController.swift)
 * access to the raw renderes and processors
 
 ### SwiftUI
@@ -84,7 +83,7 @@ waveformImageView.waveformAudioURL = audioURL
 
 #### `WaveformLiveView` - renders a live waveform from `(0...1)` normalized samples:
 
-Find a full example in the [sample project's RecordingViewController](https://github.com/dmrschmidt/DSWaveformImage/blob/main/DSWaveformImageExample/RecordingViewController.swift).
+Find a full example in the [sample project's RecordingViewController](Example/DSWaveformImageExample-iOS/RecordingViewController.swift).
 
 ```swift
 let waveformView = WaveformLiveView()
@@ -105,7 +104,7 @@ waveformView.add(sample: currentAmplitude)
 
 *Note:* Calculations are always performed and returned on a background thread, so make sure to return to the main thread before doing any UI work.
 
-Check `Waveform.Configuration` in [WaveformImageTypes](./DSWaveformImage/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
+Check `Waveform.Configuration` in [WaveformImageTypes](./Sources/DSWaveformImage/WaveformImageTypes.swift) for various configuration options.
 
 #### `WaveformImageDrawer` - creates a `UIImage` waveform from an audio file:
 
@@ -172,7 +171,7 @@ Similarly, there are 3 positions relative to the canvas, `.top`, `.middle` and `
 
 The effect of each of those can be seen here:
 
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/screenshot.png" width="500" alt="Screenshot">
+<img src="./Promotion/screenshot.png" width="500" alt="Screenshot">
 
 
 ### Live waveform rendering
@@ -198,7 +197,7 @@ DSWaveformImage is used to draw the waveforms of the audio messages that get pri
 
 <div align="center">
     <a href="http://bit.ly/soundcardio">
-        <img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/appstore.svg" alt="Download SoundCard">
+        <img src="./Promotion/appstore.svg" alt="Download SoundCard">
         
 Download SoundCard on the App Store.
     </a>
@@ -207,5 +206,5 @@ Download SoundCard on the App Store.
 &nbsp;
 
 <a href="http://bit.ly/soundcardio">
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/screenshot3.png" alt="Screenshot">
+<img src="./Promotion/screenshot3.png" alt="Screenshot">
 </a>
