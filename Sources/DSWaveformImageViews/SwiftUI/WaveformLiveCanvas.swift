@@ -5,20 +5,20 @@ import DSWaveformImage
 public struct WaveformLiveCanvas: View {
     public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
 
-    @Binding public var samples: [Float]
-    @Binding public var configuration: Waveform.Configuration
-    @Binding public var shouldDrawSilencePadding: Bool
+    public let samples: [Float]
+    public let configuration: Waveform.Configuration
+    public let shouldDrawSilencePadding: Bool
 
     @StateObject private var waveformDrawer = WaveformImageDrawer()
 
     public init(
-        samples: Binding<[Float]>,
-        configuration: Binding<Waveform.Configuration> = .constant(defaultConfiguration),
-        shouldDrawSilencePadding: Binding<Bool> = .constant(false)
+        samples: [Float],
+        configuration: Waveform.Configuration = defaultConfiguration,
+        shouldDrawSilencePadding: Bool = false
     ) {
-        _samples = samples
-        _configuration = configuration
-        _shouldDrawSilencePadding = shouldDrawSilencePadding
+        self.samples = samples
+        self.configuration = configuration
+        self.shouldDrawSilencePadding = shouldDrawSilencePadding
     }
 
     public var body: some View {

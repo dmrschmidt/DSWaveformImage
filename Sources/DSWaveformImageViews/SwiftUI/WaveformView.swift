@@ -5,18 +5,21 @@ import SwiftUI
 public struct WaveformView: View {
     public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
 
-    @Binding public var audioURL: URL
-    @Binding public var configuration: Waveform.Configuration
+    public let audioURL: URL
+    public let configuration: Waveform.Configuration
+    public let priority: TaskPriority
 
     @StateObject private var waveformDrawer = WaveformImageDrawer()
     @State private var waveformImage: DSImage = DSImage()
 
     public init(
-        audioURL: Binding<URL>,
-        configuration: Binding<Waveform.Configuration> = .constant(defaultConfiguration)
+        audioURL: URL,
+        configuration: Waveform.Configuration = defaultConfiguration,
+        priority: TaskPriority = .userInitiated
     ) {
-        _audioURL = audioURL
-        _configuration = configuration
+        self.audioURL = audioURL
+        self.configuration = configuration
+        self.priority = priority
     }
 
     public var body: some View {
@@ -24,11 +27,11 @@ public struct WaveformView: View {
             image
                 .onAppear {
                     guard waveformImage.size == .zero else { return }
-                    update(geometry: geometry)
+                    update(size: geometry.size, url: audioURL, configuration: configuration)
                 }
-                .onChange(of: audioURL) { _ in update(geometry: geometry) }
-                .onChange(of: configuration) { _ in update(geometry: geometry) }
-                .onChange(of: geometry.size) { _ in update(geometry: geometry) }
+                .onChange(of: geometry.size) { update(size: $0, url: audioURL, configuration: configuration) }
+                .onChange(of: audioURL) { update(size: geometry.size, url: $0, configuration: configuration) }
+                .onChange(of: configuration) { update(size: geometry.size, url: audioURL, configuration: $0) }
         }
     }
 
@@ -40,11 +43,13 @@ public struct WaveformView: View {
         #endif
     }
 
-    private func update(geometry: GeometryProxy) {
-        waveformDrawer.waveformImage(fromAudioAt: audioURL, with: configuration.with(size: geometry.size)) { waveformImage in
-            guard let newImage = waveformImage else { return }
-            DispatchQueue.main.async {
-                self.waveformImage = newImage
+    private func update(size: CGSize, url: URL, configuration: Waveform.Configuration) {
+        Task(priority: priority) {
+            do {
+                let image = try await waveformDrawer.waveformImage(fromAudioAt: url, with: configuration.with(size: size))
+                await MainActor.run { waveformImage = image }
+            } catch {
+                assertionFailure(error.localizedDescription)
             }
         }
     }
