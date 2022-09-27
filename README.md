@@ -42,7 +42,7 @@ Installation
 * use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "11.0.0"
 
 ```swift
-import DSWaveformImage // for core classes to generate images directly
+import DSWaveformImage // for core classes to generate `UIImage` / `NSImage` directly
 import DSWaveformImageViews // if you want to use the native UIKit / SwiftUI views
 ```
 
