@@ -216,5 +216,5 @@ Download SoundCard on the App Store.
 &nbsp;
 
 <a href="http://bit.ly/soundcardio">
-<img src="./Promotion/screenshot3.png" alt="Screenshot">
+<img src="https://www.soundcard.io/images/opengraph-preview.jpg" alt="Screenshot">
 </a>
