@@ -4,12 +4,17 @@ import SwiftUI
 @available(iOS 14.0, *)
 struct SwiftUIExampleView: View {
     private static let colors = [UIColor.systemPink, UIColor.systemBlue, UIColor.systemGreen]
-    private static var randomColor: UIColor {
-        colors[Int.random(in: 0..<colors.count)]
-    }
+    private static var randomColor: UIColor { colors.randomElement()! }
+
+    private static var audioURLs: [URL?] = [
+        Bundle.main.url(forResource: "example_sound", withExtension: "wav"),
+        Bundle.main.url(forResource: "example_sound_2", withExtension: "m4a")
+    ]
+    private static var randomURL: URL? { audioURLs.randomElement()! }
 
     @StateObject private var audioRecorder: AudioRecorder = AudioRecorder()
-    @State private var audioURL: URL = Bundle.main.url(forResource: "example_sound", withExtension: "wav")!
+
+    @State private var audioURL: URL? = Self.randomURL
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
         style: .filled(randomColor),
@@ -21,30 +26,54 @@ struct SwiftUIExampleView: View {
         position: .middle
     )
 
+    @State var silence: Bool = true
+
     var body: some View {
         VStack {
             Text("SwiftUI examples")
                 .font(.largeTitle.bold())
 
-            Button {
-                configuration = configuration.with(style: .filled(Self.randomColor))
-                liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
-            } label: {
-                Label("switch color randomly", systemImage: "arrow.triangle.2.circlepath")
-            }
-            .font(.body.bold())
-            .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
-
             if #available(iOS 15.0, *) {
-                WaveformView(audioURL: $audioURL, configuration: $configuration)
+                HStack {
+                    Button {
+                        configuration = configuration.with(style: .filled(Self.randomColor))
+                        liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
+                    } label: {
+                        Label("color", systemImage: "arrow.triangle.2.circlepath")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .font(.body.bold())
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
 
-                WaveformLiveCanvas(
-                    samples: $audioRecorder.samples,
-                    configuration: $liveConfiguration,
-                    shouldDrawSilencePadding: .constant(true)
-                )
+                    Button {
+                        audioURL = Self.randomURL
+                        print("will draw \(audioURL!)")
+                    } label: {
+                        Label("waveform", systemImage: "arrow.triangle.2.circlepath")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .font(.body.bold())
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(10)
+                }
+                .padding()
+
+                if let audioURL {
+                    WaveformView(audioURL: audioURL, configuration: configuration)
+                }
+
+                VStack {
+                    Toggle("draw silence", isOn: $silence).padding()
+
+                    WaveformLiveCanvas(
+                        samples: audioRecorder.samples,
+                        configuration: liveConfiguration,
+                        shouldDrawSilencePadding: silence
+                    )
+                }
 
                 RecordingIndicatorView(
                     samples: audioRecorder.samples,

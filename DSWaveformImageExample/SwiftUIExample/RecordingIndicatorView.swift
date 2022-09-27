@@ -22,7 +22,7 @@ struct RecordingIndicatorView: View {
 
     var body: some View {
         HStack {
-            WaveformLiveCanvas(samples: .constant(samples), configuration: $configuration)
+            WaveformLiveCanvas(samples: samples, configuration: configuration)
                 .padding(.vertical, 2)
 
             Text(Self.timeFormatter.string(from: duration) ?? "00:00")
@@ -39,9 +39,6 @@ struct RecordingIndicatorView: View {
             .padding(.trailing)
             .foregroundColor(Color(.systemRed))
         }
-        .onChange(of: duration, perform: { newValue in
-            print(newValue)
-        })
         .background(Color(.systemGray6))
         .cornerRadius(10)
         .frame(height: 32)
