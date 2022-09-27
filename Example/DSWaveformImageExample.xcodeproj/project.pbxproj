@@ -1,0 +1,450 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C39A10ED28E2E73F004AB185 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = C39A10EC28E2E73F004AB185 /* DSWaveformImage */; };
+		C39A10EF28E2E73F004AB185 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */; };
+		C39A10F728E2E77F004AB185 /* SCAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39A10F328E2E77F004AB185 /* SCAudioManager.m */; };
+		C39A10F828E2E77F004AB185 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A10F428E2E77F004AB185 /* example_sound.m4a */; };
+		C39A10F928E2E77F004AB185 /* RecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10F528E2E77F004AB185 /* RecordingViewController.swift */; };
+		C39A10FE28E2E91E004AB185 /* SwiftUIExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10FB28E2E91E004AB185 /* SwiftUIExample.swift */; };
+		C39A10FF28E2E91E004AB185 /* RecordingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */; };
+		C39A110028E2E91E004AB185 /* SwiftUIExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */; };
+		C39A110228E2E98A004AB185 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A110128E2E98A004AB185 /* example_sound_2.m4a */; };
+		C3D671EF28E2E61F006C022D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671EE28E2E61F006C022D /* AppDelegate.swift */; };
+		C3D671F128E2E61F006C022D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F028E2E61F006C022D /* SceneDelegate.swift */; };
+		C3D671F328E2E61F006C022D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F228E2E61F006C022D /* ViewController.swift */; };
+		C3D671F628E2E61F006C022D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D671F428E2E61F006C022D /* Main.storyboard */; };
+		C3D671F828E2E61F006C022D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3D671F728E2E61F006C022D /* Assets.xcassets */; };
+		C3D671FB28E2E61F006C022D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3D671F928E2E61F006C022D /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C39A10F028E2E77E004AB185 /* DSWaveformImageExample-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DSWaveformImageExample-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		C39A10F128E2E77F004AB185 /* SCAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioManager.h; sourceTree = "<group>"; };
+		C39A10F328E2E77F004AB185 /* SCAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioManager.m; sourceTree = "<group>"; };
+		C39A10F428E2E77F004AB185 /* example_sound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound.m4a; sourceTree = "<group>"; };
+		C39A10F528E2E77F004AB185 /* RecordingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingViewController.swift; sourceTree = "<group>"; };
+		C39A10FB28E2E91E004AB185 /* SwiftUIExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIExample.swift; sourceTree = "<group>"; };
+		C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingIndicatorView.swift; sourceTree = "<group>"; };
+		C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIExampleView.swift; sourceTree = "<group>"; };
+		C39A110128E2E98A004AB185 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
+		C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSWaveformImageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3D671EE28E2E61F006C022D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C3D671F028E2E61F006C022D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C3D671F228E2E61F006C022D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C3D671F528E2E61F006C022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C3D671F728E2E61F006C022D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C3D671FA28E2E61F006C022D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C3D671FC28E2E61F006C022D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3D6720328E2E711006C022D /* DSWaveformImage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = DSWaveformImage; path = ..; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C3D671E828E2E61F006C022D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A10ED28E2E73F004AB185 /* DSWaveformImage in Frameworks */,
+				C39A10EF28E2E73F004AB185 /* DSWaveformImageViews in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C39A10EB28E2E73F004AB185 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C39A10FA28E2E91E004AB185 /* SwiftUIExample */ = {
+			isa = PBXGroup;
+			children = (
+				C39A10FB28E2E91E004AB185 /* SwiftUIExample.swift */,
+				C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */,
+				C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */,
+			);
+			path = SwiftUIExample;
+			sourceTree = "<group>";
+		};
+		C3D671E228E2E61F006C022D = {
+			isa = PBXGroup;
+			children = (
+				C3D6720228E2E711006C022D /* Packages */,
+				C3D671ED28E2E61F006C022D /* DSWaveformImageExample-iOS */,
+				C3D671EC28E2E61F006C022D /* Products */,
+				C39A10EB28E2E73F004AB185 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C3D671EC28E2E61F006C022D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C3D671ED28E2E61F006C022D /* DSWaveformImageExample-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				C39A10FA28E2E91E004AB185 /* SwiftUIExample */,
+				C3D671EE28E2E61F006C022D /* AppDelegate.swift */,
+				C3D671F728E2E61F006C022D /* Assets.xcassets */,
+				C39A10F028E2E77E004AB185 /* DSWaveformImageExample-iOS-Bridging-Header.h */,
+				C39A10F428E2E77F004AB185 /* example_sound.m4a */,
+				C39A110128E2E98A004AB185 /* example_sound_2.m4a */,
+				C3D671FC28E2E61F006C022D /* Info.plist */,
+				C3D671F928E2E61F006C022D /* LaunchScreen.storyboard */,
+				C3D671F428E2E61F006C022D /* Main.storyboard */,
+				C39A10F528E2E77F004AB185 /* RecordingViewController.swift */,
+				C39A10F128E2E77F004AB185 /* SCAudioManager.h */,
+				C39A10F328E2E77F004AB185 /* SCAudioManager.m */,
+				C3D671F028E2E61F006C022D /* SceneDelegate.swift */,
+				C3D671F228E2E61F006C022D /* ViewController.swift */,
+			);
+			path = "DSWaveformImageExample-iOS";
+			sourceTree = "<group>";
+		};
+		C3D6720228E2E711006C022D /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				C3D6720328E2E711006C022D /* DSWaveformImage */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C3D671EA28E2E61F006C022D /* DSWaveformImageExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample" */;
+			buildPhases = (
+				C3D671E728E2E61F006C022D /* Sources */,
+				C3D671E828E2E61F006C022D /* Frameworks */,
+				C3D671E928E2E61F006C022D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DSWaveformImageExample;
+			packageProductDependencies = (
+				C39A10EC28E2E73F004AB185 /* DSWaveformImage */,
+				C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */,
+			);
+			productName = "DSWaveformImageExample-iOS";
+			productReference = C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C3D671E328E2E61F006C022D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					C3D671EA28E2E61F006C022D = {
+						CreatedOnToolsVersion = 14.0;
+						LastSwiftMigration = 1400;
+					};
+				};
+			};
+			buildConfigurationList = C3D671E628E2E61F006C022D /* Build configuration list for PBXProject "DSWaveformImageExample" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C3D671E228E2E61F006C022D;
+			productRefGroup = C3D671EC28E2E61F006C022D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C3D671EA28E2E61F006C022D /* DSWaveformImageExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C3D671E928E2E61F006C022D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A110228E2E98A004AB185 /* example_sound_2.m4a in Resources */,
+				C3D671FB28E2E61F006C022D /* LaunchScreen.storyboard in Resources */,
+				C3D671F828E2E61F006C022D /* Assets.xcassets in Resources */,
+				C39A10F828E2E77F004AB185 /* example_sound.m4a in Resources */,
+				C3D671F628E2E61F006C022D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C3D671E728E2E61F006C022D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3D671F328E2E61F006C022D /* ViewController.swift in Sources */,
+				C39A10F928E2E77F004AB185 /* RecordingViewController.swift in Sources */,
+				C3D671EF28E2E61F006C022D /* AppDelegate.swift in Sources */,
+				C39A10FF28E2E91E004AB185 /* RecordingIndicatorView.swift in Sources */,
+				C39A10F728E2E77F004AB185 /* SCAudioManager.m in Sources */,
+				C39A110028E2E91E004AB185 /* SwiftUIExampleView.swift in Sources */,
+				C39A10FE28E2E91E004AB185 /* SwiftUIExample.swift in Sources */,
+				C3D671F128E2E61F006C022D /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C3D671F428E2E61F006C022D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3D671F528E2E61F006C022D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C3D671F928E2E61F006C022D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3D671FA28E2E61F006C022D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C3D671FD28E2E61F006C022D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C3D671FE28E2E61F006C022D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C3D6720028E2E61F006C022D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X9XK2SF8F6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DSWaveformImageExample-iOS/Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Live Audio Recording.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample-iOS/DSWaveformImageExample-iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C3D6720128E2E61F006C022D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X9XK2SF8F6;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "DSWaveformImageExample-iOS/Info.plist";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Live Audio Recording.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "DSWaveformImageExample-iOS/DSWaveformImageExample-iOS-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C3D671E628E2E61F006C022D /* Build configuration list for PBXProject "DSWaveformImageExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3D671FD28E2E61F006C022D /* Debug */,
+				C3D671FE28E2E61F006C022D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3D6720028E2E61F006C022D /* Debug */,
+				C3D6720128E2E61F006C022D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C39A10EC28E2E73F004AB185 /* DSWaveformImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImage;
+		};
+		C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImageViews;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C3D671E328E2E61F006C022D /* Project object */;
+}
