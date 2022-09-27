@@ -16,6 +16,13 @@
 		C39A10FF28E2E91E004AB185 /* RecordingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */; };
 		C39A110028E2E91E004AB185 /* SwiftUIExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */; };
 		C39A110228E2E98A004AB185 /* example_sound_2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A110128E2E98A004AB185 /* example_sound_2.m4a */; };
+		C39A110A28E2EABF004AB185 /* DSWaveformImageExample_macOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A110928E2EABF004AB185 /* DSWaveformImageExample_macOSApp.swift */; };
+		C39A110C28E2EABF004AB185 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39A110B28E2EABF004AB185 /* ContentView.swift */; };
+		C39A110E28E2EAC0004AB185 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C39A110D28E2EAC0004AB185 /* Assets.xcassets */; };
+		C39A111128E2EAC0004AB185 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C39A111028E2EAC0004AB185 /* Preview Assets.xcassets */; };
+		C39A111928E2EBAD004AB185 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = C39A111828E2EBAD004AB185 /* DSWaveformImage */; };
+		C39A111B28E2EBAD004AB185 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = C39A111A28E2EBAD004AB185 /* DSWaveformImageViews */; };
+		C39A111C28E2EC50004AB185 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A10F428E2E77F004AB185 /* example_sound.m4a */; };
 		C3D671EF28E2E61F006C022D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671EE28E2E61F006C022D /* AppDelegate.swift */; };
 		C3D671F128E2E61F006C022D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F028E2E61F006C022D /* SceneDelegate.swift */; };
 		C3D671F328E2E61F006C022D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F228E2E61F006C022D /* ViewController.swift */; };
@@ -34,7 +41,13 @@
 		C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordingIndicatorView.swift; sourceTree = "<group>"; };
 		C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUIExampleView.swift; sourceTree = "<group>"; };
 		C39A110128E2E98A004AB185 /* example_sound_2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = example_sound_2.m4a; sourceTree = "<group>"; };
-		C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSWaveformImageExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C39A110728E2EABF004AB185 /* DSWaveformImageExample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSWaveformImageExample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C39A110928E2EABF004AB185 /* DSWaveformImageExample_macOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSWaveformImageExample_macOSApp.swift; sourceTree = "<group>"; };
+		C39A110B28E2EABF004AB185 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C39A110D28E2EAC0004AB185 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C39A111028E2EAC0004AB185 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C39A111228E2EAC0004AB185 /* DSWaveformImageExample_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSWaveformImageExample_macOS.entitlements; sourceTree = "<group>"; };
+		C3D671EB28E2E61F006C022D /* DSWaveformImageExample-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSWaveformImageExample-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D671EE28E2E61F006C022D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3D671F028E2E61F006C022D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C3D671F228E2E61F006C022D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -46,6 +59,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		C39A110428E2EABF004AB185 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A111928E2EBAD004AB185 /* DSWaveformImage in Frameworks */,
+				C39A111B28E2EBAD004AB185 /* DSWaveformImageViews in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3D671E828E2E61F006C022D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,11 +97,32 @@
 			path = SwiftUIExample;
 			sourceTree = "<group>";
 		};
+		C39A110828E2EABF004AB185 /* DSWaveformImageExample-macOS */ = {
+			isa = PBXGroup;
+			children = (
+				C39A110928E2EABF004AB185 /* DSWaveformImageExample_macOSApp.swift */,
+				C39A110B28E2EABF004AB185 /* ContentView.swift */,
+				C39A110D28E2EAC0004AB185 /* Assets.xcassets */,
+				C39A111228E2EAC0004AB185 /* DSWaveformImageExample_macOS.entitlements */,
+				C39A110F28E2EAC0004AB185 /* Preview Content */,
+			);
+			path = "DSWaveformImageExample-macOS";
+			sourceTree = "<group>";
+		};
+		C39A110F28E2EAC0004AB185 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C39A111028E2EAC0004AB185 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		C3D671E228E2E61F006C022D = {
 			isa = PBXGroup;
 			children = (
 				C3D6720228E2E711006C022D /* Packages */,
 				C3D671ED28E2E61F006C022D /* DSWaveformImageExample-iOS */,
+				C39A110828E2EABF004AB185 /* DSWaveformImageExample-macOS */,
 				C3D671EC28E2E61F006C022D /* Products */,
 				C39A10EB28E2E73F004AB185 /* Frameworks */,
 			);
@@ -88,7 +131,8 @@
 		C3D671EC28E2E61F006C022D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */,
+				C3D671EB28E2E61F006C022D /* DSWaveformImageExample-iOS.app */,
+				C39A110728E2EABF004AB185 /* DSWaveformImageExample-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -125,9 +169,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C3D671EA28E2E61F006C022D /* DSWaveformImageExample */ = {
+		C39A110628E2EABF004AB185 /* DSWaveformImageExample-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample" */;
+			buildConfigurationList = C39A111328E2EAC0004AB185 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-macOS" */;
+			buildPhases = (
+				C39A110328E2EABF004AB185 /* Sources */,
+				C39A110428E2EABF004AB185 /* Frameworks */,
+				C39A110528E2EABF004AB185 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DSWaveformImageExample-macOS";
+			packageProductDependencies = (
+				C39A111828E2EBAD004AB185 /* DSWaveformImage */,
+				C39A111A28E2EBAD004AB185 /* DSWaveformImageViews */,
+			);
+			productName = "DSWaveformImageExample-macOS";
+			productReference = C39A110728E2EABF004AB185 /* DSWaveformImageExample-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C3D671EA28E2E61F006C022D /* DSWaveformImageExample-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-iOS" */;
 			buildPhases = (
 				C3D671E728E2E61F006C022D /* Sources */,
 				C3D671E828E2E61F006C022D /* Frameworks */,
@@ -137,13 +202,13 @@
 			);
 			dependencies = (
 			);
-			name = DSWaveformImageExample;
+			name = "DSWaveformImageExample-iOS";
 			packageProductDependencies = (
 				C39A10EC28E2E73F004AB185 /* DSWaveformImage */,
 				C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */,
 			);
 			productName = "DSWaveformImageExample-iOS";
-			productReference = C3D671EB28E2E61F006C022D /* DSWaveformImageExample.app */;
+			productReference = C3D671EB28E2E61F006C022D /* DSWaveformImageExample-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -156,6 +221,9 @@
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					C39A110628E2EABF004AB185 = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					C3D671EA28E2E61F006C022D = {
 						CreatedOnToolsVersion = 14.0;
 						LastSwiftMigration = 1400;
@@ -175,12 +243,23 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C3D671EA28E2E61F006C022D /* DSWaveformImageExample */,
+				C3D671EA28E2E61F006C022D /* DSWaveformImageExample-iOS */,
+				C39A110628E2EABF004AB185 /* DSWaveformImageExample-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		C39A110528E2EABF004AB185 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A111C28E2EC50004AB185 /* example_sound.m4a in Resources */,
+				C39A111128E2EAC0004AB185 /* Preview Assets.xcassets in Resources */,
+				C39A110E28E2EAC0004AB185 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3D671E928E2E61F006C022D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,6 +275,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		C39A110328E2EABF004AB185 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C39A110C28E2EABF004AB185 /* ContentView.swift in Sources */,
+				C39A110A28E2EABF004AB185 /* DSWaveformImageExample_macOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C3D671E728E2E61F006C022D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -233,6 +321,64 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		C39A111428E2EAC0004AB185 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "DSWaveformImageExample-macOS/DSWaveformImageExample_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DSWaveformImageExample-macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = X9XK2SF8F6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C39A111528E2EAC0004AB185 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "DSWaveformImageExample-macOS/DSWaveformImageExample_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DSWaveformImageExample-macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = X9XK2SF8F6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		C3D671FD28E2E61F006C022D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -415,6 +561,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		C39A111328E2EAC0004AB185 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C39A111428E2EAC0004AB185 /* Debug */,
+				C39A111528E2EAC0004AB185 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C3D671E628E2E61F006C022D /* Build configuration list for PBXProject "DSWaveformImageExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -424,7 +579,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample" */ = {
+		C3D671FF28E2E61F006C022D /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C3D6720028E2E61F006C022D /* Debug */,
@@ -441,6 +596,14 @@
 			productName = DSWaveformImage;
 		};
 		C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImageViews;
+		};
+		C39A111828E2EBAD004AB185 /* DSWaveformImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImage;
+		};
+		C39A111A28E2EBAD004AB185 /* DSWaveformImageViews */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DSWaveformImageViews;
 		};
