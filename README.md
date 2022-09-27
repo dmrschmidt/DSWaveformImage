@@ -1,9 +1,9 @@
-DSWaveformImage - Realtime audio waveform rendering
+DSWaveformImage - iOS & macOS realtime audio waveform rendering
 ===============
 [![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
-DSWaveformImage offers a few interfaces for the purpose of drawing the
-envelope waveform of audio data in iOS, iPadOS and Mac Catalyst. To do so, you can use
+DSWaveformImage offers a native interfaces for drawing the envelope waveform of audio data 
+in **iOS**, **iPadOS**, **macOS** or via Catalyst. To do so, you can use
 
 * [`WaveformImageView`](Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift) (UIKit) / [`WaveformView`](Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift) (SwiftUI) to render a static waveform from an audio file or 
 * [`WaveformLiveView`](Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift) (UIKit) / [`WaveformLiveCanvas`](Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift) (SwiftUI) to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
@@ -18,7 +18,7 @@ Example UI (included in repository)
 For a practical real-world example usage of a SwiftUI live audio recording waveform rendering, see [RecordingIndicatorView](Example/DSWaveformImageExample-iOS/SwiftUIExample/SwiftUIExampleView.swift).
 
 
-<img src="https://github.com/dmrschmidt/DSWaveformImage/blob/main/recorder-example.png" alt="Audio Recorder Example" width="358">
+<img src="./Promotion/recorder-example.png" alt="Audio Recorder Example" width="358">
 
 More related iOS Controls
 ------------
@@ -59,6 +59,8 @@ Usage
 * native SwiftUI views - [SwiftUI example usage code](Example/DSWaveformImageExample-iOS/SwiftUIExample/SwiftUIExampleView.swift)
 * native UIKit views - [UIKit example usage code](Example/DSWaveformImageExample-iOS/ViewController.swift)
 * access to the raw renderes and processors
+
+The core renderes and processors as well as SwiftUI views natively support iOS & macOS, using `UIImage` & `NSImage` respectively.
 
 ### SwiftUI
 
