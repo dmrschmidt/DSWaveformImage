@@ -185,6 +185,9 @@ https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd
 
 Migration
 ---------
+In 11.0.0 the library was split into two: `DSWaveformImage` and `DSWaveformImageViews`. If you've used any of the native views bevore, just add the additional `import DSWaveformImageViews`.
+The SwiftUI views have changed from taking a Binding to the respective plain values instead.
+
 In 9.0.0 a few public API's have been slightly changed to be more concise. All types have also been grouped under the `Waveform` enum-namespace. Meaning `WaveformConfiguration` for instance has become `Waveform.Configuration` and so on.
 
 In 7.0.0 colors have moved into associated values on the respective `style` enum.
