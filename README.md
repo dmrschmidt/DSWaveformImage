@@ -39,12 +39,17 @@ If you're feeling in the mood of sending someone else a lovely gesture of apprec
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "10.0.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "11.0.0"
+
+```swift
+import DSWaveformImage // for core classes to generate images directly
+import DSWaveformImageViews // if you want to use the native UIKit / SwiftUI views
+```
 
 **Deprecated or discouraged** but still possible alternative ways for older apps:
 
-* since it has no other dependencies you may simply copy the `DSWaveformImage` folder directly into your project
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0`
+* since it has no other dependencies you may simply copy the `Sources` folder directly into your project
+* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0` (last supported version is 10)
 * or, sunset since 6.1.1: ~~use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`~~
 
 Usage
@@ -61,14 +66,14 @@ Usage
 
 ```swift
 @State var audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-WaveformView(audioURL: $audioURL)
+WaveformView(audioURL: audioURL)
 ```
 
 #### `WaveformLiveCanvas` - renders a live waveform from `(0...1)` normalized samples:
 
 ```swift
 @StateObject private var audioRecorder: AudioRecorder = AudioRecorder() // just an example
-WaveformLiveCanvas(samples: $audioRecorder.samples)
+WaveformLiveCanvas(samples: audioRecorder.samples)
 ```
 
 ### UIKit
