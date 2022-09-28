@@ -158,11 +158,32 @@ public class WaveformImageDrawer {
 ```
 
 
-### Playback Indication
+### Playback Progress Indication
 
-If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21).
-There's various other ways of course, depending on your use case and design. Using `WaveformLiveView` may be another one in conjunction with `AVAudioPlayer` (note that `AVPlayer` does *not* offer
-the same simple access to its audio metering data, so is not as suitable out of the box).
+If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21). There's various other ways of course, depending on your use case and design. One way to achieve this in SwiftUI could be
+
+
+```swift
+// @State var progress: CGFloat = 0 // must be between 0 and 1
+
+ZStack(alignment: .leading) {
+    WaveformView(audioURL: audioURL, configuration: configuration)
+    WaveformView(audioURL: audioURL, configuration: configuration.with(style: .filled(.red)))
+        .mask(alignment: .leading) {
+            GeometryReader { geometry in
+                Rectangle().frame(width: geometry.size.width * progress)
+            }
+        }
+}
+```
+
+This will result in something like the image below. 
+
+<div align="center">
+  <img src="./Promotion/progress-example.png" height="200" alt="playback progress waveform">
+</div>
+
+Keep in mind though, that this approach will calculate and render the waveform twice initially. This will be more than fine for 95% of typical use cases. If you do have very strict performance requirements however, you may want to use `WaveformImageDrawer` directly instead of the build-in views. There is currently no plan to integrate this as a 1st class citizen as every app will have different requirements, and `WaveformImageDrawer` as well as `WaveformAnalyzer` are as simple to use as the views themselves.
 
 ### Loading remote audio files from URL
 
@@ -178,7 +199,9 @@ Similarly, there are 3 positions relative to the canvas, `.top`, `.middle` and `
 
 The effect of each of those can be seen here:
 
-<img src="./Promotion/screenshot.png" width="500" alt="Screenshot">
+<div align="center">
+  <img src="./Promotion/screenshot.png" width="500" alt="Screenshot">
+</div>
 
 
 ### Live waveform rendering
