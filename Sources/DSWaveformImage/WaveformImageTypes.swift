@@ -37,14 +37,14 @@ public enum Waveform {
         case bottom
 
         /// **custom**: Draws the waveform at the specified point of the image. `x` and `y` must be within `(0...1)`!
-        case custom(CGPoint)
+        case origin(CGPoint)
 
-        func value() -> CGPoint {
+        func origin() -> CGPoint {
             switch self {
             case .top: return CGPoint(x: 0.5, y: 0.0)
             case .middle: return CGPoint(x: 0.5, y: 0.5)
             case .bottom: return CGPoint(x: 0.5, y: 1.0)
-            case let .custom(point): return point
+            case let .origin(point): return point
             }
         }
     }
@@ -149,16 +149,11 @@ public enum Waveform {
         /// Scale (@2x, @3x, etc.) to be applied to the image, defaults to `UIScreen.main.scale`.
         public let scale: CGFloat
 
-        /// *Optional* padding or vertical shrinking factor for the waveform.
-        @available(swift, obsoleted: 3.0, message: "Please use scalingFactor instead")
-        public let paddingFactor: CGFloat? = nil
-
         /**
          Vertical scaling factor. Default is `0.95`, leaving a small vertical padding.
 
-         The `verticalScalingFactor` replaced `paddingFactor` to be more approachable.
-         It describes the maximum vertical amplitude of the envelope being drawn
-         in relation to its view's (image's) size.
+         The `verticalScalingFactor` describes the maximum vertical amplitude
+         of the envelope being drawn in relation to its view's (image's) size.
 
          * `0`: the waveform has no vertical amplitude and is just a line.
          * `1`: the waveform uses the full available vertical space.
@@ -171,20 +166,6 @@ public enum Waveform {
 
         var shouldDampen: Bool {
             dampening != nil
-        }
-
-        @available(*, deprecated, message: "paddingFactor has been replaced by scalingFactor")
-        public init(size: CGSize = .zero,
-                    backgroundColor: DSColor = DSColor.clear,
-                    style: Style = .gradient([DSColor.black, DSColor.gray]),
-                    position: Position = .middle,
-                    scale: CGFloat = DSScreen.scale,
-                    paddingFactor: CGFloat?,
-                    shouldAntialias: Bool = false) {
-            self.init(
-                size: size, backgroundColor: backgroundColor, style: style, position: position, scale: scale,
-                verticalScalingFactor: 1 / (paddingFactor ?? 1), shouldAntialias: shouldAntialias
-            )
         }
 
         public init(size: CGSize = .zero,

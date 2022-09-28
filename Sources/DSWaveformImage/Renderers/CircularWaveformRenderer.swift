@@ -38,7 +38,10 @@ public struct CircularWaveformRenderer: WaveformRenderer {
     private func drawCircle(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
         let graphRect = CGRect(origin: .zero, size: configuration.size)
         let maxRadius = CGFloat(min(graphRect.maxX, graphRect.maxY) / 2.0) * configuration.verticalScalingFactor
-        let center = CGPoint(x: graphRect.maxX * configuration.position.value().x, y: graphRect.maxY * configuration.position.value().y)
+        let center = CGPoint(
+            x: graphRect.maxX * configuration.position.origin().x,
+            y: graphRect.maxY * configuration.position.origin().y
+        )
         let path = CGMutablePath()
 
         path.move(to: center)
@@ -75,7 +78,10 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         let graphRect = CGRect(origin: .zero, size: configuration.size)
         let maxRadius = CGFloat(min(graphRect.maxX, graphRect.maxY) / 2.0) * configuration.verticalScalingFactor
         let innerRadius: CGFloat = maxRadius * config
-        let center = CGPoint(x: graphRect.maxX * configuration.position.value().x, y: graphRect.maxY * configuration.position.value().y)
+        let center = CGPoint(
+            x: graphRect.maxX * configuration.position.origin().x,
+            y: graphRect.maxY * configuration.position.origin().y
+        )
         let path = CGMutablePath()
 
         path.move(to: CGPoint(
