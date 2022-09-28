@@ -36,20 +36,29 @@ public class WaveformLiveView: UIView {
         return WaveformLiveLayer.self
     }
 
-    public init(configuration: Waveform.Configuration = defaultConfiguration) {
+    public var renderer: WaveformRenderer {
+        didSet {
+            sampleLayer.renderer = renderer
+        }
+    }
+
+    public init(configuration: Waveform.Configuration = defaultConfiguration, renderer: WaveformRenderer = LinearWaveformRenderer()) {
         self.configuration = configuration
+        self.renderer = renderer
         super.init(frame: .zero)
         self.contentMode = .redraw
     }
 
     public override init(frame: CGRect) {
         self.configuration = Self.defaultConfiguration
+        self.renderer = LinearWaveformRenderer()
         super.init(frame: frame)
         contentMode = .redraw
     }
 
     required init?(coder: NSCoder) {
         self.configuration = Self.defaultConfiguration
+        self.renderer = LinearWaveformRenderer()
         super.init(coder: coder)
         contentMode = .redraw
     }
@@ -86,6 +95,10 @@ class WaveformLiveLayer: CALayer {
         }
     }
 
+    var renderer: WaveformRenderer = LinearWaveformRenderer() {
+        didSet { setNeedsDisplay() }
+    }
+
     private let waveformDrawer = WaveformImageDrawer()
 
     override class func needsDisplay(forKey key: String) -> Bool {
@@ -99,7 +112,7 @@ class WaveformLiveLayer: CALayer {
         super.draw(in: context)
 
         UIGraphicsPushContext(context)
-        waveformDrawer.draw(waveform: samples, on: context, with: configuration.with(size: bounds.size))
+        waveformDrawer.draw(waveform: samples, on: context, with: configuration.with(size: bounds.size), renderer: renderer)
         UIGraphicsPopContext()
     }
 

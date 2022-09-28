@@ -37,7 +37,7 @@ struct ContentView: View {
             .cornerRadius(10)
 
             if #available(macOS 12.0, *) {
-                WaveformView(audioURL: audioURL, configuration: configuration)
+                WaveformView(audioURL: audioURL, configuration: configuration, renderer: CircularWaveformRenderer())
             } else {
                 Text("at least macOS 12 is required")
             }

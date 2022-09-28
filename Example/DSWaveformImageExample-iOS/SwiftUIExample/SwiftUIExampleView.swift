@@ -18,8 +18,9 @@ struct SwiftUIExampleView: View {
     @State private var audioURL: URL? = Self.randomURL
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
-        style: .filled(randomColor),
-        position: .bottom
+        style: .outlined(.blue, 3),
+        position: .custom(CGPoint(x: 0.6, y: 0.6)),
+        verticalScalingFactor: 0.5
     )
 
     @State var liveConfiguration: Waveform.Configuration = Waveform.Configuration(
@@ -63,7 +64,11 @@ struct SwiftUIExampleView: View {
                 .padding()
 
                 if let audioURL {
-                    WaveformView(audioURL: audioURL, configuration: configuration)
+                    WaveformView(
+                        audioURL: audioURL,
+                        configuration: configuration,
+                        renderer: CircularWaveformRenderer(kind: .ring(0.7))
+                    )
                 }
 
                 VStack {
@@ -72,6 +77,7 @@ struct SwiftUIExampleView: View {
                     WaveformLiveCanvas(
                         samples: audioRecorder.samples,
                         configuration: liveConfiguration,
+                        renderer: CircularWaveformRenderer(kind: .circle),
                         shouldDrawSilencePadding: silence
                     )
                 }

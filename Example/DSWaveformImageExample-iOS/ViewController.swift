@@ -48,8 +48,9 @@ class ViewController: UIViewController {
                     ]
                 ),
                 dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
-                position: .top,
-                verticalScalingFactor: 2)
+                position: .custom(CGPoint(x: 0.6, y: 0.6)),
+                verticalScalingFactor: 2),
+                renderer: CircularWaveformRenderer()
         ) { image in
             // need to jump back to main queue
             DispatchQueue.main.async {

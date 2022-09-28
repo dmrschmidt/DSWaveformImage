@@ -21,9 +21,10 @@ public class WaveformImageDrawer: ObservableObject {
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
+                              renderer: WaveformRenderer = LinearWaveformRenderer(),
                               qos: DispatchQoS.QoSClass = .userInitiated) async throws -> DSImage {
         try await withCheckedThrowingContinuation { continuation in
-            waveformImage(fromAudioAt: audioAssetURL, with: configuration, qos: qos) { waveformImage in
+            waveformImage(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos) { waveformImage in
                 if let waveformImage = waveformImage {
                     continuation.resume(with: .success(waveformImage))
                 } else {
@@ -37,13 +38,14 @@ public class WaveformImageDrawer: ObservableObject {
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
+                              renderer: WaveformRenderer = LinearWaveformRenderer(),
                               qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (_ waveformImage: DSImage?) -> ()) {
         guard let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioAssetURL) else {
             completionHandler(nil)
             return
         }
-        render(from: waveformAnalyzer, with: configuration, qos: qos, completionHandler: completionHandler)
+        render(from: waveformAnalyzer, with: configuration, qos: qos, renderer: renderer, completionHandler: completionHandler)
     }
 }
 
@@ -52,7 +54,7 @@ extension WaveformImageDrawer {
     ///
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
-    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration) {
+    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, renderer: WaveformRenderer) {
         guard samples.count > 0 || shouldDrawSilencePadding else {
             return
         }
@@ -84,15 +86,17 @@ extension WaveformImageDrawer {
         let dampenedSamples = configuration.shouldDampen ? dampen(clippedSamples, with: configuration) : clippedSamples
         let paddedSamples = shouldDrawSilencePadding ? Array(repeating: 1, count: samplesNeeded - clippedSamples.count) + dampenedSamples : dampenedSamples
         
-        draw(on: context, from: paddedSamples, with: configuration)
+        draw(on: context, from: paddedSamples, with: configuration, renderer: renderer)
     }
 
-    func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration) {
+    func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer) {
         context.setAllowsAntialiasing(configuration.shouldAntialias)
         context.setShouldAntialias(configuration.shouldAntialias)
+        context.setAlpha(1.0)
 
         drawBackground(on: context, with: configuration)
-        drawGraph(from: samples, on: context, with: configuration)
+        renderer.render(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
+        renderer.style(context: context, with: configuration)
     }
 
     /// Dampen the samples for a smoother animation.
@@ -114,6 +118,7 @@ private extension WaveformImageDrawer {
     func render(from waveformAnalyzer: WaveformAnalyzer,
                 with configuration: Waveform.Configuration,
                 qos: DispatchQoS.QoSClass,
+                renderer: WaveformRenderer,
                 completionHandler: @escaping (_ waveformImage: DSImage?) -> ()) {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         waveformAnalyzer.samples(count: sampleCount, qos: qos) { samples in
@@ -122,81 +127,13 @@ private extension WaveformImageDrawer {
                 return
             }
             let dampenedSamples = configuration.shouldDampen ? self.dampen(samples, with: configuration) : samples
-            completionHandler(self.waveformImage(from: dampenedSamples, with: configuration))
+            completionHandler(self.waveformImage(from: dampenedSamples, with: configuration, renderer: renderer))
         }
     }
 
     private func drawBackground(on context: CGContext, with configuration: Waveform.Configuration) {
         context.setFillColor(configuration.backgroundColor.cgColor)
         context.fill(CGRect(origin: CGPoint.zero, size: configuration.size))
-    }
-
-    private func drawGraph(from samples: [Float],
-                           on context: CGContext,
-                           with configuration: Waveform.Configuration) {
-        let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
-        let positionAdjustedGraphCenter = CGFloat(configuration.position.value()) * graphRect.size.height
-        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
-        let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
-
-        let path = CGMutablePath()
-        var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
-
-        for (index, sample) in samples.enumerated() {
-            var x = index + lastOffset
-            if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
-                // skip sub-pixels - any x value not scale aligned
-                // skip any point that is not a multiple of our bucket width (width + spacing)
-                continue
-            } else if case let .striped(config) = configuration.style {
-                // ensure 1st stripe is drawn completely inside bounds and does not clip half way on the left side
-                x += Int(config.width / 2 * configuration.scale)
-            }
-
-            let samplesNeeded = Int(configuration.size.width * configuration.scale)
-            let xOffset = CGFloat(samplesNeeded - samples.count) / configuration.scale // When there's extra space, draw waveform on the right
-            let xPos = (CGFloat(x - lastOffset) / configuration.scale) + xOffset
-            let invertedDbSample = 1 - CGFloat(sample) // sample is in dB, linearly normalized to [0, 1] (1 -> -50 dB)
-            let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
-            let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
-            let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
-            maxAmplitude = max(drawingAmplitude, maxAmplitude)
-
-            path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
-            path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
-        }
-
-        context.addPath(path)
-        context.setAlpha(1.0)
-        context.setShouldAntialias(configuration.shouldAntialias)
-
-        if case let .striped(config) = configuration.style {
-            // draw scale-perfect for striped waveforms
-            context.setLineWidth(config.width)
-        } else {
-            // draw pixel-perfect for filled waveforms
-            context.setLineWidth(1.0 / configuration.scale)
-        }
-
-        switch configuration.style {
-        case let .filled(color):
-            context.setStrokeColor(color.cgColor)
-            context.strokePath()
-        case let .striped(config):
-            context.setLineCap(config.lineCap)
-            context.setStrokeColor(config.color.cgColor)
-            context.strokePath()
-        case let .gradient(colors):
-            context.replacePathWithStrokedPath()
-            context.clip()
-            let colors = NSArray(array: colors.map { (color: DSColor) -> CGColor in color.cgColor }) as CFArray
-            let colorSpace = CGColorSpaceCreateDeviceRGB()
-            let gradient = CGGradient(colorsSpace: colorSpace, colors: colors, locations: nil)!
-            context.drawLinearGradient(gradient,
-                                       start: CGPoint(x: 0, y: positionAdjustedGraphCenter - maxAmplitude),
-                                       end: CGPoint(x: 0, y: positionAdjustedGraphCenter + maxAmplitude),
-                                       options: .drawsAfterEndLocation)
-        }
     }
 }
 

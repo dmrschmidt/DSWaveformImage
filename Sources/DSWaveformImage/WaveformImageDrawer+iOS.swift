@@ -8,7 +8,7 @@ public extension WaveformImageDrawer {
     /// Renders a DSImage of the provided waveform samples.
     ///
     /// Samples need to be normalized within interval `(0...1)`.
-    func waveformImage(from samples: [Float], with configuration: Waveform.Configuration) -> DSImage? {
+    func waveformImage(from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer) -> DSImage? {
         guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
             print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
             return nil
@@ -16,11 +16,11 @@ public extension WaveformImageDrawer {
 
         let format = UIGraphicsImageRendererFormat()
         format.scale = configuration.scale
-        let renderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
+        let imageRenderer = UIGraphicsImageRenderer(size: configuration.size, format: format)
         let dampenedSamples = configuration.shouldDampen ? dampen(samples, with: configuration) : samples
 
-        return renderer.image { renderContext in
-            draw(on: renderContext.cgContext, from: dampenedSamples, with: configuration)
+        return imageRenderer.image { renderContext in
+            draw(on: renderContext.cgContext, from: dampenedSamples, with: configuration, renderer: renderer)
         }
     }
 }

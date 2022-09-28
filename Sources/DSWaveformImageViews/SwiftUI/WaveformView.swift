@@ -5,9 +5,10 @@ import SwiftUI
 public struct WaveformView: View {
     public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
 
-    public let audioURL: URL
-    public let configuration: Waveform.Configuration
-    public let priority: TaskPriority
+    private let audioURL: URL
+    private let configuration: Waveform.Configuration
+    private let renderer: WaveformRenderer
+    private let priority: TaskPriority
 
     @StateObject private var waveformDrawer = WaveformImageDrawer()
     @State private var waveformImage: DSImage = DSImage()
@@ -15,10 +16,12 @@ public struct WaveformView: View {
     public init(
         audioURL: URL,
         configuration: Waveform.Configuration = defaultConfiguration,
+        renderer: WaveformRenderer = LinearWaveformRenderer(),
         priority: TaskPriority = .userInitiated
     ) {
         self.audioURL = audioURL
         self.configuration = configuration
+        self.renderer = renderer
         self.priority = priority
     }
 
@@ -46,7 +49,7 @@ public struct WaveformView: View {
     private func update(size: CGSize, url: URL, configuration: Waveform.Configuration) {
         Task(priority: priority) {
             do {
-                let image = try await waveformDrawer.waveformImage(fromAudioAt: url, with: configuration.with(size: size))
+                let image = try await waveformDrawer.waveformImage(fromAudioAt: url, with: configuration.with(size: size), renderer: renderer)
                 await MainActor.run { waveformImage = image }
             } catch {
                 assertionFailure(error.localizedDescription)

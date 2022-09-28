@@ -18,25 +18,33 @@ import AVFoundation
     }
 #endif
 
-public enum Waveform {
-    /**
-     Position of the drawn waveform:
-     - **top**: Draws the waveform at the top of the image, such that only the bottom 50% are visible.
-     - **top**: Draws the waveform in the middle the image, such that the entire waveform is visible.
-     - **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
-     */
-    public enum Position: Equatable {
-        case top
-        case middle
-        case bottom
-        case custom(Double)
+/// Renders the waveformsamples  on the provided `CGContext`.
+public protocol WaveformRenderer {
+    func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int)
+    func style(context: CGContext, with configuration: Waveform.Configuration)
+}
 
-        func value() -> Double {
+public enum Waveform {
+    /** Position of the drawn waveform. */
+    public enum Position: Equatable {
+        /// **top**: Draws the waveform at the top of the image, such that only the bottom 50% are visible.
+        case top
+
+        /// **middle**: Draws the waveform in the middle the image, such that the entire waveform is visible.
+        case middle
+
+        /// **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
+        case bottom
+
+        /// **custom**: Draws the waveform at the specified point of the image. `x` and `y` must be within `(0...1)`!
+        case custom(CGPoint)
+
+        func value() -> CGPoint {
             switch self {
-            case .top: return 0.0
-            case .middle: return 0.5
-            case .bottom: return 1.0
-            case .custom(let value): return min(1.0, max(0.0, value))
+            case .top: return CGPoint(x: 0.5, y: 0.0)
+            case .middle: return CGPoint(x: 0.5, y: 0.5)
+            case .bottom: return CGPoint(x: 0.5, y: 1.0)
+            case let .custom(point): return point
             }
         }
     }
@@ -70,7 +78,9 @@ public enum Waveform {
         }
 
         case filled(DSColor)
+        case outlined(DSColor, CGFloat)
         case gradient([DSColor])
+        case gradientOutlined([DSColor], CGFloat)
         case striped(StripeConfig)
     }
 
