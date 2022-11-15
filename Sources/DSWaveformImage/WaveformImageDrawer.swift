@@ -143,11 +143,14 @@ private extension WaveformImageDrawer {
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
         for (y, sample) in samples.enumerated() {
-            let x = y + lastOffset
+            var x = y + lastOffset
             if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
                 // skip sub-pixels - any x value not scale aligned
                 // skip any point that is not a multiple of our bucket width (width + spacing)
                 continue
+            } else if case let .striped(config) = configuration.style {
+                // ensure 1st stripe is drawn copletely inside bounds and does not clip half way on the left side
+                x += Int(config.width / 2 * configuration.scale)
             }
 
             let samplesNeeded = Int(configuration.size.width * configuration.scale)
