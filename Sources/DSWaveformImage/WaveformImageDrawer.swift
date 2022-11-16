@@ -149,7 +149,7 @@ private extension WaveformImageDrawer {
                 // skip any point that is not a multiple of our bucket width (width + spacing)
                 continue
             } else if case let .striped(config) = configuration.style {
-                // ensure 1st stripe is drawn copletely inside bounds and does not clip half way on the left side
+                // ensure 1st stripe is drawn completely inside bounds and does not clip half way on the left side
                 x += Int(config.width / 2 * configuration.scale)
             }
 
