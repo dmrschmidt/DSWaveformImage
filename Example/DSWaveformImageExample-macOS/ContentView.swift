@@ -11,12 +11,7 @@ struct ContentView: View {
     @State private var audioURL: URL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
-        style: .filled(randomColor),
-        position: .bottom
-    )
-
-    @State var liveConfiguration: Waveform.Configuration = Waveform.Configuration(
-        style: .striped(.init(color: randomColor, width: 3, spacing: 3)),
+        style: .gradient([.red, .green]),
         position: .middle
     )
 
@@ -26,8 +21,7 @@ struct ContentView: View {
                 .font(.largeTitle.bold())
 
             Button {
-                configuration = configuration.with(style: .filled(Self.randomColor))
-                liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
+                configuration = configuration.with(style: .striped(.init(color: Self.randomColor)))
             } label: {
                 Label("switch color randomly", systemImage: "arrow.triangle.2.circlepath")
             }

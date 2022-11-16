@@ -8,8 +8,8 @@ public extension WaveformRenderer {
 
         switch configuration.style {
         case let .filled(color):
-            context.setStrokeColor(color.cgColor)
-            context.strokePath()
+            context.setFillColor(color.cgColor)
+            context.fillPath()
 
         case let .outlined(color, lineWidth):
             context.setStrokeColor(color.cgColor)
@@ -24,7 +24,6 @@ public extension WaveformRenderer {
             context.strokePath()
 
         case let .gradient(colors):
-            context.replacePathWithStrokedPath()
             context.clip()
             let colors = NSArray(array: colors.map { (color: DSColor) -> CGColor in color.cgColor }) as CFArray
             let colorSpace = CGColorSpaceCreateDeviceRGB()
