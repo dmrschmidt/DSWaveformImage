@@ -6,7 +6,7 @@ public struct LinearWaveformRenderer: WaveformRenderer {
 
     public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
-        let positionAdjustedGraphCenter = CGFloat(configuration.position.origin().y) * graphRect.size.height
+        let positionAdjustedGraphCenter = 0.5 * graphRect.size.height
         var path = CGMutablePath()
 
         path.move(to: CGPoint(x: 0, y: positionAdjustedGraphCenter))
@@ -40,8 +40,8 @@ public struct LinearWaveformRenderer: WaveformRenderer {
 
     private func dos(samples: [Float], on context: CGContext, path: CGMutablePath, with configuration: Waveform.Configuration, lastOffset: Int, sides: Sides) -> CGMutablePath {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
-        let positionAdjustedGraphCenter = CGFloat(configuration.position.origin().y) * graphRect.size.height
-        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
+        let positionAdjustedGraphCenter = 0.5 * graphRect.size.height
+        let drawMappingFactor = 0.5 * graphRect.size.height * configuration.verticalScalingFactor // we always draw in the center now
         let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 

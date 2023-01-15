@@ -120,8 +120,7 @@ let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
                                   size: topWaveformView.bounds.size,
-                                  style: .filled(UIColor.black),
-                                  position: .top)) { image in
+                                  style: .filled(UIColor.black))) { image in
     // need to jump back to main queue
     DispatchQueue.main.async {
         self.topWaveformView.image = image
@@ -193,11 +192,7 @@ What it looks like
 ------------------
 
 Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
-`.striped`. 
-
-Similarly, there are 3 positions relative to the canvas, `.top`, `.middle` and `.bottom`.
-
-The effect of each of those can be seen here:
+`.striped`. The effect of each of those can be seen here:
 
 <div align="center">
   <img src="./Promotion/screenshot.png" width="500" alt="Screenshot">

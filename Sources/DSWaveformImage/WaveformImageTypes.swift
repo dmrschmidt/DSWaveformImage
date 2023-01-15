@@ -25,30 +25,6 @@ public protocol WaveformRenderer {
 }
 
 public enum Waveform {
-    /** Position of the drawn waveform. */
-    public enum Position: Equatable {
-        /// **top**: Draws the waveform at the top of the image, such that only the bottom 50% are visible.
-        case top
-
-        /// **middle**: Draws the waveform in the middle the image, such that the entire waveform is visible.
-        case middle
-
-        /// **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
-        case bottom
-
-        /// **custom**: Draws the waveform at the specified point of the image. `x` and `y` must be within `(0...1)`!
-        case origin(CGPoint)
-
-        func origin() -> CGPoint {
-            switch self {
-            case .top: return CGPoint(x: 0.5, y: 0.0)
-            case .middle: return CGPoint(x: 0.5, y: 0.5)
-            case .bottom: return CGPoint(x: 0.5, y: 1.0)
-            case let .origin(point): return point
-            }
-        }
-    }
-
     /**
      Style of the waveform which is used during drawing:
      - **filled**: Use solid color for the waveform.
@@ -143,9 +119,6 @@ public enum Waveform {
         /// *Optional* Waveform dampening, defaults to `nil`.
         public let dampening: Dampening?
 
-        /// Waveform drawing position, defaults to `.middle`.
-        public let position: Position
-
         /// Scale (@2x, @3x, etc.) to be applied to the image, defaults to `UIScreen.main.scale`.
         public let scale: CGFloat
 
@@ -172,7 +145,6 @@ public enum Waveform {
                     backgroundColor: DSColor = DSColor.clear,
                     style: Style = .gradient([DSColor.black, DSColor.gray]),
                     dampening: Dampening? = nil,
-                    position: Position = .middle,
                     scale: CGFloat = DSScreen.scale,
                     verticalScalingFactor: CGFloat = 0.95,
                     shouldAntialias: Bool = false) {
@@ -183,7 +155,6 @@ public enum Waveform {
             self.backgroundColor = backgroundColor
             self.style = style
             self.dampening = dampening
-            self.position = position
             self.size = size
             self.scale = scale
             self.verticalScalingFactor = verticalScalingFactor
@@ -195,7 +166,6 @@ public enum Waveform {
                          backgroundColor: DSColor? = nil,
                          style: Style? = nil,
                          dampening: Dampening? = nil,
-                         position: Position? = nil,
                          scale: CGFloat? = nil,
                          verticalScalingFactor: CGFloat? = nil,
                          shouldAntialias: Bool? = nil
@@ -205,7 +175,6 @@ public enum Waveform {
                 backgroundColor: backgroundColor ?? self.backgroundColor,
                 style: style ?? self.style,
                 dampening: dampening ?? self.dampening,
-                position: position ?? self.position,
                 scale: scale ?? self.scale,
                 verticalScalingFactor: verticalScalingFactor ?? self.verticalScalingFactor,
                 shouldAntialias: shouldAntialias ?? self.shouldAntialias

@@ -48,7 +48,6 @@ class ViewController: UIViewController {
                     ]
                 ),
                 dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
-                position: .origin(CGPoint(x: 0.6, y: 0.6)),
                 verticalScalingFactor: 2),
                 renderer: CircularWaveformRenderer()
         ) { image in
@@ -82,8 +81,7 @@ class ViewController: UIViewController {
     private var bottomWaveformConfiguration: Waveform.Configuration {
         Waveform.Configuration(
             size: bottomWaveformView.bounds.size,
-            style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1)),
-            position: .middle
+            style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1))
         )
     }
 }

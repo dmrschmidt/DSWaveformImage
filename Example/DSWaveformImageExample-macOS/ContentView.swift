@@ -11,8 +11,7 @@ struct ContentView: View {
     @State private var audioURL: URL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
-        style: .gradient([.red, .green]),
-        position: .middle
+        style: .gradient([.red, .green])
     )
 
     var body: some View {

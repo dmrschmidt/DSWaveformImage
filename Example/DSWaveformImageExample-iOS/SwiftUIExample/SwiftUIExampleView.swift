@@ -19,13 +19,11 @@ struct SwiftUIExampleView: View {
 
     @State var configuration: Waveform.Configuration = Waveform.Configuration(
         style: .outlined(.blue, 3),
-        position: .origin(CGPoint(x: 0.6, y: 0.6)),
         verticalScalingFactor: 0.5
     )
 
     @State var liveConfiguration: Waveform.Configuration = Waveform.Configuration(
-        style: .striped(.init(color: randomColor, width: 3, spacing: 3)),
-        position: .origin(CGPoint(x: 0.3, y: 0.7))
+        style: .striped(.init(color: randomColor, width: 3, spacing: 3))
     )
 
     @State var silence: Bool = true
