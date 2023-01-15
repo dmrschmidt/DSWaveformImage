@@ -39,7 +39,7 @@ If you're feeling in the mood of sending someone else a lovely gesture of apprec
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "11.0.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "12.0.0"
 
 ```swift
 import DSWaveformImage // for core classes to generate `UIImage` / `NSImage` directly
