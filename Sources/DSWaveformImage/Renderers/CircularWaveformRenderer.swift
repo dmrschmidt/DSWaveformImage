@@ -5,12 +5,17 @@ import CoreGraphics
  Draws a circular 2D amplitude envelope of the samples provided.
 
  Draws either a filled circle, or a hollow ring, depending on the provided `Kind`. Defaults to drawing a `.circle`.
+ `Kind.ring` is currently experimental.
  Can be customized further via the configuration `Waveform.Style`.
  */
 
 public struct CircularWaveformRenderer: WaveformRenderer {
     public enum Kind {
+        /// Draws waveform as a circular amplitude envelope.
         case circle
+
+        /// **Experimental!** (Will) draw waveform as a ring-shaped amplitude envelope.
+        /// Associated value will define the percentage of desired "hollowness" inside, or in other words the ring's thickness / diameter in relation to the overall diameter.
         case ring(CGFloat)
     }
 
