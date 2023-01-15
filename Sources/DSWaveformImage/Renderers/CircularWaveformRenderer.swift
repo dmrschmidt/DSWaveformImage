@@ -1,6 +1,13 @@
 import Foundation
 import CoreGraphics
 
+/**
+ Draws a circular 2D amplitude envelope of the samples provided.
+
+ Draws either a filled circle, or a hollow ring, depending on the provided `Kind`. Defaults to drawing a `.circle`.
+ Can be customized further via the configuration `Waveform.Style`.
+ */
+
 public struct CircularWaveformRenderer: WaveformRenderer {
     public enum Kind {
         case circle
@@ -18,9 +25,11 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         case .circle: drawCircle(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
         case .ring: drawRing(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
         }
+
+        style(context: context, with: configuration)
     }
 
-    public func style(context: CGContext, with configuration: Waveform.Configuration) {
+    func style(context: CGContext, with configuration: Waveform.Configuration) {
         if case let .gradient(colors) = configuration.style {
             context.clip()
             let colors = NSArray(array: colors.map { (color: DSColor) -> CGColor in color.cgColor }) as CFArray

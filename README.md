@@ -191,8 +191,21 @@ For one example way to display waveforms for audio files on remote URLs see http
 What it looks like
 ------------------
 
-Waveforms can be rendered in 3 different styles: `.filled`, `.gradient` and
-`.striped`. The effect of each of those can be seen here:
+Waveforms can be rendered in 2 different ways and 5 different styles each.
+
+By default [`LinearWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/LinearWaveformRenderer.swift) is used, which draws a linear 2D amplitude envelope.
+
+[`CircularWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift) is available as an alternative, which can be passed in to the `WaveformView` or `WaveformLiveView` respectively. It draws a circular
+2D amplitude envelope.
+
+You can implement your own renderer by implementing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
+ 
+The following styles can be applied to either renderer:
+ - **filled**: Use solid color for the waveform.
+ - **outlined**: Draws the envelope as an outline with the provided thickness.
+ - **gradient**: Use gradient based on color for the waveform.
+ - **gradientOutlined**: Use gradient based on color for the waveform. Draws the envelope as an outline with the provided thickness.
+ - **striped**: Use striped filling based on color for the waveform.
 
 <div align="center">
   <img src="./Promotion/screenshot.png" width="500" alt="Screenshot">
@@ -205,6 +218,11 @@ https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd
 
 Migration
 ---------
+In 12.0.0
+* The rendering pipeline was split out from the analysis. You can now create your own renderes by subclassing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
+* A new [`CircularWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift) has been added.
+* `position` was removed from `Waveform.Configuration`, see [0447737](https://github.com/dmrschmidt/DSWaveformImage/commit/044773782092becec0424527f6feef061988db7a).
+
 In 11.0.0 the library was split into two: `DSWaveformImage` and `DSWaveformImageViews`. If you've used any of the native views bevore, just add the additional `import DSWaveformImageViews`.
 The SwiftUI views have changed from taking a Binding to the respective plain values instead.
 

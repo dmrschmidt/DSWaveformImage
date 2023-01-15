@@ -2,6 +2,10 @@ import Foundation
 import CoreGraphics
 
 public extension WaveformRenderer {
+    /**
+      Default styling. Exposed publicly simply because it is re-used internally in the included renderes. May be useful for other
+      if other renderes would like to stick to the default behavior.
+     */
     func defaultStyle(context: CGContext, with configuration: Waveform.Configuration) {
         // draw pixel-perfect by default
         context.setLineWidth(1.0 / configuration.scale)

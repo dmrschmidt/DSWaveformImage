@@ -96,7 +96,6 @@ extension WaveformImageDrawer {
 
         drawBackground(on: context, with: configuration)
         renderer.render(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
-        renderer.style(context: context, with: configuration)
     }
 
     /// Dampen the samples for a smoother animation.

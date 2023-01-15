@@ -18,17 +18,33 @@ import AVFoundation
     }
 #endif
 
-/// Renders the waveformsamples  on the provided `CGContext`.
+/**
+ Renders the waveformsamples  on the provided `CGContext`.
+
+ Default implementations are `LinearWaveformRenderer` and `CircularWaveformRenderer`.
+ Check out those if you'd like to implement your own custom renderer.
+*/
 public protocol WaveformRenderer {
+    /**
+     Renders the waveformsamples  on the provided `CGContext`.
+
+     - Parameters:
+        - samples: `[Float]` of the amplitude envelope to be drawn, normalized to interval `(0...1)`. `0` is maximum (typically `0dB`).
+        `1` is the noise floor, typically `-50dB`, as defined in `WaveformAnalyzer.noiseFloorDecibelCutoff`.
+        - with configuration: The desired configuration to be used for drawing.
+        - lastOffset: You can typtically leave this `0`. **Required for live rendering**, where it is needed to keep track of the last drawing cycle. Setting it avoids 'flickering' as samples are being added
+         continuously and the waveform moves across the view.
+     */
     func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int)
-    func style(context: CGContext, with configuration: Waveform.Configuration)
 }
 
 public enum Waveform {
     /**
      Style of the waveform which is used during drawing:
      - **filled**: Use solid color for the waveform.
+     - **outlined**: Draws the envelope as an outline with the provided thickness.
      - **gradient**: Use gradient based on color for the waveform.
+     - **gradientOutlined**: Use gradient based on color for the waveform. Draws the envelope as an outline with the provided thickness.
      - **striped**: Use striped filling based on color for the waveform.
      */
     public enum Style: Equatable {

@@ -2,6 +2,7 @@ import DSWaveformImage
 import SwiftUI
 
 @available(iOS 14.0, *)
+/// Renders and displays a waveform for the audio at `audioURL`.
 public struct WaveformView: View {
     public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
 
@@ -13,6 +14,15 @@ public struct WaveformView: View {
     @StateObject private var waveformDrawer = WaveformImageDrawer()
     @State private var waveformImage: DSImage = DSImage()
 
+    /**
+     Creates a new WaveformView which displays a waveform for the audio at `audioURL`.
+
+     - Parameters:
+        - audioURL: The `URL` of the audio asset to be rendered.
+        - configuration: The `Waveform.Configuration` to be used for rendering.
+        - renderer: The `WaveformRenderer` implementation to be used. Defaults to `LinearWaveformRenderer`. Also comes with `CircularWaveformRenderer`.
+        - priority: The `TaskPriority` used during analyzing. Defaults to `.userInitiated`.
+     */
     public init(
         audioURL: URL,
         configuration: Waveform.Configuration = defaultConfiguration,

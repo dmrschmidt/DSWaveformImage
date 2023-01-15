@@ -1,6 +1,11 @@
 import Foundation
 import CoreGraphics
 
+/**
+ Draws a linear 2D amplitude envelope of the samples provided.
+
+ Default `WaveformRenderer` used. Can be customized further via the configuration `Waveform.Style`.
+ */
 public struct LinearWaveformRenderer: WaveformRenderer {
     public init() {}
 
@@ -12,17 +17,15 @@ public struct LinearWaveformRenderer: WaveformRenderer {
         path.move(to: CGPoint(x: 0, y: positionAdjustedGraphCenter))
 
         if case .striped = configuration.style {
-            path = dos(samples: samples, on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .both)
+            path = draw(samples: samples, on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .both)
         } else {
-            path = dos(samples: samples, on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .up)
-            path = dos(samples: samples.reversed(), on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .down)
+            path = draw(samples: samples, on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .up)
+            path = draw(samples: samples.reversed(), on: context, path: path, with: configuration, lastOffset: lastOffset, sides: .down)
         }
 
         path.closeSubpath()
         context.addPath(path)
-    }
 
-    public func style(context: CGContext, with configuration: Waveform.Configuration) {
         defaultStyle(context: context, with: configuration)
     }
 
@@ -38,7 +41,7 @@ public struct LinearWaveformRenderer: WaveformRenderer {
         case up, down, both
     }
 
-    private func dos(samples: [Float], on context: CGContext, path: CGMutablePath, with configuration: Waveform.Configuration, lastOffset: Int, sides: Sides) -> CGMutablePath {
+    private func draw(samples: [Float], on context: CGContext, path: CGMutablePath, with configuration: Waveform.Configuration, lastOffset: Int, sides: Sides) -> CGMutablePath {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
         let positionAdjustedGraphCenter = 0.5 * graphRect.size.height
         let drawMappingFactor = 0.5 * graphRect.size.height * configuration.verticalScalingFactor // we always draw in the center now
