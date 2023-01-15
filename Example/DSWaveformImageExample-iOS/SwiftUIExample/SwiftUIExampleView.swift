@@ -27,6 +27,7 @@ struct SwiftUIExampleView: View {
     )
 
     @State var silence: Bool = true
+    @State var selection: Bool = true
 
     var body: some View {
         VStack {
@@ -34,63 +35,111 @@ struct SwiftUIExampleView: View {
                 .font(.largeTitle.bold())
 
             if #available(iOS 15.0, *) {
-                HStack {
-                    Button {
-                        configuration = configuration.with(style: .filled(Self.randomColor))
-                        liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
-                    } label: {
-                        Label("color", systemImage: "arrow.triangle.2.circlepath")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .font(.body.bold())
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-
-                    Button {
-                        audioURL = Self.randomURL
-                        print("will draw \(audioURL!)")
-                    } label: {
-                        Label("waveform", systemImage: "arrow.triangle.2.circlepath")
-                            .frame(maxWidth: .infinity)
-                    }
-                    .font(.body.bold())
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
+                Picker("Hey", selection: $selection) {
+                    Text("Recorder Example").tag(true)
+                    Text("Overview").tag(false)
                 }
-                .padding()
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
 
-                if let audioURL {
-                    WaveformView(
-                        audioURL: audioURL,
-                        configuration: configuration,
-                        renderer: CircularWaveformRenderer(kind: .ring(0.7))
-                    )
+                if selection {
+                    recordingExample
+                } else {
+                    overview
                 }
-
-                VStack {
-                    Toggle("draw silence", isOn: $silence).padding()
-
-                    WaveformLiveCanvas(
-                        samples: audioRecorder.samples,
-                        configuration: liveConfiguration,
-                        renderer: CircularWaveformRenderer(kind: .circle),
-                        shouldDrawSilencePadding: silence
-                    )
-                }
-
-                RecordingIndicatorView(
-                    samples: audioRecorder.samples,
-                    duration: audioRecorder.recordingTime,
-                    isRecording: $audioRecorder.isRecording
-                )
-                    .padding()
             } else {
                 Text("WaveformView & WaveformLiveCanvas require iOS 15.0")
             }
         }
         .padding(.vertical, 20)
+    }
+
+    @available(iOS 15.0, *)
+    @ViewBuilder
+    private var recordingExample: some View {
+        HStack {
+            Button {
+                configuration = configuration.with(style: .filled(Self.randomColor))
+                liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
+            } label: {
+                Label("color", systemImage: "arrow.triangle.2.circlepath")
+                    .frame(maxWidth: .infinity)
+            }
+            .font(.body.bold())
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+
+            Button {
+                audioURL = Self.randomURL
+                print("will draw \(audioURL!)")
+            } label: {
+                Label("waveform", systemImage: "arrow.triangle.2.circlepath")
+                    .frame(maxWidth: .infinity)
+            }
+            .font(.body.bold())
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+        }
+        .padding()
+
+        if let audioURL {
+            WaveformView(
+                audioURL: audioURL,
+                configuration: configuration,
+                renderer: CircularWaveformRenderer(kind: .ring(0.7))
+            )
+        }
+
+        VStack {
+            Toggle("draw silence", isOn: $silence).padding()
+
+            WaveformLiveCanvas(
+                samples: audioRecorder.samples,
+                configuration: liveConfiguration,
+                renderer: CircularWaveformRenderer(kind: .circle),
+                shouldDrawSilencePadding: silence
+            )
+        }
+
+        RecordingIndicatorView(
+            samples: audioRecorder.samples,
+            duration: audioRecorder.recordingTime,
+            isRecording: $audioRecorder.isRecording
+        )
+            .padding()
+    }
+
+    @ViewBuilder
+    private var overview: some View {
+        if let audioURL {
+            HStack {
+                VStack {
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .filled(.red)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .outlined(.black, 0.5)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradient([.yellow, .orange])))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradientOutlined([.yellow, .orange], 1)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 1))))
+                }
+
+                VStack {
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .filled(.red)), renderer: CircularWaveformRenderer())
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .outlined(.black, 0.5)), renderer: CircularWaveformRenderer())
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradient([.yellow, .orange])), renderer: CircularWaveformRenderer())
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradientOutlined([.yellow, .orange], 1)), renderer: CircularWaveformRenderer())
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer())
+                }
+
+                VStack {
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .filled(.red)), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .outlined(.black, 0.5)), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradient([.yellow, .orange])), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .gradientOutlined([.yellow, .orange], 1)), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
+                    WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
+                }
+            }
+        }
     }
 }
 
