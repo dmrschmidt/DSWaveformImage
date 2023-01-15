@@ -223,6 +223,7 @@ In 12.0.0
 * The rendering pipeline was split out from the analysis. You can now create your own renderes by subclassing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
 * A new [`CircularWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift) has been added.
 * `position` was removed from `Waveform.Configuration`, see [0447737](https://github.com/dmrschmidt/DSWaveformImage/commit/044773782092becec0424527f6feef061988db7a).
+* new `Waveform.Style` option have been added and need to be accounted for in `switch` statements etc.
 
 In 11.0.0 the library was split into two: `DSWaveformImage` and `DSWaveformImageViews`. If you've used any of the native views bevore, just add the additional `import DSWaveformImageViews`.
 The SwiftUI views have changed from taking a Binding to the respective plain values instead.
