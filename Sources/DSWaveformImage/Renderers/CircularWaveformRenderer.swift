@@ -46,9 +46,9 @@ public struct CircularWaveformRenderer: WaveformRenderer {
 
         path.move(to: center)
 
-        for (y, sample) in samples.enumerated() {
-            let angle = CGFloat.pi * 2 * (CGFloat(y) / CGFloat(samples.count))
-            let x = y + lastOffset
+        for (index, sample) in samples.enumerated() {
+            let angle = CGFloat.pi * 2 * (CGFloat(index) / CGFloat(samples.count))
+            let x = index + lastOffset
 
             if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
                 // skip sub-pixels - any x value not scale aligned
@@ -89,9 +89,9 @@ public struct CircularWaveformRenderer: WaveformRenderer {
             y: center.y + innerRadius * sin(0)
         ))
 
-        for (y, sample) in samples.enumerated() {
-            let x = y + lastOffset
-            let angle = CGFloat.pi * 2 * (CGFloat(y) / CGFloat(samples.count))
+        for (index, sample) in samples.enumerated() {
+            let x = index + lastOffset
+            let angle = CGFloat.pi * 2 * (CGFloat(index) / CGFloat(samples.count))
 
             if case .striped = configuration.style, x % Int(configuration.scale) != 0 || x % stripeBucket(configuration) != 0 {
                 // skip sub-pixels - any x value not scale aligned
