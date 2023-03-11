@@ -47,6 +47,11 @@ public class WaveformLiveView: UIView {
         self.renderer = renderer
         super.init(frame: .zero)
         self.contentMode = .redraw
+
+        defer { // will call didSet to propagate to sampleLayer
+            self.configuration = configuration
+            self.renderer = renderer
+        }
     }
 
     public override init(frame: CGRect) {
@@ -54,6 +59,11 @@ public class WaveformLiveView: UIView {
         self.renderer = LinearWaveformRenderer()
         super.init(frame: frame)
         contentMode = .redraw
+
+        defer { // will call didSet to propagate to sampleLayer
+            self.configuration = Self.defaultConfiguration
+            self.renderer = LinearWaveformRenderer()
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -61,6 +71,11 @@ public class WaveformLiveView: UIView {
         self.renderer = LinearWaveformRenderer()
         super.init(coder: coder)
         contentMode = .redraw
+
+        defer { // will call didSet to propagate to sampleLayer
+            self.configuration = Self.defaultConfiguration
+            self.renderer = LinearWaveformRenderer()
+        }
     }
 
     /// The sample to be added. Re-draws the waveform with the pre-existing samples and the new one.
