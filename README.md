@@ -219,6 +219,9 @@ https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd
 
 Migration
 ---------
+In 13.0.0
+* Any mentions of `dampening` & similar were corrected to `damping` etc in 0c237995cba5b1ed. Most notably in `Waveform.Configuration`. See #64. 
+
 In 12.0.0
 * The rendering pipeline was split out from the analysis. You can now create your own renderes by subclassing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
 * A new [`CircularWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift) has been added.
