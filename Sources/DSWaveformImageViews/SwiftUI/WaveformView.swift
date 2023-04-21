@@ -4,7 +4,7 @@ import SwiftUI
 @available(iOS 14.0, *)
 /// Renders and displays a waveform for the audio at `audioURL`.
 public struct WaveformView: View {
-    public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
+    public static let defaultConfiguration = Waveform.Configuration(damping: .init(percentage: 0.125, sides: .both))
 
     private let audioURL: URL
     private let configuration: Waveform.Configuration

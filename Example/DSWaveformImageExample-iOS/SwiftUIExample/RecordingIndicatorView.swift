@@ -11,7 +11,7 @@ struct RecordingIndicatorView: View {
 
     @State var configuration: Waveform.Configuration = .init(
         style: .striped(.init(color: .systemGray, width: 3, spacing: 3)),
-        dampening: .init()
+        damping: .init()
     )
 
     static let timeFormatter: DateComponentsFormatter = {

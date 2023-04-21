@@ -39,15 +39,15 @@ class RecordingViewController: UIViewController {
         waveformView.shouldDrawSilencePadding = sender.isOn
     }
 
-    @IBAction func didChangeDampeningPercentage(_ sender: UISlider) {
+    @IBAction func didChangeDampingPercentage(_ sender: UISlider) {
         waveformView.configuration = waveformView.configuration.with(
-            dampening: waveformView.configuration.dampening?.with(percentage: sender.value)
+            damping: waveformView.configuration.damping?.with(percentage: sender.value)
         )
     }
 
-    @IBAction func didChangeDampeningSides(_ sender: UISegmentedControl) {
+    @IBAction func didChangeDampingSides(_ sender: UISegmentedControl) {
         waveformView.configuration = waveformView.configuration.with(
-            dampening: waveformView.configuration.dampening?.with(
+            damping: waveformView.configuration.damping?.with(
                 sides: sideForSelection(index: sender.selectedSegmentIndex)
             )
         )
@@ -73,7 +73,7 @@ class RecordingViewController: UIViewController {
         }
     }
 
-    private func sideForSelection(index: Int) -> Waveform.Dampening.Sides {
+    private func sideForSelection(index: Int) -> Waveform.Damping.Sides {
         switch index {
         case 0: return .left
         case 1: return .right

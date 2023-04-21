@@ -6,8 +6,8 @@ import UIKit
 /// Renders a live waveform everytime its `(0...1)`-normalized samples are changed.
 public class WaveformLiveView: UIView {
 
-    /// Default configuration with dampening enabled.
-    public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
+    /// Default configuration with damping enabled.
+    public static let defaultConfiguration = Waveform.Configuration(damping: .init(percentage: 0.125, sides: .both))
 
     /// If set to `true`, a zero line, indicating silence, is being drawn while the received
     /// samples are not filling up the entire view's width yet.

@@ -14,12 +14,12 @@ public extension WaveformImageDrawer {
             return nil
         }
 
-        let dampenedSamples = configuration.shouldDampen ? dampen(samples, with: configuration) : samples
+        let dampedSamples = configuration.shouldDamp ? damp(samples, with: configuration) : samples
         return NSImage(size: configuration.size, flipped: false) { rect in
             guard let context = NSGraphicsContext.current?.cgContext else {
                 fatalError("Missing context")
             }
-            self.draw(on: context, from: dampenedSamples, with: configuration, renderer: renderer)
+            self.draw(on: context, from: dampedSamples, with: configuration, renderer: renderer)
             return true
         }
     }

@@ -83,8 +83,8 @@ extension WaveformImageDrawer {
         // move the window, so that its always at the end (appears to move from right to left)
         let startSample = max(0, samples.count - samplesNeeded)
         let clippedSamples = Array(samples[startSample..<samples.count])
-        let dampenedSamples = configuration.shouldDampen ? dampen(clippedSamples, with: configuration) : clippedSamples
-        let paddedSamples = shouldDrawSilencePadding ? Array(repeating: 1, count: samplesNeeded - clippedSamples.count) + dampenedSamples : dampenedSamples
+        let dampedSamples = configuration.shouldDamp ? damp(clippedSamples, with: configuration) : clippedSamples
+        let paddedSamples = shouldDrawSilencePadding ? Array(repeating: 1, count: samplesNeeded - clippedSamples.count) + dampedSamples : dampedSamples
         
         draw(on: context, from: paddedSamples, with: configuration, renderer: renderer)
     }
@@ -98,15 +98,15 @@ extension WaveformImageDrawer {
         renderer.render(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
     }
 
-    /// Dampen the samples for a smoother animation.
-    func dampen(_ samples: [Float], with configuration: Waveform.Configuration) -> [Float] {
-        guard let dampening = configuration.dampening, dampening.percentage > 0 else {
+    /// Damp the samples for a smoother animation.
+    func damp(_ samples: [Float], with configuration: Waveform.Configuration) -> [Float] {
+        guard let damping = configuration.damping, damping.percentage > 0 else {
             return samples
         }
 
         let count = Float(samples.count)
         return samples.enumerated().map { x, value -> Float in
-            1 - ((1 - value) * dampFactor(x: Float(x), count: count, with: dampening))
+            1 - ((1 - value) * dampFactor(x: Float(x), count: count, with: damping))
         }
     }
 }
@@ -125,8 +125,8 @@ private extension WaveformImageDrawer {
                 completionHandler(nil)
                 return
             }
-            let dampenedSamples = configuration.shouldDampen ? self.dampen(samples, with: configuration) : samples
-            completionHandler(self.waveformImage(from: dampenedSamples, with: configuration, renderer: renderer))
+            let dampedSamples = configuration.shouldDamp ? self.damp(samples, with: configuration) : samples
+            completionHandler(self.waveformImage(from: dampedSamples, with: configuration, renderer: renderer))
         }
     }
 
@@ -155,15 +155,15 @@ private extension WaveformImageDrawer {
         }
     }
 
-    private func dampFactor(x: Float, count: Float, with dampening: Waveform.Dampening) -> Float {
-        if (dampening.sides == .left || dampening.sides == .both) && x < count * dampening.percentage {
-            // increasing linear dampening within the left 8th (default)
+    private func dampFactor(x: Float, count: Float, with damping: Waveform.Damping) -> Float {
+        if (damping.sides == .left || damping.sides == .both) && x < count * damping.percentage {
+            // increasing linear damping within the left 8th (default)
             // basically (x : 1/8) with x in (0..<1/8)
-            return dampening.easing(x / (count * dampening.percentage))
-        } else if (dampening.sides == .right || dampening.sides == .both) && x > ((1 / dampening.percentage) - 1) * (count * dampening.percentage) {
-            // decaying linear dampening within the right 8th
+            return damping.easing(x / (count * damping.percentage))
+        } else if (damping.sides == .right || damping.sides == .both) && x > ((1 / damping.percentage) - 1) * (count * damping.percentage) {
+            // decaying linear damping within the right 8th
             // basically also (x : 1/8), but since x in (7/8>...1) x is "inverted" as x = x - 7/8
-            return dampening.easing(1 - (x - (((1 / dampening.percentage) - 1) * (count * dampening.percentage))) / (count * dampening.percentage))
+            return damping.easing(1 - (x - (((1 / damping.percentage) - 1) * (count * damping.percentage))) / (count * damping.percentage))
         }
         return 1
     }

@@ -77,22 +77,22 @@ public enum Waveform {
     }
 
     /**
-     Defines the dampening attributes of the waveform.
+     Defines the damping attributes of the waveform.
      */
-    public struct Dampening: Equatable {
+    public struct Damping: Equatable {
         public enum Sides: Equatable {
             case left
             case right
             case both
         }
 
-        /// Determines the percentage of the resulting graph to be dampened.
+        /// Determines the percentage of the resulting graph to be damped.
         ///
         /// Must be within `(0..<0.5)` to leave an undapmened area.
         /// Default is `0.125`
         public let percentage: Float
 
-        /// Determines which sides of the graph to dampen.
+        /// Determines which sides of the graph to damp.
         /// Default is `.both`
         public let sides: Sides
 
@@ -101,7 +101,7 @@ public enum Waveform {
 
         public init(percentage: Float = 0.125, sides: Sides = .both, easing: @escaping (Float) -> Float = { x in pow(x, 2) }) {
             guard (0...0.5).contains(percentage) else {
-                preconditionFailure("dampeningPercentage must be within (0..<0.5)")
+                preconditionFailure("dampingPercentage must be within (0..<0.5)")
             }
 
             self.percentage = percentage
@@ -109,12 +109,12 @@ public enum Waveform {
             self.easing = easing
         }
 
-        /// Build a new `Waveform.Dampening` with only the given parameters replaced.
-        public func with(percentage: Float? = nil, sides: Sides? = nil, easing: ((Float) -> Float)? = nil) -> Dampening {
+        /// Build a new `Waveform.Damping` with only the given parameters replaced.
+        public func with(percentage: Float? = nil, sides: Sides? = nil, easing: ((Float) -> Float)? = nil) -> Damping {
             .init(percentage: percentage ?? self.percentage, sides: sides ?? self.sides, easing: easing ?? self.easing)
         }
 
-        public static func == (lhs: Waveform.Dampening, rhs: Waveform.Dampening) -> Bool {
+        public static func == (lhs: Waveform.Damping, rhs: Waveform.Damping) -> Bool {
             // poor-man's way to make two closures Equatable w/o too much hassle
             let randomEqualitySample = Float.random(in: (0..<Float.greatestFiniteMagnitude))
             return lhs.percentage == rhs.percentage && lhs.sides == rhs.sides && lhs.easing(randomEqualitySample) == rhs.easing(randomEqualitySample)
@@ -132,8 +132,8 @@ public enum Waveform {
         /// Waveform drawing style, defaults to `.gradient`.
         public let style: Style
 
-        /// *Optional* Waveform dampening, defaults to `nil`.
-        public let dampening: Dampening?
+        /// *Optional* Waveform damping, defaults to `nil`.
+        public let damping: Damping?
 
         /// Scale (@2x, @3x, etc.) to be applied to the image, defaults to `UIScreen.main.scale`.
         public let scale: CGFloat
@@ -153,14 +153,14 @@ public enum Waveform {
         /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is `false`.
         public let shouldAntialias: Bool
 
-        var shouldDampen: Bool {
-            dampening != nil
+        var shouldDamp: Bool {
+            damping != nil
         }
 
         public init(size: CGSize = .zero,
                     backgroundColor: DSColor = DSColor.clear,
                     style: Style = .gradient([DSColor.black, DSColor.gray]),
-                    dampening: Dampening? = nil,
+                    damping: Damping? = nil,
                     scale: CGFloat = DSScreen.scale,
                     verticalScalingFactor: CGFloat = 0.95,
                     shouldAntialias: Bool = false) {
@@ -170,7 +170,7 @@ public enum Waveform {
 
             self.backgroundColor = backgroundColor
             self.style = style
-            self.dampening = dampening
+            self.damping = damping
             self.size = size
             self.scale = scale
             self.verticalScalingFactor = verticalScalingFactor
@@ -181,7 +181,7 @@ public enum Waveform {
         public func with(size: CGSize? = nil,
                          backgroundColor: DSColor? = nil,
                          style: Style? = nil,
-                         dampening: Dampening? = nil,
+                         damping: Damping? = nil,
                          scale: CGFloat? = nil,
                          verticalScalingFactor: CGFloat? = nil,
                          shouldAntialias: Bool? = nil
@@ -190,7 +190,7 @@ public enum Waveform {
                 size: size ?? self.size,
                 backgroundColor: backgroundColor ?? self.backgroundColor,
                 style: style ?? self.style,
-                dampening: dampening ?? self.dampening,
+                damping: damping ?? self.damping,
                 scale: scale ?? self.scale,
                 verticalScalingFactor: verticalScalingFactor ?? self.verticalScalingFactor,
                 shouldAntialias: shouldAntialias ?? self.shouldAntialias

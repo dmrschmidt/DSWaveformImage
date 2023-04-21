@@ -3,7 +3,7 @@ import DSWaveformImage
 
 @available(iOS 15.0, macOS 12.0, *)
 public struct WaveformLiveCanvas: View {
-    public static let defaultConfiguration = Waveform.Configuration(dampening: .init(percentage: 0.125, sides: .both))
+    public static let defaultConfiguration = Waveform.Configuration(damping: .init(percentage: 0.125, sides: .both))
 
     public let samples: [Float]
     public let configuration: Waveform.Configuration

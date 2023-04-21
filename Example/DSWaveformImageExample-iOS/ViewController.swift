@@ -47,7 +47,7 @@ class ViewController: UIViewController {
                         UIColor.red
                     ]
                 ),
-                dampening: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
+                damping: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
                 verticalScalingFactor: 2),
                 renderer: CircularWaveformRenderer()
         ) { image in
