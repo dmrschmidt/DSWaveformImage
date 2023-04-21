@@ -219,21 +219,24 @@ https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd
 
 Migration
 ---------
-In 13.0.0
+### In 13.0.0
 * Any mentions of `dampening` & similar were corrected to `damping` etc in [11460b8b](https://github.com/dmrschmidt/DSWaveformImage/commit/11460b8b8203f163868ba774d1533116d2fe68a1). Most notably in `Waveform.Configuration`. See #64. 
 
-In 12.0.0
+### In 12.0.0
 * The rendering pipeline was split out from the analysis. You can now create your own renderes by subclassing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
 * A new [`CircularWaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift) has been added.
 * `position` was removed from `Waveform.Configuration`, see [0447737](https://github.com/dmrschmidt/DSWaveformImage/commit/044773782092becec0424527f6feef061988db7a).
 * new `Waveform.Style` option have been added and need to be accounted for in `switch` statements etc.
 
-In 11.0.0 the library was split into two: `DSWaveformImage` and `DSWaveformImageViews`. If you've used any of the native views bevore, just add the additional `import DSWaveformImageViews`.
+### In 11.0.0 
+the library was split into two: `DSWaveformImage` and `DSWaveformImageViews`. If you've used any of the native views bevore, just add the additional `import DSWaveformImageViews`.
 The SwiftUI views have changed from taking a Binding to the respective plain values instead.
 
-In 9.0.0 a few public API's have been slightly changed to be more concise. All types have also been grouped under the `Waveform` enum-namespace. Meaning `WaveformConfiguration` for instance has become `Waveform.Configuration` and so on.
+### In 9.0.0 
+a few public API's have been slightly changed to be more concise. All types have also been grouped under the `Waveform` enum-namespace. Meaning `WaveformConfiguration` for instance has become `Waveform.Configuration` and so on.
 
-In 7.0.0 colors have moved into associated values on the respective `style` enum.
+### In 7.0.0 
+colors have moved into associated values on the respective `style` enum.
 
 `Waveform` and the `UIImage` category have been removed in 6.0.0 to simplify the API.
 See `Usage` for current usage.
