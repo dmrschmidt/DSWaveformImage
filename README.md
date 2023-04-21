@@ -221,6 +221,8 @@ Migration
 ---------
 ### In 13.0.0
 * Any mentions of `dampening` & similar were corrected to `damping` etc in [11460b8b](https://github.com/dmrschmidt/DSWaveformImage/commit/11460b8b8203f163868ba774d1533116d2fe68a1). Most notably in `Waveform.Configuration`. See [#64](https://github.com/dmrschmidt/DSWaveformImage/issues/64). 
+* styles `.outlined` & `.gradientOutlined` were added to `Waveform.Style`, see https://github.com/dmrschmidt/DSWaveformImage#what-it-looks-like
+* `Waveform.Position` was removed. If you were using it to place the view somewhere, move this responsibility up to its parent for positioning, like with any other view as well.
 
 ### In 12.0.0
 * The rendering pipeline was split out from the analysis. You can now create your own renderes by subclassing [`WaveformRenderer`](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift).
