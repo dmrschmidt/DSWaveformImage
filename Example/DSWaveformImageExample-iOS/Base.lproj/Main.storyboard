@@ -94,7 +94,7 @@
         <!--Progress-->
         <scene sceneID="uBw-Ip-RrE">
             <objects>
-                <viewController id="gD8-aq-VgA" customClass="PlaybackViewController" customModule="DSWaveformImageExample_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gD8-aq-VgA" customClass="ProgressViewController" customModule="DSWaveformImageExample_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tYv-pH-0dM"/>
                         <viewControllerLayoutGuide type="bottom" id="Ho4-nS-hvA"/>
@@ -123,13 +123,23 @@
                                     <action selector="shuffleProgressUIKit" destination="gD8-aq-VgA" eventType="touchUpInside" id="hCQ-Qh-fY7"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QvW-1Q-7q3">
+                                <rect key="frame" x="102.5" y="207" width="115.5" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" image="swift" catalog="system" title="  SwiftUI"/>
+                                <connections>
+                                    <action selector="openSwiftUIExample" destination="gD8-aq-VgA" eventType="touchUpInside" id="gvY-QD-kho"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="fCm-LC-buo" secondAttribute="trailing" constant="24" id="5ek-Ku-N6A"/>
+                            <constraint firstItem="QvW-1Q-7q3" firstAttribute="centerX" secondItem="1A5-zt-2pP" secondAttribute="centerX" id="8YC-UI-xcN"/>
                             <constraint firstItem="NdQ-oE-fW0" firstAttribute="top" secondItem="tYv-pH-0dM" secondAttribute="bottom" constant="8" symbolic="YES" id="A9c-kK-p0w"/>
                             <constraint firstItem="NdQ-oE-fW0" firstAttribute="leading" secondItem="1A5-zt-2pP" secondAttribute="leadingMargin" constant="24" id="U1X-3C-zvN"/>
                             <constraint firstItem="fCm-LC-buo" firstAttribute="leading" secondItem="1A5-zt-2pP" secondAttribute="leadingMargin" constant="24" id="iUl-sr-6fI"/>
+                            <constraint firstItem="QvW-1Q-7q3" firstAttribute="top" secondItem="FPP-qt-UCG" secondAttribute="bottom" constant="8" symbolic="YES" id="izN-Ip-z5Y"/>
                             <constraint firstItem="FPP-qt-UCG" firstAttribute="centerX" secondItem="1A5-zt-2pP" secondAttribute="centerX" id="lxk-ek-qto"/>
                             <constraint firstItem="FPP-qt-UCG" firstAttribute="top" secondItem="NdQ-oE-fW0" secondAttribute="bottom" constant="8" symbolic="YES" id="r6i-TX-d0q"/>
                             <constraint firstItem="fCm-LC-buo" firstAttribute="top" secondItem="tYv-pH-0dM" secondAttribute="bottom" constant="8" symbolic="YES" id="xCo-Kw-Ucf"/>

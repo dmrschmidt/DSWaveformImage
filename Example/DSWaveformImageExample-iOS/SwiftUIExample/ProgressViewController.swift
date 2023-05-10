@@ -1,9 +1,9 @@
 import Foundation
 import UIKit
+import SwiftUI
 import DSWaveformImage
-import Combine
 
-class PlaybackViewController: UIViewController {
+class ProgressViewController: UIViewController {
     @IBOutlet var waveformImageView: UIImageView!
     @IBOutlet var playbackWaveformImageView: UIImageView!
 
@@ -26,6 +26,13 @@ class PlaybackViewController: UIViewController {
         // progress updates come in at a high enough frequency
         // (every 0.1s for instance).
         updateProgressWaveform(progress)
+    }
+
+    @IBAction func openSwiftUIExample() {
+        if #available(iOS 15.0, *) {
+            let hostingViewController = UIHostingController(rootView: ProgressExampleView())
+            present(hostingViewController, animated: true)
+        }
     }
 
     private func updateProgressWaveform(_ progress: Double) {

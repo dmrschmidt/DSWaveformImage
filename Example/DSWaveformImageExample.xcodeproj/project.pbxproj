@@ -23,7 +23,8 @@
 		C39A111928E2EBAD004AB185 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = C39A111828E2EBAD004AB185 /* DSWaveformImage */; };
 		C39A111B28E2EBAD004AB185 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = C39A111A28E2EBAD004AB185 /* DSWaveformImageViews */; };
 		C39A111C28E2EC50004AB185 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A10F428E2E77F004AB185 /* example_sound.m4a */; };
-		C3C83AC72A0BECBD00DF02F2 /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C83AC62A0BECBD00DF02F2 /* PlaybackViewController.swift */; };
+		C3C83AC72A0BECBD00DF02F2 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C83AC62A0BECBD00DF02F2 /* ProgressViewController.swift */; };
+		C3C83AC92A0C050900DF02F2 /* ProgressWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C83AC82A0C050900DF02F2 /* ProgressWaveformView.swift */; };
 		C3D671EF28E2E61F006C022D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671EE28E2E61F006C022D /* AppDelegate.swift */; };
 		C3D671F128E2E61F006C022D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F028E2E61F006C022D /* SceneDelegate.swift */; };
 		C3D671F328E2E61F006C022D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D671F228E2E61F006C022D /* ViewController.swift */; };
@@ -48,7 +49,8 @@
 		C39A110D28E2EAC0004AB185 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C39A111028E2EAC0004AB185 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C39A111228E2EAC0004AB185 /* DSWaveformImageExample_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSWaveformImageExample_macOS.entitlements; sourceTree = "<group>"; };
-		C3C83AC62A0BECBD00DF02F2 /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
+		C3C83AC62A0BECBD00DF02F2 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
+		C3C83AC82A0C050900DF02F2 /* ProgressWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressWaveformView.swift; sourceTree = "<group>"; };
 		C3D671EB28E2E61F006C022D /* DSWaveformImageExample-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSWaveformImageExample-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D671EE28E2E61F006C022D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3D671F028E2E61F006C022D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,8 +97,9 @@
 				C39A10FB28E2E91E004AB185 /* SwiftUIExample.swift */,
 				C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */,
 				C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */,
-				C3C83AC62A0BECBD00DF02F2 /* PlaybackViewController.swift */,
+				C3C83AC62A0BECBD00DF02F2 /* ProgressViewController.swift */,
 				C3D671F228E2E61F006C022D /* ViewController.swift */,
+				C3C83AC82A0C050900DF02F2 /* ProgressWaveformView.swift */,
 			);
 			path = SwiftUIExample;
 			sourceTree = "<group>";
@@ -291,12 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3C83AC72A0BECBD00DF02F2 /* PlaybackViewController.swift in Sources */,
+				C3C83AC72A0BECBD00DF02F2 /* ProgressViewController.swift in Sources */,
 				C3D671F328E2E61F006C022D /* ViewController.swift in Sources */,
 				C39A10F928E2E77F004AB185 /* RecordingViewController.swift in Sources */,
 				C3D671EF28E2E61F006C022D /* AppDelegate.swift in Sources */,
 				C39A10FF28E2E91E004AB185 /* RecordingIndicatorView.swift in Sources */,
 				C39A10F728E2E77F004AB185 /* SCAudioManager.m in Sources */,
+				C3C83AC92A0C050900DF02F2 /* ProgressWaveformView.swift in Sources */,
 				C39A110028E2E91E004AB185 /* SwiftUIExampleView.swift in Sources */,
 				C39A10FE28E2E91E004AB185 /* SwiftUIExample.swift in Sources */,
 				C3D671F128E2E61F006C022D /* SceneDelegate.swift in Sources */,
