@@ -91,6 +91,61 @@
             </objects>
             <point key="canvasLocation" x="1136.25" y="138.38028169014083"/>
         </scene>
+        <!--Progress-->
+        <scene sceneID="uBw-Ip-RrE">
+            <objects>
+                <viewController id="gD8-aq-VgA" customClass="PlaybackViewController" customModule="DSWaveformImageExample_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tYv-pH-0dM"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ho4-nS-hvA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1A5-zt-2pP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fCm-LC-buo">
+                                <rect key="frame" x="40" y="28" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fCm-LC-buo" secondAttribute="height" multiplier="15:8" id="qsd-HD-SEq"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NdQ-oE-fW0">
+                                <rect key="frame" x="40" y="28" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="NdQ-oE-fW0" secondAttribute="height" multiplier="15:8" id="pA6-P8-cte"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FPP-qt-UCG">
+                                <rect key="frame" x="96" y="164" width="128" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="dice.fill" catalog="system" title="  Progress"/>
+                                <connections>
+                                    <action selector="shuffleProgressUIKit" destination="gD8-aq-VgA" eventType="touchUpInside" id="hCQ-Qh-fY7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="fCm-LC-buo" secondAttribute="trailing" constant="24" id="5ek-Ku-N6A"/>
+                            <constraint firstItem="NdQ-oE-fW0" firstAttribute="top" secondItem="tYv-pH-0dM" secondAttribute="bottom" constant="8" symbolic="YES" id="A9c-kK-p0w"/>
+                            <constraint firstItem="NdQ-oE-fW0" firstAttribute="leading" secondItem="1A5-zt-2pP" secondAttribute="leadingMargin" constant="24" id="U1X-3C-zvN"/>
+                            <constraint firstItem="fCm-LC-buo" firstAttribute="leading" secondItem="1A5-zt-2pP" secondAttribute="leadingMargin" constant="24" id="iUl-sr-6fI"/>
+                            <constraint firstItem="FPP-qt-UCG" firstAttribute="centerX" secondItem="1A5-zt-2pP" secondAttribute="centerX" id="lxk-ek-qto"/>
+                            <constraint firstItem="FPP-qt-UCG" firstAttribute="top" secondItem="NdQ-oE-fW0" secondAttribute="bottom" constant="8" symbolic="YES" id="r6i-TX-d0q"/>
+                            <constraint firstItem="fCm-LC-buo" firstAttribute="top" secondItem="tYv-pH-0dM" secondAttribute="bottom" constant="8" symbolic="YES" id="xCo-Kw-Ucf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="NdQ-oE-fW0" secondAttribute="trailing" constant="24" id="yfy-zi-c6D"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Progress" image="play.circle.fill" catalog="system" id="OSO-d9-ped"/>
+                    <connections>
+                        <outlet property="playbackWaveformImageView" destination="NdQ-oE-fW0" id="ahJ-TZ-xgy"/>
+                        <outlet property="waveformImageView" destination="fCm-LC-buo" id="JRe-8U-K4A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FpK-GQ-Thg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1136" y="-667"/>
+        </scene>
         <!--SwiftUI-->
         <scene sceneID="4Hc-Es-F5z">
             <objects>
@@ -221,10 +276,10 @@
             </objects>
             <point key="canvasLocation" x="1134.375" y="830.28169014084506"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Playback-->
         <scene sceneID="yEP-GJ-OjA">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Pyc-yZ-fIy" sceneMemberID="viewController">
+                <tabBarController title="Playback" automaticallyAdjustsScrollViewInsets="NO" id="Pyc-yZ-fIy" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8mt-SE-7kO">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -235,6 +290,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="m9o-Xe-wz1"/>
                         <segue destination="ogB-yT-rId" kind="relationship" relationship="viewControllers" id="k0A-Dy-j1K"/>
                         <segue destination="Gdo-9t-qXH" kind="relationship" relationship="viewControllers" id="wjy-DZ-h16"/>
+                        <segue destination="gD8-aq-VgA" kind="relationship" relationship="viewControllers" id="8fS-uD-36g"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qD-za-aZv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -244,7 +300,9 @@
     </scenes>
     <resources>
         <image name="background" width="3000" height="2000"/>
+        <image name="dice.fill" catalog="system" width="128" height="116"/>
         <image name="folder" catalog="system" width="128" height="96"/>
+        <image name="play.circle.fill" catalog="system" width="128" height="123"/>
         <image name="record.circle" catalog="system" width="128" height="123"/>
         <image name="swift" catalog="system" width="128" height="108"/>
         <systemColor name="groupTableViewBackgroundColor">
