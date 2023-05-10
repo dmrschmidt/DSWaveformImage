@@ -160,30 +160,16 @@ public class WaveformImageDrawer {
 
 ### Playback Progress Indication
 
-If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in this ticket](https://github.com/dmrschmidt/DSWaveformImage/issues/21). There's various other ways of course, depending on your use case and design. One way to achieve this in SwiftUI could be
+If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in the example app](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/ProgressViewController.swift). UIKit and SwiftUI examples are provided.
 
-
-```swift
-// @State var progress: CGFloat = 0 // must be between 0 and 1
-
-ZStack(alignment: .leading) {
-    WaveformView(audioURL: audioURL, configuration: configuration)
-    WaveformView(audioURL: audioURL, configuration: configuration.with(style: .filled(.red)))
-        .mask(alignment: .leading) {
-            GeometryReader { geometry in
-                Rectangle().frame(width: geometry.size.width * progress)
-            }
-        }
-}
-```
-
-This will result in something like the image below. 
+Both approaches will result in something like the image below. 
 
 <div align="center">
   <img src="./Promotion/progress-example.png" height="200" alt="playback progress waveform">
 </div>
 
-Keep in mind though, that this approach will calculate and render the waveform twice initially. This will be more than fine for 95% of typical use cases. If you do have very strict performance requirements however, you may want to use `WaveformImageDrawer` directly instead of the build-in views. There is currently no plan to integrate this as a 1st class citizen as every app will have different requirements, and `WaveformImageDrawer` as well as `WaveformAnalyzer` are as simple to use as the views themselves.
+
+There is currently no plan to integrate this as a 1st class citizen to the library itself, as every app will have different design requirements, and `WaveformImageDrawer` as well as `WaveformAnalyzer` are as simple to use as the views themselves as you can see in the examples.
 
 ### Loading remote audio files from URL
 

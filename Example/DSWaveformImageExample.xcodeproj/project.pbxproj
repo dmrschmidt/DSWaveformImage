@@ -97,8 +97,6 @@
 				C39A10FB28E2E91E004AB185 /* SwiftUIExample.swift */,
 				C39A10FC28E2E91E004AB185 /* RecordingIndicatorView.swift */,
 				C39A10FD28E2E91E004AB185 /* SwiftUIExampleView.swift */,
-				C3C83AC62A0BECBD00DF02F2 /* ProgressViewController.swift */,
-				C3D671F228E2E61F006C022D /* ViewController.swift */,
 				C3C83AC82A0C050900DF02F2 /* ProgressWaveformView.swift */,
 			);
 			path = SwiftUIExample;
@@ -147,19 +145,21 @@
 		C3D671ED28E2E61F006C022D /* DSWaveformImageExample-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C39A10FA28E2E91E004AB185 /* SwiftUIExample */,
 				C3D671EE28E2E61F006C022D /* AppDelegate.swift */,
 				C3D671F728E2E61F006C022D /* Assets.xcassets */,
 				C39A10F028E2E77E004AB185 /* DSWaveformImageExample-iOS-Bridging-Header.h */,
-				C39A10F428E2E77F004AB185 /* example_sound.m4a */,
 				C39A110128E2E98A004AB185 /* example_sound_2.m4a */,
+				C39A10F428E2E77F004AB185 /* example_sound.m4a */,
 				C3D671FC28E2E61F006C022D /* Info.plist */,
 				C3D671F928E2E61F006C022D /* LaunchScreen.storyboard */,
 				C3D671F428E2E61F006C022D /* Main.storyboard */,
+				C3C83AC62A0BECBD00DF02F2 /* ProgressViewController.swift */,
 				C39A10F528E2E77F004AB185 /* RecordingViewController.swift */,
 				C39A10F128E2E77F004AB185 /* SCAudioManager.h */,
 				C39A10F328E2E77F004AB185 /* SCAudioManager.m */,
 				C3D671F028E2E61F006C022D /* SceneDelegate.swift */,
+				C39A10FA28E2E91E004AB185 /* SwiftUIExample */,
+				C3D671F228E2E61F006C022D /* ViewController.swift */,
 			);
 			path = "DSWaveformImageExample-iOS";
 			sourceTree = "<group>";
