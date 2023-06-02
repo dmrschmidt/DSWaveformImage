@@ -10,7 +10,7 @@ public struct WaveformLiveCanvas: View {
     public let renderer: WaveformRenderer
     public let shouldDrawSilencePadding: Bool
 
-    @StateObject private var waveformDrawer = WaveformImageDrawer()
+    @StateObject private var waveformDrawer: WaveformImageDrawer
 
     public init(
         samples: [Float],
@@ -18,10 +18,14 @@ public struct WaveformLiveCanvas: View {
         renderer: WaveformRenderer = LinearWaveformRenderer(),
         shouldDrawSilencePadding: Bool = false
     ) {
+        let drawer = WaveformImageDrawer()
         self.samples = samples
         self.configuration = configuration
         self.renderer = renderer
         self.shouldDrawSilencePadding = shouldDrawSilencePadding
+
+        drawer.shouldDrawSilencePadding = shouldDrawSilencePadding
+        _waveformDrawer = StateObject(wrappedValue: drawer)
     }
 
     public var body: some View {
