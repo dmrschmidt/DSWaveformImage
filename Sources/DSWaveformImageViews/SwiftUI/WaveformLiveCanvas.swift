@@ -38,3 +38,35 @@ public struct WaveformLiveCanvas: View {
         }
     }
 }
+
+#if DEBUG
+@available(iOS 15.0, *)
+struct WaveformLiveCanvas_Previews: PreviewProvider {
+    struct TestView: View {
+        @State var show: Bool = false
+
+        var body: some View {
+            VStack {
+                if show {
+                    WaveformLiveCanvas(
+                        samples: [],
+                        configuration: liveConfiguration,
+                        renderer: LinearWaveformRenderer(),
+                        shouldDrawSilencePadding: show
+                    )
+                }
+            }.onAppear() {
+                show = true
+            }
+        }
+    }
+
+    static var liveConfiguration: Waveform.Configuration = Waveform.Configuration(
+        style: .striped(.init(color: .systemPink, width: 3, spacing: 3))
+    )
+
+    static var previews: some View {
+        TestView()
+    }
+}
+#endif
