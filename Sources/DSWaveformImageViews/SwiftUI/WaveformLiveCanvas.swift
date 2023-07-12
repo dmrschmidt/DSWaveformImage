@@ -44,7 +44,7 @@ public struct WaveformLiveCanvas: View {
 }
 
 #if DEBUG
-@available(iOS 15.0, *)
+@available(iOS 15.0, macOS 12.0, *)
 struct WaveformLiveCanvas_Previews: PreviewProvider {
     struct TestView: View {
         @State var show: Bool = false
