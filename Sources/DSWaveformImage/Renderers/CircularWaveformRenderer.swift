@@ -10,7 +10,7 @@ import CoreGraphics
  */
 
 public struct CircularWaveformRenderer: WaveformRenderer {
-    public enum Kind {
+    public enum Kind: Sendable {
         /// Draws waveform as a circular amplitude envelope.
         case circle
 
@@ -25,11 +25,16 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         self.kind = kind
     }
 
-    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
+    public func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
         switch kind {
-        case .circle: drawCircle(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
-        case .ring: drawRing(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
+        case .circle: return circlePath(samples: samples, with: configuration, lastOffset: lastOffset)
+        case .ring: return ringPath(samples: samples, with: configuration, lastOffset: lastOffset)
         }
+    }
+
+    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
+        let path = path(samples: samples, with: configuration, lastOffset: lastOffset)
+        context.addPath(path)
 
         style(context: context, with: configuration)
     }
@@ -49,7 +54,7 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         }
     }
 
-    private func drawCircle(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
+    private func circlePath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
         let graphRect = CGRect(origin: .zero, size: configuration.size)
         let maxRadius = CGFloat(min(graphRect.maxX, graphRect.maxY) / 2.0) * configuration.verticalScalingFactor
         let center = CGPoint(x: graphRect.maxX * 0.5, y: graphRect.maxY * 0.5)
@@ -78,12 +83,12 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         }
 
         path.closeSubpath()
-        context.addPath(path)
+        return path
     }
 
-    private func drawRing(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
+    private func ringPath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
         guard case let .ring(config) = kind else {
-            return
+            fatalError("called with wrong kind")
         }
 
         let graphRect = CGRect(origin: .zero, size: configuration.size)
@@ -121,7 +126,7 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         }
 
         path.closeSubpath()
-        context.addPath(path)
+        return path
     }
 
     private func stripeBucket(_ configuration: Waveform.Configuration) -> Int {

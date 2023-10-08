@@ -24,9 +24,21 @@ import AVFoundation
  Default implementations are `LinearWaveformRenderer` and `CircularWaveformRenderer`.
  Check out those if you'd like to implement your own custom renderer.
 */
-public protocol WaveformRenderer {
+public protocol WaveformRenderer: Sendable {
+
     /**
-     Renders the waveformsamples  on the provided `CGContext`.
+     Calculates a CGPath from the waveform samples.
+
+     - Parameters:
+        - samples: `[Float]` of the amplitude envelope to be drawn, normalized to interval `(0...1)`. `0` is maximum (typically `0dB`).
+        `1` is the noise floor, typically `-50dB`, as defined in `WaveformAnalyzer.noiseFloorDecibelCutoff`.
+        - lastOffset: You can typtically leave this `0`. **Required for live rendering**, where it is needed to keep track of the last drawing cycle. Setting it avoids 'flickering' as samples are being added
+         continuously and the waveform moves across the view.
+     */
+    func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath
+
+    /**
+     Renders the waveform samples  on the provided `CGContext`.
 
      - Parameters:
         - samples: `[Float]` of the amplitude envelope to be drawn, normalized to interval `(0...1)`. `0` is maximum (typically `0dB`).
@@ -47,8 +59,8 @@ public enum Waveform {
      - **gradientOutlined**: Use gradient based on color for the waveform. Draws the envelope as an outline with the provided thickness.
      - **striped**: Use striped filling based on color for the waveform.
      */
-    public enum Style: Equatable {
-        public struct StripeConfig: Equatable {
+    public enum Style: Equatable, Sendable {
+        public struct StripeConfig: Equatable, Sendable {
             /// Color of the waveform stripes. Default is clear.
             public let color: DSColor
 
@@ -79,8 +91,8 @@ public enum Waveform {
     /**
      Defines the damping attributes of the waveform.
      */
-    public struct Damping: Equatable {
-        public enum Sides: Equatable {
+    public struct Damping: Equatable, Sendable {
+        public enum Sides: Equatable, Sendable {
             case left
             case right
             case both
@@ -97,9 +109,9 @@ public enum Waveform {
         public let sides: Sides
 
         /// Easing function to be used. Default is `pow(x, 2)`.
-        public let easing: (Float) -> Float
+        public let easing: @Sendable (Float) -> Float
 
-        public init(percentage: Float = 0.125, sides: Sides = .both, easing: @escaping (Float) -> Float = { x in pow(x, 2) }) {
+        public init(percentage: Float = 0.125, sides: Sides = .both, easing: @escaping @Sendable (Float) -> Float = { x in pow(x, 2) }) {
             guard (0...0.5).contains(percentage) else {
                 preconditionFailure("dampingPercentage must be within (0..<0.5)")
             }
@@ -110,7 +122,7 @@ public enum Waveform {
         }
 
         /// Build a new `Waveform.Damping` with only the given parameters replaced.
-        public func with(percentage: Float? = nil, sides: Sides? = nil, easing: ((Float) -> Float)? = nil) -> Damping {
+        public func with(percentage: Float? = nil, sides: Sides? = nil, easing: (@Sendable (Float) -> Float)? = nil) -> Damping {
             .init(percentage: percentage ?? self.percentage, sides: sides ?? self.sides, easing: easing ?? self.easing)
         }
 
@@ -122,7 +134,7 @@ public enum Waveform {
     }
 
     /// Allows customization of the waveform output image.
-    public struct Configuration: Equatable {
+    public struct Configuration: Equatable, Sendable {
         /// Desired output size of the waveform image, works together with scale. Default is `.zero`.
         public let size: CGSize
 
@@ -153,7 +165,7 @@ public enum Waveform {
         /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is `false`.
         public let shouldAntialias: Bool
 
-        var shouldDamp: Bool {
+        public var shouldDamp: Bool {
             damping != nil
         }
 
