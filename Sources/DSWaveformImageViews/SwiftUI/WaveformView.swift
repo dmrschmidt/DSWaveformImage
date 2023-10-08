@@ -1,7 +1,7 @@
 import DSWaveformImage
 import SwiftUI
 
-@available(iOS 14.0, *)
+@available(iOS 15.0, macOS 12.0, *)
 /// Renders and displays a waveform for the audio at `audioURL`.
 public struct WaveformView<Content: View>: View {
     private let audioURL: URL
