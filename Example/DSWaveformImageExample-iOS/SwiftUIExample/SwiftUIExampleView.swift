@@ -71,6 +71,7 @@ struct SwiftUIExampleView: View {
             RecordingIndicatorView(
                 samples: audioRecorder.samples,
                 duration: audioRecorder.recordingTime,
+                shouldDrawSilence: silence,
                 isRecording: $audioRecorder.isRecording
             )
             .padding(.horizontal)

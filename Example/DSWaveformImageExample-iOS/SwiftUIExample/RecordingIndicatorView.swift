@@ -5,6 +5,7 @@ import DSWaveformImageViews
 struct RecordingIndicatorView: View {
     let samples: [Float]
     let duration: TimeInterval
+    let shouldDrawSilence: Bool
 
     @Binding var isRecording: Bool
 
@@ -22,7 +23,7 @@ struct RecordingIndicatorView: View {
 
     var body: some View {
         HStack {
-            WaveformLiveCanvas(samples: samples, configuration: configuration)
+            WaveformLiveCanvas(samples: samples, configuration: configuration, shouldDrawSilencePadding: shouldDrawSilence)
                 .padding(.vertical, 2)
 
             Text(Self.timeFormatter.string(from: duration) ?? "00:00")
@@ -48,7 +49,7 @@ struct RecordingIndicatorView: View {
 #if DEBUG
     struct RecordingIndicatorView_Previews: PreviewProvider {
         static var previews: some View {
-            RecordingIndicatorView(samples: [], duration: 120, isRecording: .constant(true))
+            RecordingIndicatorView(samples: [], duration: 120, shouldDrawSilence: true, isRecording: .constant(true))
         }
     }
 #endif
