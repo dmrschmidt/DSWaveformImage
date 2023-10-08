@@ -46,7 +46,13 @@ private extension WaveformImageView {
             fromAudioAt: audioURL,
             with: configuration.with(size: bounds.size),
             qos: .userInteractive
-        ) { image in
+        ) { result in
+            guard case let .success(image) = result else {
+                print("Error occurred during waveform image creation:")
+                print(result)
+                return
+            }
+
             DispatchQueue.main.async {
                 self.image = image
             }

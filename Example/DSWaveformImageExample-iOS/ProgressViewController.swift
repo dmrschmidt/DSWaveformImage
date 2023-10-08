@@ -29,10 +29,8 @@ class ProgressViewController: UIViewController {
     }
 
     @IBAction func openSwiftUIExample() {
-        if #available(iOS 15.0, *) {
-            let hostingViewController = UIHostingController(rootView: ProgressExampleView())
-            present(hostingViewController, animated: true)
-        }
+        let hostingViewController = UIHostingController(rootView: ProgressExampleView())
+        present(hostingViewController, animated: true)
     }
 
     private func updateProgressWaveform(_ progress: Double) {
@@ -52,10 +50,15 @@ class ProgressViewController: UIViewController {
         waveformImageDrawer.waveformImage(
             fromAudioAt: audioURL,
             with: .init(size: playbackWaveformImageView.bounds.size, style: .filled(.darkGray))
-        ) { image in
+        ) { result in
+            guard case let .success(image) = result else {
+                print("failed: \(result)")
+                return
+            }
+
             DispatchQueue.main.async {
                 self.waveformImageView.image = image
-                self.playbackWaveformImageView.image = image?.withTintColor(.red, renderingMode: .alwaysTemplate)
+                self.playbackWaveformImageView.image = image.withTintColor(.red, renderingMode: .alwaysTemplate)
                 self.shuffleProgressUIKit()
             }
         }

@@ -86,7 +86,7 @@ public struct WaveformView<Content: View>: View {
         Task(priority: priority) {
             do {
                 let samplesNeeded = Int(size.width * configuration.scale)
-                let samples = try await WaveformAnalyzer(audioAssetURL: audioURL)!.samples(count: samplesNeeded)
+                let samples = try await WaveformAnalyzer().samples(fromAudioAt: url, count: samplesNeeded)
                 await MainActor.run { self.samples = samples }
             } catch {
                 assertionFailure(error.localizedDescription)

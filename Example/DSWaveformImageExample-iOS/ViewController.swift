@@ -24,9 +24,14 @@ class ViewController: UIViewController {
         updateWaveformImages()
 
         // get access to the raw, normalized amplitude samples
-        let waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-        waveformAnalyzer?.samples(count: 10) { samples in
-            print("sampled down to 10, results are \(samples ?? [])")
+        let waveformAnalyzer = WaveformAnalyzer()
+        waveformAnalyzer.samples(fromAudioAt: audioURL, count: 10) { result in
+            guard case let .success(samples) = result else {
+                print("error occurred: \(result)")
+                return
+            }
+
+            print("sampled down to 10, results are \(samples)")
         }
     }
 
@@ -50,7 +55,12 @@ class ViewController: UIViewController {
                 damping: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
                 verticalScalingFactor: 2),
                 renderer: CircularWaveformRenderer()
-        ) { image in
+        ) { result in
+            guard case let .success(image) = result else {
+                print("error occurred: \(result)")
+                return
+            }
+
             // need to jump back to main queue
             DispatchQueue.main.async {
                 self.topWaveformView.image = image

@@ -2,7 +2,6 @@ import DSWaveformImage
 import DSWaveformImageViews
 import SwiftUI
 
-@available(iOS 14.0, *)
 struct SwiftUIExampleView: View {
     private enum ActiveTab: Hashable {
         case recorder, shape, overview
@@ -38,28 +37,23 @@ struct SwiftUIExampleView: View {
             Text("SwiftUI examples")
                 .font(.largeTitle.bold())
 
-            if #available(iOS 15.0, *) {
-                Picker("Hey", selection: $selection) {
-                    Text("Recorder").tag(ActiveTab.recorder)
-                    Text("Shape").tag(ActiveTab.shape)
-                    Text("Overview").tag(ActiveTab.overview)
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
+            Picker("Hey", selection: $selection) {
+                Text("Recorder").tag(ActiveTab.recorder)
+                Text("Shape").tag(ActiveTab.shape)
+                Text("Overview").tag(ActiveTab.overview)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
 
-                switch selection {
-                case .recorder: recordingExample
-                case .shape: shape
-                case .overview: overview
-                }
-            } else {
-                Text("WaveformView & WaveformLiveCanvas require iOS 15.0")
+            switch selection {
+            case .recorder: recordingExample
+            case .shape: shape
+            case .overview: overview
             }
         }
         .padding(.vertical, 20)
     }
 
-    @available(iOS 15.0, *)
     @ViewBuilder
     private var recordingExample: some View {
         VStack {
@@ -83,7 +77,6 @@ struct SwiftUIExampleView: View {
         }
     }
 
-    @available(iOS 15.0, *)
     @ViewBuilder
     private var shape: some View {
         VStack {
@@ -144,7 +137,7 @@ struct SwiftUIExampleView: View {
                         .task {
                             do {
                                 let samplesNeeded = Int(geometry.size.width * configuration.scale)
-                                let samples = try await WaveformAnalyzer(audioAssetURL: audioURL)!.samples(count: samplesNeeded)
+                                let samples = try await WaveformAnalyzer().samples(fromAudioAt: audioURL, count: samplesNeeded)
                                 await MainActor.run { self.samples = samples }
                             } catch {
                                 assertionFailure(error.localizedDescription)
@@ -167,9 +160,9 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 1))))
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black)))) { shape in
-                       shape // override the shape styling
-                           .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                   }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    }
                 }
 
                 VStack {
@@ -180,9 +173,9 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer())
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer()) { shape in
-                       shape // override the shape styling
-                           .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                   }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    }
                 }
 
                 VStack {
@@ -193,16 +186,15 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer(kind: .ring(0.5))) { shape in
-                       shape // override the shape styling
-                           .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                   }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    }
                 }
             }
         }
     }
 }
 
-@available(iOS 15.0, *)
 struct SwiftUIExampleView_Previews: PreviewProvider {
     static var previews: some View {
         SwiftUIExampleView()

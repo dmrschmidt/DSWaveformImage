@@ -39,7 +39,7 @@ If you're feeling in the mood of sending someone else a lovely gesture of apprec
 Installation
 ------------
 
-* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "13.0.0"
+* use SPM: add `https://github.com/dmrschmidt/DSWaveformImage` and set "Up to Next Major" with "14.0.0"
 
 ```swift
 import DSWaveformImage // for core classes to generate `UIImage` / `NSImage` directly
@@ -69,6 +69,16 @@ The core renderes and processors as well as SwiftUI views natively support iOS &
 ```swift
 @State var audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 WaveformView(audioURL: audioURL)
+```
+
+Default styling may be overridden if you have more complex requirements:
+
+```swift
+@State var audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
+WaveformView(audioURL: audioURL) { waveformShape in
+    waveformShape
+        .stroke(LinearGradient(colors: [.red, [.green, red, orange], startPoint: .zero, endPoint: .topTrailing), lineWidth: 3)
+}
 ```
 
 #### `WaveformLiveCanvas` - renders a live waveform from `(0...1)` normalized samples:
@@ -121,7 +131,11 @@ let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a
 waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
                                   size: topWaveformView.bounds.size,
                                   style: .filled(UIColor.black)),
-                                  renderer: LinearWaveformRenderer()) { image in
+                                  renderer: LinearWaveformRenderer()) { result in
+    guard let .success(image) = result else {
+        return
+    }
+
     // need to jump back to main queue
     DispatchQueue.main.async {
         self.topWaveformView.image = image
@@ -133,9 +147,9 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
 
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformAnalyzer = WaveformAnalyzer(audioAssetURL: audioURL)
-waveformAnalyzer.samples(count: 200) { samples in
-    print("so many samples: \(samples)")
+waveformAnalyzer = WaveformAnalyzer()
+waveformAnalyzer.samples(fromAudioAt: audioURL, count: 200) { result in
+    print("result: \(result)")
 }
 ```
 
@@ -145,7 +159,7 @@ The public API has been updated in 9.1 to support `async` / `await`. See the exa
 
 ```swift
 public class WaveformAnalyzer {
-    func samples(count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float]
+    func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float]
 }
 
 public class WaveformImageDrawer {
@@ -205,6 +219,12 @@ https://user-images.githubusercontent.com/69365/127739821-061a4345-0adc-4cc1-bfd
 
 Migration
 ---------
+### In 14.0.0
+* Minimum iOS Deployment target is 15.0, macOS is 12.0 to remove internal usage of deprecated APIs
+* `WaveformAnalyzer` and `WaveformImageDrawer` now return `Result<[Float] | DSImage, Error>` when used with completionHandler for better error handling
+* `WaveformAnalyzer` is now stateless and requires the URL in `.samples(fromAudioAt:count:qos:)` instead of its constructor
+* SwiftUI's `WaveformView` has a new constructor that provides optional access to the underlying `WaveformShape`, which is now used for rendering, see [#78](https://github.com/dmrschmidt/DSWaveformImage/issues/78)
+
 ### In 13.0.0
 * Any mentions of `dampening` & similar were corrected to `damping` etc in [11460b8b](https://github.com/dmrschmidt/DSWaveformImage/commit/11460b8b8203f163868ba774d1533116d2fe68a1). Most notably in `Waveform.Configuration`. See [#64](https://github.com/dmrschmidt/DSWaveformImage/issues/64). 
 * styles `.outlined` & `.gradientOutlined` were added to `Waveform.Style`, see https://github.com/dmrschmidt/DSWaveformImage#what-it-looks-like

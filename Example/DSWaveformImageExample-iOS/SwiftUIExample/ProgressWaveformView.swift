@@ -1,7 +1,6 @@
 import DSWaveformImage
 import SwiftUI
 
-@available(iOS 15.0, *)
 struct ProgressWaveformView: View {
     let audioURL: URL
     let progress: Double
@@ -46,7 +45,6 @@ struct ProgressWaveformView: View {
     }
 }
 
-@available(iOS 15.0, *)
 struct ProgressExampleView: View {
     private let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
     @State private var progress: Double = .random(in: 0...1)
@@ -63,8 +61,6 @@ struct ProgressExampleView: View {
     }
 }
 
-
-@available(iOS 15.0, *)
 struct ProgressExampleView_Previews: PreviewProvider {
     static var previews: some View {
         ProgressExampleView()

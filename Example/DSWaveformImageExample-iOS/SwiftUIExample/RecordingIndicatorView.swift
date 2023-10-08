@@ -2,7 +2,6 @@ import SwiftUI
 import DSWaveformImage
 import DSWaveformImageViews
 
-@available(iOS 15.0, *)
 struct RecordingIndicatorView: View {
     let samples: [Float]
     let duration: TimeInterval
@@ -47,7 +46,6 @@ struct RecordingIndicatorView: View {
 }
 
 #if DEBUG
-    @available(iOS 15.0, *)
     struct RecordingIndicatorView_Previews: PreviewProvider {
         static var previews: some View {
             RecordingIndicatorView(samples: [], duration: 120, isRecording: .constant(true))
