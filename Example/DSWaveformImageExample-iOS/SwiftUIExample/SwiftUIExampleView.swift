@@ -19,7 +19,7 @@ struct SwiftUIExampleView: View {
     @StateObject private var audioRecorder: AudioRecorder = AudioRecorder()
 
     @State private var configuration: Waveform.Configuration = Waveform.Configuration(
-        style: .striped(Waveform.Style.StripeConfig(color: Self.randomColor)),
+        style: .striped(Waveform.Style.StripeConfig(color: Self.randomColor, width: 3, lineCap: .round)),
         verticalScalingFactor: 0.9
     )
 
@@ -84,7 +84,7 @@ struct SwiftUIExampleView: View {
 
             HStack {
                 Button {
-                    configuration = configuration.with(style: .striped(Waveform.Style.StripeConfig(color: Self.randomColor)))
+                    configuration = configuration.with(style: .striped(Waveform.Style.StripeConfig(color: Self.randomColor, width: 3, lineCap: .round)))
                     liveConfiguration = liveConfiguration.with(style: .striped(.init(color: Self.randomColor, width: 3, spacing: 3)))
                 } label: {
                     Label("color", systemImage: "dice")
@@ -121,7 +121,9 @@ struct SwiftUIExampleView: View {
                 ) { shape in
                     // you may completely override the shape styling this way
                     shape
-                        .stroke(LinearGradient(colors: [.red, Color(Self.randomColor)], startPoint: .zero, endPoint: .topTrailing), lineWidth: 3)
+                        .stroke(
+                            LinearGradient(colors: [.red, Color(Self.randomColor)], startPoint: .zero, endPoint: .topTrailing),
+                            style: StrokeStyle(lineWidth: 3, lineCap: .round))
                 }
 
                 Divider()
