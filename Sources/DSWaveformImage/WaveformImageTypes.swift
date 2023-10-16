@@ -14,7 +14,13 @@ import AVFoundation
     public typealias DSColor = UIColor
     public typealias DSImage = UIImage
     public enum DSScreen {
-        public static var scale: CGFloat { UIScreen.main.scale }
+        public static var scale: CGFloat {
+            #if os(visionOS)
+            return (UIApplication.shared.connectedScenes.first(where: {$0 is UIWindowScene}) as? UIWindowScene)?.traitCollection.displayScale ?? 1
+            #else
+            return UIScreen.main.scale
+            #endif
+        }
     }
 #endif
 
