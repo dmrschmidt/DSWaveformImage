@@ -81,6 +81,17 @@ WaveformView(audioURL: audioURL) { waveformShape in
 }
 ```
 
+Similar to [AsyncImage](https://developer.apple.com/documentation/swiftui/asyncimage/init(url:scale:content:placeholder:)), a placeholder can be
+set to show until the load and render operation completes successfully.
+
+```swift
+WaveformView(audioURL: audioURL) { waveformShape in
+    waveformShape
+        .stroke(LinearGradient(colors: [.red, [.green, red, orange], startPoint: .zero, endPoint: .topTrailing), lineWidth: 3)
+} placeholder: {
+    ProgressView()
+}```
+
 #### `WaveformLiveCanvas` - renders a live waveform from `(0...1)` normalized samples:
 
 ```swift

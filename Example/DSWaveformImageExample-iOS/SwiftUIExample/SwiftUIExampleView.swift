@@ -165,6 +165,8 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black)))) { shape in
                         shape // override the shape styling
                             .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
 
@@ -178,6 +180,8 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer()) { shape in
                         shape // override the shape styling
                             .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
 
@@ -191,6 +195,8 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer(kind: .ring(0.5))) { shape in
                         shape // override the shape styling
                             .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
             }
