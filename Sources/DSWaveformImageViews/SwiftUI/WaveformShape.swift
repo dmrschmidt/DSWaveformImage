@@ -29,7 +29,7 @@ public struct WaveformShape: Shape {
     }
     
     /// Whether the shape has no underlying samples to display.
-    public var isEmpty: Bool {
+    var isEmpty: Bool {
         samples.isEmpty
     }
 }

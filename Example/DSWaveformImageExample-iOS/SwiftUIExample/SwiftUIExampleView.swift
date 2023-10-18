@@ -163,12 +163,10 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 1))))
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black)))) { shape in
-                        if shape.isEmpty {
-                            ProgressView()
-                        } else {
-                            shape // override the shape styling
-                                .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                        }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
 
@@ -180,12 +178,10 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer())
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer()) { shape in
-                        if shape.isEmpty {
-                            ProgressView()
-                        } else {
-                            shape // override the shape styling
-                                .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                        }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
 
@@ -197,12 +193,10 @@ struct SwiftUIExampleView: View {
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .red, width: 2, spacing: 2))), renderer: CircularWaveformRenderer(kind: .ring(0.5)))
 
                     WaveformView(audioURL: audioURL, configuration: .init(style: .striped(.init(color: .black))), renderer: CircularWaveformRenderer(kind: .ring(0.5))) { shape in
-                        if shape.isEmpty {
-                            ProgressView()
-                        } else {
-                            shape // override the shape styling
-                                .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
-                        }
+                        shape // override the shape styling
+                            .stroke(LinearGradient(colors: [.blue, .pink], startPoint: .bottom, endPoint: .top), lineWidth: 3)
+                    } placeholder: {
+                        ProgressView()
                     }
                 }
             }
