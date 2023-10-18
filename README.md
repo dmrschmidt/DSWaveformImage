@@ -82,7 +82,7 @@ WaveformView(audioURL: audioURL) { waveformShape in
 ```
 
 Similar to [AsyncImage](https://developer.apple.com/documentation/swiftui/asyncimage/init(url:scale:content:placeholder:)), a placeholder can be
-set to show until the load and render operation completes successfully.
+set to show until the load and render operation completes successfully. Thanks to [@alfogrillo](https://github.com/alfogrillo)!
 
 ```swift
 WaveformView(audioURL: audioURL) { waveformShape in
