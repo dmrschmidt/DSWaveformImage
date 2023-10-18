@@ -27,7 +27,7 @@ public struct WaveformShape: Shape {
 
         return Path(path)
     }
-    
+
     /// Whether the shape has no underlying samples to display.
     var isEmpty: Bool {
         samples.isEmpty
