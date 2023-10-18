@@ -2,9 +2,9 @@ import Foundation
 import DSWaveformImage
 import SwiftUI
 
-struct DefaultShapeStyler {
+public struct DefaultShapeStyler {
     @ViewBuilder
-    func style(shape: WaveformShape, with configuration: Waveform.Configuration) -> some View {
+    public func style(shape: WaveformShape, with configuration: Waveform.Configuration) -> some View {
         switch configuration.style {
         case let .filled(color):
             shape.fill(Color(color))
