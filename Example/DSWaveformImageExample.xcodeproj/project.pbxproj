@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A96F719D2AE02BB1007ED383 /* DSWaveformImageExample_VisionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96F719C2AE02BB1007ED383 /* DSWaveformImageExample_VisionOSApp.swift */; };
+		A96F719F2AE02BB1007ED383 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96F719E2AE02BB1007ED383 /* ContentView.swift */; };
+		A96F71A12AE02BB2007ED383 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96F71A02AE02BB2007ED383 /* Assets.xcassets */; };
+		A96F71A42AE02BB2007ED383 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A96F71A32AE02BB2007ED383 /* Preview Assets.xcassets */; };
+		A96F71AA2AE02C37007ED383 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = A96F71A92AE02C37007ED383 /* DSWaveformImage */; };
+		A96F71AC2AE02C37007ED383 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = A96F71AB2AE02C37007ED383 /* DSWaveformImageViews */; };
+		A96F71AD2AE02CF4007ED383 /* example_sound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = C39A10F428E2E77F004AB185 /* example_sound.m4a */; };
 		C39A10ED28E2E73F004AB185 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = C39A10EC28E2E73F004AB185 /* DSWaveformImage */; };
 		C39A10EF28E2E73F004AB185 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = C39A10EE28E2E73F004AB185 /* DSWaveformImageViews */; };
 		C39A10F728E2E77F004AB185 /* SCAudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C39A10F328E2E77F004AB185 /* SCAudioManager.m */; };
@@ -34,6 +41,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A96F71972AE02BB1007ED383 /* DSWaveformImageExample-VisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DSWaveformImageExample-VisionOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A96F719C2AE02BB1007ED383 /* DSWaveformImageExample_VisionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSWaveformImageExample_VisionOSApp.swift; sourceTree = "<group>"; };
+		A96F719E2AE02BB1007ED383 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A96F71A02AE02BB2007ED383 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A96F71A32AE02BB2007ED383 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A96F71A52AE02BB2007ED383 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C39A10F028E2E77E004AB185 /* DSWaveformImageExample-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DSWaveformImageExample-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		C39A10F128E2E77F004AB185 /* SCAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCAudioManager.h; sourceTree = "<group>"; };
 		C39A10F328E2E77F004AB185 /* SCAudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCAudioManager.m; sourceTree = "<group>"; };
@@ -63,6 +76,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A96F71942AE02BB1007ED383 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A96F71AA2AE02C37007ED383 /* DSWaveformImage in Frameworks */,
+				A96F71AC2AE02C37007ED383 /* DSWaveformImageViews in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C39A110428E2EABF004AB185 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -84,6 +106,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A96F71982AE02BB1007ED383 /* DSWaveformImageExample-VisionOS */ = {
+			isa = PBXGroup;
+			children = (
+				A96F719C2AE02BB1007ED383 /* DSWaveformImageExample_VisionOSApp.swift */,
+				A96F719E2AE02BB1007ED383 /* ContentView.swift */,
+				A96F71A02AE02BB2007ED383 /* Assets.xcassets */,
+				A96F71A52AE02BB2007ED383 /* Info.plist */,
+				A96F71A22AE02BB2007ED383 /* Preview Content */,
+			);
+			path = "DSWaveformImageExample-VisionOS";
+			sourceTree = "<group>";
+		};
+		A96F71A22AE02BB2007ED383 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A96F71A32AE02BB2007ED383 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		C39A10EB28E2E73F004AB185 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +170,7 @@
 				C3D6720228E2E711006C022D /* Packages */,
 				C3D671ED28E2E61F006C022D /* DSWaveformImageExample-iOS */,
 				C39A110828E2EABF004AB185 /* DSWaveformImageExample-macOS */,
+				A96F71982AE02BB1007ED383 /* DSWaveformImageExample-VisionOS */,
 				C3D671EC28E2E61F006C022D /* Products */,
 				C39A10EB28E2E73F004AB185 /* Frameworks */,
 			);
@@ -138,6 +181,7 @@
 			children = (
 				C3D671EB28E2E61F006C022D /* DSWaveformImageExample-iOS.app */,
 				C39A110728E2EABF004AB185 /* DSWaveformImageExample-macOS.app */,
+				A96F71972AE02BB1007ED383 /* DSWaveformImageExample-VisionOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +219,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A96F71962AE02BB1007ED383 /* DSWaveformImageExample-VisionOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A96F71A82AE02BB2007ED383 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-VisionOS" */;
+			buildPhases = (
+				A96F71932AE02BB1007ED383 /* Sources */,
+				A96F71942AE02BB1007ED383 /* Frameworks */,
+				A96F71952AE02BB1007ED383 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DSWaveformImageExample-VisionOS";
+			packageProductDependencies = (
+				A96F71A92AE02C37007ED383 /* DSWaveformImage */,
+				A96F71AB2AE02C37007ED383 /* DSWaveformImageViews */,
+			);
+			productName = "DSWaveformImageExample-VisionOS";
+			productReference = A96F71972AE02BB1007ED383 /* DSWaveformImageExample-VisionOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C39A110628E2EABF004AB185 /* DSWaveformImageExample-macOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C39A111328E2EAC0004AB185 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-macOS" */;
@@ -224,9 +289,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					A96F71962AE02BB1007ED383 = {
+						CreatedOnToolsVersion = 15.1;
+					};
 					C39A110628E2EABF004AB185 = {
 						CreatedOnToolsVersion = 14.0;
 					};
@@ -251,11 +319,22 @@
 			targets = (
 				C3D671EA28E2E61F006C022D /* DSWaveformImageExample-iOS */,
 				C39A110628E2EABF004AB185 /* DSWaveformImageExample-macOS */,
+				A96F71962AE02BB1007ED383 /* DSWaveformImageExample-VisionOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A96F71952AE02BB1007ED383 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A96F71AD2AE02CF4007ED383 /* example_sound.m4a in Resources */,
+				A96F71A42AE02BB2007ED383 /* Preview Assets.xcassets in Resources */,
+				A96F71A12AE02BB2007ED383 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C39A110528E2EABF004AB185 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -281,6 +360,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A96F71932AE02BB1007ED383 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A96F719F2AE02BB1007ED383 /* ContentView.swift in Sources */,
+				A96F719D2AE02BB1007ED383 /* DSWaveformImageExample_VisionOSApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C39A110328E2EABF004AB185 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,6 +417,71 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A96F71A62AE02BB2007ED383 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DSWaveformImageExample-VisionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-VisionOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		A96F71A72AE02BB2007ED383 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DSWaveformImageExample-VisionOS/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.dmrschmidt.DSWaveformImageExample-VisionOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Release;
+		};
 		C39A111428E2EAC0004AB185 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -569,6 +722,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A96F71A82AE02BB2007ED383 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-VisionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A96F71A62AE02BB2007ED383 /* Debug */,
+				A96F71A72AE02BB2007ED383 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C39A111328E2EAC0004AB185 /* Build configuration list for PBXNativeTarget "DSWaveformImageExample-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -599,6 +761,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A96F71A92AE02C37007ED383 /* DSWaveformImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImage;
+		};
+		A96F71AB2AE02C37007ED383 /* DSWaveformImageViews */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DSWaveformImageViews;
+		};
 		C39A10EC28E2E73F004AB185 /* DSWaveformImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DSWaveformImage;
