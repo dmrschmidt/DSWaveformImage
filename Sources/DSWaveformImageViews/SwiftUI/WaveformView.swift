@@ -43,9 +43,9 @@ public struct WaveformView<Content: View>: View {
                     guard samples.isEmpty else { return }
                     update(size: geometry.size, url: audioURL, configuration: configuration)
                 }
-                .onChange(of: geometry.size) { update(size: $0, url: audioURL, configuration: configuration) }
-                .onChange(of: audioURL) { update(size: geometry.size, url: $0, configuration: configuration) }
-                .onChange(of: configuration) { update(size: geometry.size, url: audioURL, configuration: $0) }
+                .modifier(OnChange(of: geometry.size, action: { newValue in update(size: newValue, url: audioURL, configuration: configuration) }))
+                .modifier(OnChange(of: audioURL, action: { newValue in update(size: geometry.size, url: audioURL, configuration: configuration) }))
+                .modifier(OnChange(of: configuration, action: { newValue in update(size: geometry.size, url: audioURL, configuration: newValue) }))
         }
     }
 
