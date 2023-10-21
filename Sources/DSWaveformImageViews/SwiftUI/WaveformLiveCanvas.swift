@@ -37,9 +37,9 @@ public struct WaveformLiveCanvas: View {
         .onAppear {
             waveformDrawer.shouldDrawSilencePadding = shouldDrawSilencePadding
         }
-        .modifier(OnChange(of: shouldDrawSilencePadding, action: { newValue in
+        .onChange(of: shouldDrawSilencePadding) { newValue in
             waveformDrawer.shouldDrawSilencePadding = newValue
-        }))
+        }
     }
 }
 
