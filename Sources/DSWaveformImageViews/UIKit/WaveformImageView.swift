@@ -1,4 +1,4 @@
-#if os(iOS) || os(visionOS)
+#if os(iOS)
 import DSWaveformImage
 import Foundation
 import AVFoundation
