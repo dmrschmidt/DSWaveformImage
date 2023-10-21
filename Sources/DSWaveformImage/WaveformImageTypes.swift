@@ -15,7 +15,7 @@ import AVFoundation
     public typealias DSImage = UIImage
     public enum DSScreen {
         public static var scale: CGFloat {
-            #if os(visionOS)
+            #if swift(>=5.9) && os(visionOS)
             return (UIApplication.shared.connectedScenes.first(where: {$0 is UIWindowScene}) as? UIWindowScene)?.traitCollection.displayScale ?? 1
             #else
             return UIScreen.main.scale

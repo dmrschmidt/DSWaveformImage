@@ -29,18 +29,20 @@ public struct OnChange<V: Equatable>: ViewModifier {
     }
 
     public func body(content: Content) -> some View {
-        if #available(iOS 17, visionOS 1.0, *) {
-            LazyContent {
-                content
-                    .onChange(of: value) { _, newValue in
-                        action(newValue)
-                    }
+        #if swift(>=5.9)
+            if #available(iOS 17, *) {
+                LazyContent {
+                    content
+                        .onChange(of: value) { _, newValue in
+                            action(newValue)
+                        }
+                }
             }
-        } else {
+        #else
             content
                 .onChange(of: value) { newValue in
                     action(newValue)
                 }
-        }
+        #endif
     }
 }

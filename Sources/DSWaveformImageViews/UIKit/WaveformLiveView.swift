@@ -1,4 +1,4 @@
-#if os(iOS) || os(visionOS)
+#if os(iOS) || swift(>=5.9) && os(visionOS)
 import DSWaveformImage
 import Foundation
 import UIKit
