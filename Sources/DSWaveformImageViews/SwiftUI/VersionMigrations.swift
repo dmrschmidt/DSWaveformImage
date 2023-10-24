@@ -30,13 +30,18 @@ public struct OnChange<V: Equatable>: ViewModifier {
 
     public func body(content: Content) -> some View {
         #if swift(>=5.9)
-            if #available(iOS 17, *) {
+            if #available(iOS 17, macOS 14.0, visionOS 1.0, *) {
                 LazyContent {
                     content
                         .onChange(of: value) { _, newValue in
                             action(newValue)
                         }
                 }
+            } else {
+                content
+                    .onChange(of: value) { newValue in
+                        action(newValue)
+                    }
             }
         #else
             content
