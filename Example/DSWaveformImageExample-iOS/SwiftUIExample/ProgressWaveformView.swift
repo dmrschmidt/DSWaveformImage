@@ -1,46 +1,19 @@
 import DSWaveformImage
+import DSWaveformImageViews
 import SwiftUI
 
 struct ProgressWaveformView: View {
     let audioURL: URL
     let progress: Double
 
-    private let configuration = Waveform.Configuration(
-        style: .striped(.init(color: .red, width: 3, spacing: 4)),
-        damping: .init(percentage: 0.125, sides: .both)
-    )
-
-    @StateObject private var waveformDrawer = WaveformImageDrawer()
-    @State private var waveformImage: UIImage = UIImage()
-
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                Image(uiImage: waveformImage)
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundColor(.white)
-
-                Image(uiImage: waveformImage)
-                    .resizable()
-                    .mask(alignment: .leading) {
-                        Rectangle().frame(width: geometry.size.width * progress)
-                    }
-            }
-                .onAppear {
-                    guard waveformImage.size == .zero else { return }
-                    update(size: geometry.size, url: audioURL, configuration: configuration)
+            WaveformView(audioURL: audioURL) { shape in
+                shape.fill(.white)
+                shape.fill(.red).mask(alignment: .leading) {
+                    Rectangle().frame(width: geometry.size.width * progress)
                 }
-                .onChange(of: geometry.size) { update(size: $0, url: audioURL, configuration: configuration) }
-                .onChange(of: audioURL) { update(size: geometry.size, url: $0, configuration: configuration) }
-                .onChange(of: configuration) { update(size: geometry.size, url: audioURL, configuration: $0) }
-        }
-    }
-
-    private func update(size: CGSize, url: URL, configuration: Waveform.Configuration) {
-        Task(priority: .userInitiated) {
-            let image = try! await waveformDrawer.waveformImage(fromAudioAt: url, with: configuration.with(size: size))
-            await MainActor.run { waveformImage = image }
+            }
         }
     }
 }
@@ -53,7 +26,7 @@ struct ProgressExampleView: View {
         VStack {
             ProgressWaveformView(audioURL: audioURL, progress: progress)
 
-            Button(action: { progress = .random(in: 0...1) }) {
+            Button(action: { withAnimation { progress = .random(in: 0...1) }}) {
                 Label("Progress", systemImage: "dice.fill")
             }.buttonStyle(.borderedProminent)
         }
