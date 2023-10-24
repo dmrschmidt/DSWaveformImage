@@ -134,18 +134,13 @@ Check `Waveform.Configuration` in [WaveformImageTypes](./Sources/DSWaveformImage
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
+let image = try await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
                                   size: topWaveformView.bounds.size,
                                   style: .filled(UIColor.black)),
-                                  renderer: LinearWaveformRenderer()) { result in
-    guard let .success(image) = result else {
-        return
-    }
-
-    // need to jump back to main queue
-    DispatchQueue.main.async {
-        self.topWaveformView.image = image
-    }
+                                  renderer: LinearWaveformRenderer())
+// need to jump back to main queue
+DispatchQueue.main.async {
+    self.topWaveformView.image = image
 }
 ```
 
@@ -154,29 +149,9 @@ waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
 ```swift
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
 waveformAnalyzer = WaveformAnalyzer()
-waveformAnalyzer.samples(fromAudioAt: audioURL, count: 200) { result in
-    print("result: \(result)")
-}
+let samples = try await waveformAnalyzer.samples(fromAudioAt: audioURL, count: 200)
+print("samples: \(samples)")
 ```
-
-### `async` / `await` Support
-
-The public API has been updated in 9.1 to support `async` / `await`. See the example app for an illustration.
-
-```swift
-public class WaveformAnalyzer {
-    func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float]
-}
-
-public class WaveformImageDrawer {
-    public func waveformImage(
-        fromAudioAt audioAssetURL: URL,
-        with configuration: Waveform.Configuration,
-        qos: DispatchQoS.QoSClass = .userInitiated
-    ) async throws -> UIImage
-}
-```
-
 
 ### Playback Progress Indication
 
