@@ -23,14 +23,10 @@ class ViewController: UIViewController {
 
         updateWaveformImages()
 
-        // get access to the raw, normalized amplitude samples
-        let waveformAnalyzer = WaveformAnalyzer()
-        waveformAnalyzer.samples(fromAudioAt: audioURL, count: 10) { result in
-            guard case let .success(samples) = result else {
-                print("error occurred: \(result)")
-                return
-            }
-
+        Task {
+            // get access to the raw, normalized amplitude samples
+            let waveformAnalyzer = WaveformAnalyzer()
+            let samples = try await waveformAnalyzer.samples(fromAudioAt: audioURL, count: 10)
             print("sampled down to 10, results are \(samples)")
         }
     }
@@ -43,28 +39,27 @@ class ViewController: UIViewController {
     }
 
     private func updateWaveformImages() {
-        // always uses background thread rendering
-        waveformImageDrawer.waveformImage(
-            fromAudioAt: audioURL, with: .init(
-                size: topWaveformView.bounds.size,
-                style: .gradient(
-                    [
-                        UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
-                        UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
-                        UIColor.red
-                    ]
+        Task {
+            // always uses background thread rendering
+            let image = try await waveformImageDrawer.waveformImage(
+                fromAudioAt: audioURL,
+                with: .init(
+                    size: topWaveformView.bounds.size,
+                    style: .gradient(
+                        [
+                            UIColor(red: 255/255.0, green: 159/255.0, blue: 28/255.0, alpha: 1),
+                            UIColor(red: 255/255.0, green: 191/255.0, blue: 105/255.0, alpha: 1),
+                            UIColor.red
+                        ]
+                    ),
+                    damping: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
+                    verticalScalingFactor: 2
                 ),
-                damping: .init(percentage: 0.2, sides: .right, easing: { x in pow(x, 4) }),
-                verticalScalingFactor: 2),
                 renderer: CircularWaveformRenderer()
-        ) { result in
-            guard case let .success(image) = result else {
-                print("error occurred: \(result)")
-                return
-            }
+            )
 
             // need to jump back to main queue
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.topWaveformView.image = image
             }
         }
@@ -76,7 +71,6 @@ class ViewController: UIViewController {
         )
         middleWaveformView.waveformAudioURL = audioURL
 
-        // basic illustration of async / await API usage
         Task {
             let image = try! await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration)
 

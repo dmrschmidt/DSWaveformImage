@@ -42,19 +42,21 @@ public class WaveformImageView: UIImageView {
 private extension WaveformImageView {
     func updateWaveform() {
         guard let audioURL = waveformAudioURL else { return }
-        waveformImageDrawer.waveformImage(
-            fromAudioAt: audioURL,
-            with: configuration.with(size: bounds.size),
-            qos: .userInteractive
-        ) { result in
-            guard case let .success(image) = result else {
-                print("Error occurred during waveform image creation:")
-                print(result)
-                return
-            }
+        
+        Task {
+            do {
+                let image = try await waveformImageDrawer.waveformImage(
+                    fromAudioAt: audioURL,
+                    with: configuration.with(size: bounds.size),
+                    qos: .userInteractive
+                )
 
-            DispatchQueue.main.async {
-                self.image = image
+                await MainActor.run {
+                    self.image = image
+                }
+            } catch {
+                print("Error occurred during waveform image creation:")
+                print(error)
             }
         }
     }

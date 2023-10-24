@@ -41,7 +41,7 @@ public class WaveformImageDrawer: ObservableObject {
     /// - Parameter completionHandler: called from a background thread. Returns the sampled result `DSImage` or `Error`.
     ///
     /// Calls the completionHandler on a background thread.
-    @available(*, deprecated, message: "Use async/await instead. completionHandler variants will be removed in 15.0.")
+    @available(*, deprecated, renamed: "waveformImage(fromAudioAt:with:renderer:qos:)")
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),

@@ -51,7 +51,7 @@ public struct WaveformAnalyzer: Sendable {
     /// - Parameter completionHandler: called from a background thread. Returns the sampled result `[Float]` or `Error`.
     ///
     /// Calls the completionHandler on a background thread.
-    @available(*, deprecated, message: "Use async/await instead. completionHandler variants will be removed in 15.0.")
+    @available(*, deprecated, renamed: "samples(fromAudioAt:count:qos:)")
     public func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (Result<[Float], Error>) -> ()) {
         Task {
             do {

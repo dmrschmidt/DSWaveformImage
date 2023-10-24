@@ -47,14 +47,8 @@ class ProgressViewController: UIViewController {
     }
 
     private func updateWaveformImages() {
-        waveformImageDrawer.waveformImage(
-            fromAudioAt: audioURL,
-            with: .init(size: playbackWaveformImageView.bounds.size, style: .filled(.darkGray))
-        ) { result in
-            guard case let .success(image) = result else {
-                print("failed: \(result)")
-                return
-            }
+        Task {
+            let image = try await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(size: playbackWaveformImageView.bounds.size, style: .filled(.darkGray)))
 
             DispatchQueue.main.async {
                 self.waveformImageView.image = image
