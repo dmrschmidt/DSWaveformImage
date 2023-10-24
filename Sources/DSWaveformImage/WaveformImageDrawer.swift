@@ -17,7 +17,6 @@ public class WaveformImageDrawer: ObservableObject {
     /// Keep track of how many samples we are adding each draw cycle
     private var lastSampleCount: Int = 0
 
-#if compiler(>=5.5) && canImport(_Concurrency)
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
     /// - Parameter with: `Waveform.Configuration` to be used.
@@ -31,7 +30,6 @@ public class WaveformImageDrawer: ObservableObject {
                               qos: DispatchQoS.QoSClass = .userInitiated) async throws -> DSImage {
         try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos)
     }
-#endif
 
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
     /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.

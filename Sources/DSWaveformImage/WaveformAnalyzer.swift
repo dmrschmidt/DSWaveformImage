@@ -25,7 +25,6 @@ public struct WaveformAnalyzer: Sendable {
 
     public init() {}
 
-#if compiler(>=5.5) && canImport(_Concurrency)
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
     /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
     /// - Parameter count: amount of samples to be calculated. Downsamples.
@@ -42,7 +41,6 @@ public struct WaveformAnalyzer: Sendable {
             return try await waveformSamples(track: assetTrack, reader: assetReader, count: count, fftBands: nil).amplitudes
         }.value
     }
-#endif
 
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
     /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
