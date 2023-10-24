@@ -46,12 +46,6 @@ import DSWaveformImage // for core classes to generate `UIImage` / `NSImage` dir
 import DSWaveformImageViews // if you want to use the native UIKit / SwiftUI views
 ```
 
-**Deprecated or discouraged** but still possible alternative ways for older apps:
-
-* since it has no other dependencies you may simply copy the `Sources` folder directly into your project
-* use carthage: `github "dmrschmidt/DSWaveformImage" ~> 7.0` (last supported version is 10)
-* or, sunset since 6.1.1: ~~use cocoapods: `pod 'DSWaveformImage', '~> 6.1'`~~
-
 Usage
 -----
 
@@ -90,7 +84,8 @@ WaveformView(audioURL: audioURL) { waveformShape in
         .stroke(LinearGradient(colors: [.red, [.green, red, orange], startPoint: .zero, endPoint: .topTrailing), lineWidth: 3)
 } placeholder: {
     ProgressView()
-}```
+}
+```
 
 #### `WaveformLiveCanvas` - renders a live waveform from `(0...1)` normalized samples:
 
