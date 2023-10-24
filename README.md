@@ -157,7 +157,7 @@ print("samples: \(samples)")
 
 ### Playback Progress Indication
 
-If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in the example app](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/ProgressViewController.swift). UIKit and SwiftUI examples are provided.
+If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in the example app](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/ProgressViewController.swift). UIKit and [SwiftUI](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/SwiftUIExample/ProgressWaveformView.swift) examples are provided.
 
 Both approaches will result in something like the image below. 
 
