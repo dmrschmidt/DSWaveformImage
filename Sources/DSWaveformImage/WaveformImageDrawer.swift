@@ -29,14 +29,7 @@ public class WaveformImageDrawer: ObservableObject {
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
                               qos: DispatchQoS.QoSClass = .userInitiated) async throws -> DSImage {
-        try await withCheckedThrowingContinuation { continuation in
-            waveformImage(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos) { result in
-                switch result {
-                case let .success(waveformImage): continuation.resume(with: .success(waveformImage))
-                case let .failure(error): continuation.resume(with: .failure(error))
-                }
-            }
-        }
+        try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos)
     }
 #endif
 
@@ -48,12 +41,20 @@ public class WaveformImageDrawer: ObservableObject {
     /// - Parameter completionHandler: called from a background thread. Returns the sampled result `DSImage` or `Error`.
     ///
     /// Calls the completionHandler on a background thread.
+    @available(*, deprecated, message: "Use async/await instead. completionHandler variants will be removed in 15.0.")
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
                               qos: DispatchQoS.QoSClass = .userInitiated,
                               completionHandler: @escaping (Result<DSImage, Error>) -> ()) {
-        render(fromAudioAt: audioAssetURL, with: configuration, qos: qos, renderer: renderer, completionHandler: completionHandler)
+        Task {
+            do {
+                let image = try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos)
+                completionHandler(.success(image))
+            } catch {
+                completionHandler(.failure(error))
+            }
+        }
     }
 }
 
@@ -122,26 +123,21 @@ extension WaveformImageDrawer {
 // MARK: Image generation
 
 private extension WaveformImageDrawer {
-    func render(fromAudioAt audioAssetURL: URL,
-                with configuration: Waveform.Configuration,
-                qos: DispatchQoS.QoSClass,
-                renderer: WaveformRenderer,
-                completionHandler: @escaping (Result<DSImage, Error>) -> ()) {
+    func render(
+        fromAudioAt audioAssetURL: URL,
+        with configuration: Waveform.Configuration,
+        renderer: WaveformRenderer,
+        qos: DispatchQoS.QoSClass
+    ) async throws -> DSImage {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         let waveformAnalyzer = WaveformAnalyzer()
-        waveformAnalyzer.samples(fromAudioAt: audioAssetURL, count: sampleCount, qos: qos) { result in
-            switch result {
-            case let .success(samples):
-                let dampedSamples = configuration.shouldDamp ? self.damp(samples, with: configuration) : samples
-                if let image = self.waveformImage(from: dampedSamples, with: configuration, renderer: renderer) {
-                    completionHandler(.success(image))
-                } else {
-                    completionHandler(.failure(GenerationError.generic))
-                }
+        let samples = try await waveformAnalyzer.samples(fromAudioAt: audioAssetURL, count: sampleCount, qos: qos)
+        let dampedSamples = configuration.shouldDamp ? self.damp(samples, with: configuration) : samples
 
-            case let .failure(error):
-                completionHandler(.failure(error))
-            }
+        if let image = waveformImage(from: dampedSamples, with: configuration, renderer: renderer) {
+            return image
+        } else {
+            throw GenerationError.generic
         }
     }
 
