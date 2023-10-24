@@ -1,4 +1,4 @@
-#if os(iOS)
+#if os(iOS) || swift(>=5.9) && os(visionOS)
 import Foundation
 import AVFoundation
 import UIKit
