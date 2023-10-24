@@ -27,54 +27,38 @@ public struct WaveformAnalyzer: Sendable {
 
 #if compiler(>=5.5) && canImport(_Concurrency)
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
-    /// Calls the completionHandler on a background thread.
+    /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
     /// - Parameter count: amount of samples to be calculated. Downsamples.
     /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
-    ///
-    /// Returns sampled result or nil in edge-error cases.
     public func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
-        let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        let assetReader = try AVAssetReader(asset: audioAsset)
+        try await Task(priority: taskPriority(qos: qos)) {
+            let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+            let assetReader = try AVAssetReader(asset: audioAsset)
 
-        guard let assetTrack = try await audioAsset.loadTracks(withMediaType: .audio).first else {
-            throw AnalyzeError.emptyTracks
-        }
+            guard let assetTrack = try await audioAsset.loadTracks(withMediaType: .audio).first else {
+                throw AnalyzeError.emptyTracks
+            }
 
-        return try await waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil).amplitudes
+            return try await waveformSamples(track: assetTrack, reader: assetReader, count: count, fftBands: nil).amplitudes
+        }.value
     }
 #endif
 
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
-    /// Calls the completionHandler on a background thread.
+    /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
     /// - Parameter count: amount of samples to be calculated. Downsamples.
     /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
-    /// - Parameter completionHandler: called from a background thread. Returns the sampled result or nil in edge-error cases.
+    /// - Parameter completionHandler: called from a background thread. Returns the sampled result `[Float]` or `Error`.
+    ///
+    /// Calls the completionHandler on a background thread.
     public func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated, completionHandler: @escaping (Result<[Float], Error>) -> ()) {
-        do {
-            let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-            let assetReader = try AVAssetReader(asset: audioAsset)
-
-            audioAsset.loadTracks(withMediaType: .audio) { tracks, error in
-                if let error {
-                    completionHandler(.failure(error))
-                }
-
-                guard let assetTrack = tracks?.first else {
-                    completionHandler(.failure(AnalyzeError.emptyTracks))
-                    return
-                }
-
-                Task(priority: taskPriority(qos: qos)) {
-                    do {
-                        let analysis = try await waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil)
-                        completionHandler(.success(analysis.amplitudes))
-                    } catch {
-                        completionHandler(.failure(error))
-                    }
-                }
+        Task {
+            do {
+                let samples = try await samples(fromAudioAt: audioAssetURL, count: count, qos: qos)
+                completionHandler(.success(samples))
+            } catch {
+                completionHandler(.failure(error))
             }
-        } catch {
-            completionHandler(.failure(error))
         }
     }
 }
@@ -86,8 +70,8 @@ fileprivate extension WaveformAnalyzer {
             track audioAssetTrack: AVAssetTrack,
             reader assetReader: AVAssetReader,
             count requiredNumberOfSamples: Int,
-            qos: DispatchQoS.QoSClass,
-            fftBands: Int?) async throws -> WaveformAnalysis {
+            fftBands: Int?
+    ) async throws -> WaveformAnalysis {
         guard requiredNumberOfSamples > 0 else {
             throw AnalyzeError.userError
         }
@@ -107,10 +91,12 @@ fileprivate extension WaveformAnalyzer {
         }
     }
 
-    func extract(_ totalSamples: Int,
-                 downsampledTo targetSampleCount: Int,
-                 from assetReader: AVAssetReader,
-                 fftBands: Int?) -> WaveformAnalysis {
+    func extract(
+        _ totalSamples: Int,
+        downsampledTo targetSampleCount: Int,
+        from assetReader: AVAssetReader,
+        fftBands: Int?
+    ) -> WaveformAnalysis {
         var outputSamples = [Float]()
         var outputFFT = fftBands == nil ? nil : [TempiFFT]()
         var sampleBuffer = Data()
@@ -173,9 +159,7 @@ fileprivate extension WaveformAnalyzer {
         return WaveformAnalysis(amplitudes: normalize(targetSamples), fft: outputFFT)
     }
 
-    private func process(_ sampleBuffer: Data,
-                         from assetReader: AVAssetReader,
-                         downsampleTo samplesPerPixel: Int) -> [Float] {
+    private func process(_ sampleBuffer: Data, from assetReader: AVAssetReader, downsampleTo samplesPerPixel: Int) -> [Float] {
         var downSampledData = [Float]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
 

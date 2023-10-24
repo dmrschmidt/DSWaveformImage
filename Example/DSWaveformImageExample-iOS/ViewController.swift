@@ -37,7 +37,9 @@ class ViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updateWaveformImages()
+
+        // you might want to call updateWaveformImages() here
+        // to adapt to view changes
     }
 
     private func updateWaveformImages() {
@@ -78,9 +80,11 @@ class ViewController: UIViewController {
         Task {
             let image = try! await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration)
 
-            // as an added bonus, use CALayer's compositingFilter for more elaborate image display
-            self.bottomWaveformView.layer.compositingFilter = "multiplyBlendMode"
-            self.bottomWaveformView.image = image
+            await MainActor.run {
+                // as an added bonus, use CALayer's compositingFilter for more elaborate image display
+                self.bottomWaveformView.layer.compositingFilter = "multiplyBlendMode"
+                self.bottomWaveformView.image = image
+            }
         }
 
         // Photo by Alexander Popov on Unsplash

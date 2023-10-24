@@ -19,6 +19,12 @@ public class WaveformImageDrawer: ObservableObject {
 
 #if compiler(>=5.5) && canImport(_Concurrency)
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
+    /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
+    /// - Parameter with: `Waveform.Configuration` to be used.
+    /// - Parameter renderer: optional `WaveformRenderer` to adapt how the waveform shall be rendered.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    ///
+    /// Returns the image on a background thread.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
@@ -35,6 +41,13 @@ public class WaveformImageDrawer: ObservableObject {
 #endif
 
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
+    /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
+    /// - Parameter with: `Waveform.Configuration` to be used.
+    /// - Parameter renderer: optional `WaveformRenderer` to adapt how the waveform shall be rendered.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    /// - Parameter completionHandler: called from a background thread. Returns the sampled result `DSImage` or `Error`.
+    ///
+    /// Calls the completionHandler on a background thread.
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
