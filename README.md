@@ -1,9 +1,9 @@
-DSWaveformImage - iOS & macOS realtime audio waveform rendering
+DSWaveformImage - iOS, macOS & visionOS realtime audio waveform rendering
 ===============
 [![Swift Package Manager compatible](https://img.shields.io/badge/spm-compatible-brightgreen.svg?style=flat)](https://swift.org/package-manager)
 
 DSWaveformImage offers a native interfaces for drawing the envelope waveform of audio data 
-in **iOS**, **iPadOS**, **macOS** or via Catalyst. To do so, you can use
+in **iOS**, **iPadOS**, **macOS**, **visionOS** or via Catalyst. To do so, you can use
 
 * [`WaveformImageView`](Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift) (UIKit) / [`WaveformView`](Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift) (SwiftUI) to render a static waveform from an audio file or 
 * [`WaveformLiveView`](Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift) (UIKit) / [`WaveformLiveCanvas`](Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift) (SwiftUI) to realtime render a waveform of live audio data (e.g. from `AVAudioRecorder`)
