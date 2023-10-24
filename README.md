@@ -134,10 +134,12 @@ Check `Waveform.Configuration` in [WaveformImageTypes](./Sources/DSWaveformImage
 ```swift
 let waveformImageDrawer = WaveformImageDrawer()
 let audioURL = Bundle.main.url(forResource: "example_sound", withExtension: "m4a")!
-let image = try await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: .init(
-                                  size: topWaveformView.bounds.size,
-                                  style: .filled(UIColor.black)),
-                                  renderer: LinearWaveformRenderer())
+let image = try await waveformImageDrawer.waveformImage(
+    fromAudioAt: audioURL,
+    with: .init(size: topWaveformView.bounds.size, style: .filled(UIColor.black)),
+    renderer: LinearWaveformRenderer()
+)
+
 // need to jump back to main queue
 DispatchQueue.main.async {
     self.topWaveformView.image = image
