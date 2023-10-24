@@ -18,7 +18,7 @@ struct WaveformAnalysis {
 
 /// Calculates the waveform of the initialized asset URL.
 public struct WaveformAnalyzer: Sendable {
-    public enum AnalyzeError: Error { case generic, emptyTracks }
+    public enum AnalyzeError: Error { case generic, userError, emptyTracks, readerError(AVAssetReader.Status) }
 
     /// Everything below this noise floor cutoff will be clipped and interpreted as silence. Default is `-50.0`.
     public var noiseFloorDecibelCutoff: Float = -50.0
@@ -40,15 +40,7 @@ public struct WaveformAnalyzer: Sendable {
             throw AnalyzeError.emptyTracks
         }
 
-        return try await withCheckedThrowingContinuation { continuation in
-            waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil) { analysis in
-                if let amplitudes = analysis?.amplitudes {
-                    continuation.resume(with: .success(amplitudes))
-                } else {
-                    continuation.resume(with: .failure(AnalyzeError.generic))
-                }
-            }
-        }
+        return try await waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil).amplitudes
     }
 #endif
 
@@ -72,13 +64,13 @@ public struct WaveformAnalyzer: Sendable {
                     return
                 }
 
-                waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil) { result in
-                    guard let analysis = result else {
-                        completionHandler(.failure(AnalyzeError.emptyTracks))
-                        return
+                Task(priority: taskPriority(qos: qos)) {
+                    do {
+                        let analysis = try await waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil)
+                        completionHandler(.success(analysis.amplitudes))
+                    } catch {
+                        completionHandler(.failure(error))
                     }
-
-                    completionHandler(.success(analysis.amplitudes))
                 }
             }
         } catch {
@@ -95,48 +87,29 @@ fileprivate extension WaveformAnalyzer {
             reader assetReader: AVAssetReader,
             count requiredNumberOfSamples: Int,
             qos: DispatchQoS.QoSClass,
-            fftBands: Int?,
-            completionHandler: @escaping (_ analysis: WaveformAnalysis?) -> ()) {
+            fftBands: Int?) async throws -> WaveformAnalysis {
         guard requiredNumberOfSamples > 0 else {
-            completionHandler(nil)
-            return
+            throw AnalyzeError.userError
         }
 
         let trackOutput = AVAssetReaderTrackOutput(track: audioAssetTrack, outputSettings: outputSettings())
         assetReader.add(trackOutput)
 
-        assetReader.asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-            var error: NSError?
-            let status = assetReader.asset.statusOfValue(forKey: "duration", error: &error)
-            switch status {
-            case .loaded:
-                let totalSamples = self.totalSamplesOfTrack(track: audioAssetTrack, reader: assetReader)
-                DispatchQueue.global(qos: qos).async {
-                    let analysis = self.extract(track: audioAssetTrack, reader: assetReader, totalSamples: totalSamples, downsampledTo: requiredNumberOfSamples, fftBands: fftBands)
+        let totalSamples = try await totalSamples(of: audioAssetTrack)
+        let analysis = extract(totalSamples, downsampledTo: requiredNumberOfSamples, from: assetReader, fftBands: fftBands)
 
-                    switch assetReader.status {
-                    case .completed:
-                        completionHandler(analysis)
-                    default:
-                        print("ERROR: reading waveform audio data has failed \(assetReader.status)")
-                        completionHandler(nil)
-                    }
-                }
-
-            case .failed, .cancelled, .loading, .unknown:
-                print("failed to load due to: \(error?.localizedDescription ?? "unknown error")")
-                completionHandler(nil)
-            @unknown default:
-                print("failed to load due to: \(error?.localizedDescription ?? "unknown error")")
-                completionHandler(nil)
-            }
+        switch assetReader.status {
+        case .completed:
+            return analysis
+        default:
+            print("ERROR: reading waveform audio data has failed \(assetReader.status)")
+            throw AnalyzeError.readerError(assetReader.status)
         }
     }
 
-    func extract(track audioAssetTrack: AVAssetTrack,
-                 reader assetReader: AVAssetReader,
-                 totalSamples: Int,
+    func extract(_ totalSamples: Int,
                  downsampledTo targetSampleCount: Int,
+                 from assetReader: AVAssetReader,
                  fftBands: Int?) -> WaveformAnalysis {
         var outputSamples = [Float]()
         var outputFFT = fftBands == nil ? nil : [TempiFFT]()
@@ -238,9 +211,7 @@ fileprivate extension WaveformAnalyzer {
         return downSampledData
     }
 
-    private func process(_ sampleBuffer: Data,
-                         samplesPerFFT: Int,
-                         fftBands: Int) -> [TempiFFT] {
+    private func process(_ sampleBuffer: Data, samplesPerFFT: Int, fftBands: Int) -> [TempiFFT] {
         var ffts = [TempiFFT]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
         sampleBuffer.withUnsafeBytes { (samplesRawPointer: UnsafeRawBufferPointer) in
@@ -266,29 +237,21 @@ fileprivate extension WaveformAnalyzer {
     }
 
     func normalize(_ samples: [Float]) -> [Float] {
-        return samples.map { $0 / noiseFloorDecibelCutoff }
+        samples.map { $0 / noiseFloorDecibelCutoff }
     }
 
-    // swiftlint:disable force_cast
-    private func totalSamplesOfTrack(track audioAssetTrack: AVAssetTrack, reader assetReader: AVAssetReader) -> Int {
+    private func totalSamples(of audioAssetTrack: AVAssetTrack) async throws -> Int {
         var totalSamples = 0
+        let (descriptions, timeRange) = try await audioAssetTrack.load(.formatDescriptions, .timeRange)
 
-        autoreleasepool {
-            let descriptions = audioAssetTrack.formatDescriptions as! [CMFormatDescription]
-            descriptions.forEach { formatDescription in
-                guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
-                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
-                let sampleRate = basicDescription.pointee.mSampleRate
-                let duration = Double(assetReader.asset.duration.value)
-                let timescale = Double(assetReader.asset.duration.timescale)
-                let totalDuration = duration / timescale
-                totalSamples = Int(sampleRate * totalDuration) * channelCount
-            }
+        descriptions.forEach { formatDescription in
+            guard let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else { return }
+            let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+            let sampleRate = basicDescription.pointee.mSampleRate
+            totalSamples = Int(sampleRate * timeRange.duration.seconds) * channelCount
         }
-
         return totalSamples
     }
-    // swiftlint:enable force_cast
 }
 
 // MARK: - Configuration
@@ -302,5 +265,17 @@ private extension WaveformAnalyzer {
             AVLinearPCMIsFloatKey: false,
             AVLinearPCMIsNonInterleaved: false
         ]
+    }
+
+    func taskPriority(qos: DispatchQoS.QoSClass) -> TaskPriority {
+        switch qos {
+        case .background: return .background
+        case .utility: return .utility
+        case .default: return .medium
+        case .userInitiated: return .userInitiated
+        case .userInteractive: return .high
+        case .unspecified: return .medium
+        @unknown default: return .medium
+        }
     }
 }
