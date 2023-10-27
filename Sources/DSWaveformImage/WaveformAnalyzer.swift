@@ -40,6 +40,8 @@ public struct WaveformAnalyzer: Sendable {
             throw AnalyzeError.emptyTracks
         }
 
+        try Task.checkCancellation()
+        
         return try await withCheckedThrowingContinuation { continuation in
             waveformSamples(track: assetTrack, reader: assetReader, count: count, qos: qos, fftBands: nil) { analysis in
                 if let amplitudes = analysis?.amplitudes {

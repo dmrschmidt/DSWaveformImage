@@ -11,6 +11,11 @@ public struct WaveformView<Content: View>: View {
     private let content: ((WaveformShape) -> Content)?
 
     @State private var samples: [Float] = []
+    @State private var updateTask: Task<Void, Never>? {
+        willSet {
+            updateTask?.cancel()
+        }
+    }
 
     private let defaultStyler = DefaultShapeStyler()
 
@@ -83,11 +88,16 @@ public struct WaveformView<Content: View>: View {
     }
 
     private func update(size: CGSize, url: URL, configuration: Waveform.Configuration) {
-        Task(priority: priority) {
+        updateTask = Task(priority: priority) {
             do {
                 let samplesNeeded = Int(size.width * configuration.scale)
                 let samples = try await WaveformAnalyzer().samples(fromAudioAt: url, count: samplesNeeded)
+                
+                guard !Task.isCancelled else { return }
+                
                 await MainActor.run { self.samples = samples }
+            } catch is CancellationError {
+                // no-op
             } catch {
                 assertionFailure(error.localizedDescription)
             }
