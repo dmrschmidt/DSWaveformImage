@@ -72,11 +72,11 @@ class ViewController: UIViewController {
         middleWaveformView.waveformAudioURL = audioURL
 
         Task {
-            let image = try! await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration)
+            let image = try! await waveformImageDrawer.waveformImage(fromAudioAt: audioURL, with: bottomWaveformConfiguration, position: .top)
 
             await MainActor.run {
                 // as an added bonus, use CALayer's compositingFilter for more elaborate image display
-                self.bottomWaveformView.layer.compositingFilter = "multiplyBlendMode"
+                self.bottomWaveformView.layer.compositingFilter = "overlayBlendMode"
                 self.bottomWaveformView.image = image
             }
         }
@@ -89,7 +89,7 @@ class ViewController: UIViewController {
     private var bottomWaveformConfiguration: Waveform.Configuration {
         Waveform.Configuration(
             size: bottomWaveformView.bounds.size,
-            style: .filled(UIColor(red: 129/255.0, green: 178/255.0, blue: 154/255.0, alpha: 1))
+            style: .filled(.black)
         )
     }
 }

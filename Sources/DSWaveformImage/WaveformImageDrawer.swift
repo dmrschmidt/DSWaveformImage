@@ -27,8 +27,9 @@ public class WaveformImageDrawer: ObservableObject {
     public func waveformImage(fromAudioAt audioAssetURL: URL,
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
+                              position: Waveform.Position = .middle,
                               qos: DispatchQoS.QoSClass = .userInitiated) async throws -> DSImage {
-        try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos)
+        try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos, position: position)
     }
 
     /// Async analyzes the provided audio and renders a DSImage of the waveform data calculated by the analyzer.
@@ -44,10 +45,11 @@ public class WaveformImageDrawer: ObservableObject {
                               with configuration: Waveform.Configuration,
                               renderer: WaveformRenderer = LinearWaveformRenderer(),
                               qos: DispatchQoS.QoSClass = .userInitiated,
+                              position: Waveform.Position = .middle,
                               completionHandler: @escaping (Result<DSImage, Error>) -> ()) {
         Task {
             do {
-                let image = try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos)
+                let image = try await render(fromAudioAt: audioAssetURL, with: configuration, renderer: renderer, qos: qos, position: position)
                 completionHandler(.success(image))
             } catch {
                 completionHandler(.failure(error))
@@ -96,13 +98,13 @@ extension WaveformImageDrawer {
         draw(on: context, from: paddedSamples, with: configuration, renderer: renderer)
     }
 
-    func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer) {
+    func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer, position: Waveform.Position = .middle) {
         context.setAllowsAntialiasing(configuration.shouldAntialias)
         context.setShouldAntialias(configuration.shouldAntialias)
         context.setAlpha(1.0)
 
         drawBackground(on: context, with: configuration)
-        renderer.render(samples: samples, on: context, with: configuration, lastOffset: lastOffset)
+        renderer.render(samples: samples, on: context, with: configuration, lastOffset: lastOffset, position: position)
     }
 
     /// Damp the samples for a smoother animation.
@@ -125,14 +127,15 @@ private extension WaveformImageDrawer {
         fromAudioAt audioAssetURL: URL,
         with configuration: Waveform.Configuration,
         renderer: WaveformRenderer,
-        qos: DispatchQoS.QoSClass
+        qos: DispatchQoS.QoSClass,
+        position: Waveform.Position
     ) async throws -> DSImage {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         let waveformAnalyzer = WaveformAnalyzer()
         let samples = try await waveformAnalyzer.samples(fromAudioAt: audioAssetURL, count: sampleCount, qos: qos)
         let dampedSamples = configuration.shouldDamp ? self.damp(samples, with: configuration) : samples
 
-        if let image = waveformImage(from: dampedSamples, with: configuration, renderer: renderer) {
+        if let image = waveformImage(from: dampedSamples, with: configuration, renderer: renderer, position: position) {
             return image
         } else {
             throw GenerationError.generic

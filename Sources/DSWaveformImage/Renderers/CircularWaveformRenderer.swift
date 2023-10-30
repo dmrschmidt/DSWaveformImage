@@ -25,14 +25,14 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         self.kind = kind
     }
 
-    public func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
+    public func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) -> CGPath {
         switch kind {
-        case .circle: return circlePath(samples: samples, with: configuration, lastOffset: lastOffset)
-        case .ring: return ringPath(samples: samples, with: configuration, lastOffset: lastOffset)
+        case .circle: return circlePath(samples: samples, with: configuration, lastOffset: lastOffset, position: position)
+        case .ring: return ringPath(samples: samples, with: configuration, lastOffset: lastOffset, position: position)
         }
     }
 
-    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
+    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) {
         let path = path(samples: samples, with: configuration, lastOffset: lastOffset)
         context.addPath(path)
 
@@ -54,10 +54,13 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         }
     }
 
-    private func circlePath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
+    private func circlePath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position) -> CGPath {
         let graphRect = CGRect(origin: .zero, size: configuration.size)
         let maxRadius = CGFloat(min(graphRect.maxX, graphRect.maxY) / 2.0) * configuration.verticalScalingFactor
-        let center = CGPoint(x: graphRect.maxX * 0.5, y: graphRect.maxY * 0.5)
+        let center = CGPoint(
+            x: graphRect.maxX * position.offset(),
+            y: graphRect.maxY * position.offset()
+        )
         let path = CGMutablePath()
 
         path.move(to: center)
@@ -86,7 +89,7 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         return path
     }
 
-    private func ringPath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
+    private func ringPath(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position) -> CGPath {
         guard case let .ring(config) = kind else {
             fatalError("called with wrong kind")
         }
@@ -94,7 +97,10 @@ public struct CircularWaveformRenderer: WaveformRenderer {
         let graphRect = CGRect(origin: .zero, size: configuration.size)
         let maxRadius = CGFloat(min(graphRect.maxX, graphRect.maxY) / 2.0) * configuration.verticalScalingFactor
         let innerRadius: CGFloat = maxRadius * config
-        let center = CGPoint(x: graphRect.maxX * 0.5, y: graphRect.maxY * 0.5)
+        let center = CGPoint(
+            x: graphRect.maxX * position.offset(),
+            y: graphRect.maxY * position.offset()
+        )
         let path = CGMutablePath()
 
         path.move(to: CGPoint(

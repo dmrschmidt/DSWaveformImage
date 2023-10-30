@@ -41,7 +41,7 @@ public protocol WaveformRenderer: Sendable {
         - lastOffset: You can typtically leave this `0`. **Required for live rendering**, where it is needed to keep track of the last drawing cycle. Setting it avoids 'flickering' as samples are being added
          continuously and the waveform moves across the view.
      */
-    func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath
+    func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position) -> CGPath
 
     /**
      Renders the waveform samples  on the provided `CGContext`.
@@ -53,10 +53,45 @@ public protocol WaveformRenderer: Sendable {
         - lastOffset: You can typtically leave this `0`. **Required for live rendering**, where it is needed to keep track of the last drawing cycle. Setting it avoids 'flickering' as samples are being added
          continuously and the waveform moves across the view.
      */
-    func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int)
+    func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position)
+}
+
+public extension WaveformRenderer {
+    func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) -> CGPath {
+        path(samples: samples, with: configuration, lastOffset: lastOffset, position: position)
+    }
+
+    func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) {
+        render(samples: samples, on: context, with: configuration, lastOffset: lastOffset, position: position)
+    }
 }
 
 public enum Waveform {
+    /** Position of the drawn waveform. */
+     public enum Position: Equatable {
+         /// **top**: Draws the waveform at the top of the image, such that only the bottom 50% are visible.
+         case top
+
+         /// **middle**: Draws the waveform in the middle the image, such that the entire waveform is visible.
+         case middle
+
+         /// **bottom**: Draws the waveform at the bottom of the image, such that only the top 50% are visible.
+         case bottom
+
+         /// **custom**: Draws the waveform at the specified point of the image. Clamped within range `(0...1)`. Where `0`
+         ///  is equal to `.top`, `0.5` is equal to `.middle` and `1` is equal to `.bottom`.
+         case custom(CGFloat)
+
+         func offset() -> CGFloat {
+             switch self {
+             case .top: return 0.0
+             case .middle: return 0.5
+             case .bottom: return 1.0
+             case let .custom(offset): return min(1, max(0, offset))
+             }
+         }
+     }
+
     /**
      Style of the waveform which is used during drawing:
      - **filled**: Use solid color for the waveform.

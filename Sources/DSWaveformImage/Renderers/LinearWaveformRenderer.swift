@@ -9,26 +9,26 @@ import CoreGraphics
 public struct LinearWaveformRenderer: WaveformRenderer {
     public init() {}
 
-    public func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int) -> CGPath {
+    public func path(samples: [Float], with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) -> CGPath {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
-        let positionAdjustedGraphCenter = 0.5 * graphRect.size.height
+        let positionAdjustedGraphCenter = position.offset() * graphRect.size.height
         var path = CGMutablePath()
 
         path.move(to: CGPoint(x: 0, y: positionAdjustedGraphCenter))
 
         if case .striped = configuration.style {
-            path = draw(samples: samples, path: path, with: configuration, lastOffset: lastOffset, sides: .both)
+            path = draw(samples: samples, path: path, with: configuration, lastOffset: lastOffset, sides: .both, position: position)
         } else {
-            path = draw(samples: samples, path: path, with: configuration, lastOffset: lastOffset, sides: .up)
-            path = draw(samples: samples.reversed(), path: path, with: configuration, lastOffset: lastOffset, sides: .down)
+            path = draw(samples: samples, path: path, with: configuration, lastOffset: lastOffset, sides: .up, position: position)
+            path = draw(samples: samples.reversed(), path: path, with: configuration, lastOffset: lastOffset, sides: .down, position: position)
         }
 
         path.closeSubpath()
         return path
     }
 
-    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int) {
-        context.addPath(path(samples: samples, with: configuration, lastOffset: lastOffset))
+    public func render(samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, lastOffset: Int, position: Waveform.Position = .middle) {
+        context.addPath(path(samples: samples, with: configuration, lastOffset: lastOffset, position: position))
         defaultStyle(context: context, with: configuration)
     }
 
@@ -44,10 +44,10 @@ public struct LinearWaveformRenderer: WaveformRenderer {
         case up, down, both
     }
 
-    private func draw(samples: [Float], path: CGMutablePath, with configuration: Waveform.Configuration, lastOffset: Int, sides: Sides) -> CGMutablePath {
+    private func draw(samples: [Float], path: CGMutablePath, with configuration: Waveform.Configuration, lastOffset: Int, sides: Sides, position: Waveform.Position = .middle) -> CGMutablePath {
         let graphRect = CGRect(origin: CGPoint.zero, size: configuration.size)
-        let positionAdjustedGraphCenter = 0.5 * graphRect.size.height
-        let drawMappingFactor = 0.5 * graphRect.size.height * configuration.verticalScalingFactor // we always draw in the center now
+        let positionAdjustedGraphCenter = position.offset() * graphRect.size.height
+        let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
         let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
         var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
