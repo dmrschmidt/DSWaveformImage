@@ -8,7 +8,7 @@ public extension WaveformImageDrawer {
     /// Renders a DSImage of the provided waveform samples.
     ///
     /// Samples need to be normalized within interval `(0...1)`.
-    func waveformImage(from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer) -> DSImage? {
+    func waveformImage(from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer, position: Waveform.Position = .middle) -> DSImage? {
         guard samples.count > 0, samples.count == Int(configuration.size.width * configuration.scale) else {
             print("ERROR: samples: \(samples.count) != \(configuration.size.width) * \(configuration.scale)")
             return nil
@@ -19,7 +19,7 @@ public extension WaveformImageDrawer {
             guard let context = NSGraphicsContext.current?.cgContext else {
                 fatalError("Missing context")
             }
-            self.draw(on: context, from: dampedSamples, with: configuration, renderer: renderer)
+            self.draw(on: context, from: dampedSamples, with: configuration, renderer: renderer, position: position)
             return true
         }
     }

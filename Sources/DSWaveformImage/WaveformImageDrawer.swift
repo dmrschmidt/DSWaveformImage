@@ -63,7 +63,7 @@ extension WaveformImageDrawer {
     ///
     /// Samples need to be normalized within interval `(0...1)`.
     /// Ensure context size & scale match with the configuration's size & scale.
-    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, renderer: WaveformRenderer) {
+    public func draw(waveform samples: [Float], on context: CGContext, with configuration: Waveform.Configuration, renderer: WaveformRenderer, position: Waveform.Position = .middle) {
         guard samples.count > 0 || shouldDrawSilencePadding else {
             return
         }
@@ -95,7 +95,7 @@ extension WaveformImageDrawer {
         let dampedSamples = configuration.shouldDamp ? damp(clippedSamples, with: configuration) : clippedSamples
         let paddedSamples = shouldDrawSilencePadding ? Array(repeating: 1, count: samplesNeeded - clippedSamples.count) + dampedSamples : dampedSamples
         
-        draw(on: context, from: paddedSamples, with: configuration, renderer: renderer)
+        draw(on: context, from: paddedSamples, with: configuration, renderer: renderer, position: position)
     }
 
     func draw(on context: CGContext, from samples: [Float], with configuration: Waveform.Configuration, renderer: WaveformRenderer, position: Waveform.Position = .middle) {
