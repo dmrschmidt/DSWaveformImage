@@ -35,7 +35,12 @@ I'm doing all this for fun and joy and because I strongly believe in the power o
 Alternatively, consider supporting me by downloading one of my side project iOS apps. If you're feeling in the mood of sending someone else a lovely gesture of appreciation, maybe check out my iOS app [💌 SoundCard](https://www.soundcard.io) to send them a real postcard with a personal audio message. Or download my ad-supported free to play game [🕹️ Snekris for iOS](https://apps.apple.com/us/app/snekris-play-like-its-1999/id6446217693).
 
 <p float="left">
-<a href="https://www.buymeacoffee.com/dmrschmidt" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> <a href="https://www.snekris.com" target="_blank"><img src="https://github.com/dmrschmidt/DSWaveformImage/assets/69365/8cb89c4e-c14e-4c77-a414-3d08a69e1dd4" alt="Play Snekris" style="height: 60px !important;width: 217px !important;" ></a>
+  <a href="https://www.buymeacoffee.com/dmrschmidt" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="217" height="60">
+  </a>
+  <a href="https://www.snekris.com" target="_blank">
+    <img src="http://snekris.com/images/snekris-banner.png" alt="Play Snekris" width="217" height="60">
+  </a>
 </p>
 
 
