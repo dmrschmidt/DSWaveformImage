@@ -36,11 +36,10 @@ Alternatively, consider supporting me by downloading one of my side project iOS 
 
 <p float="left">
   <a href="https://www.buymeacoffee.com/dmrschmidt" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="217" height="60">
-  </a>
+    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="217" height="60"></a>
+  
   <a href="https://www.snekris.com" target="_blank">
-    <img src="http://snekris.com/images/snekris-banner.png" alt="Play Snekris" width="217" height="60">
-  </a>
+    <img src="http://snekris.com/images/snekris-banner.png" alt="Play Snekris" width="217" height="60"></a>
 </p>
 
 
