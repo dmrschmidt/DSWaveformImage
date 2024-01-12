@@ -79,18 +79,17 @@ import Accelerate
     /// Supplying a window type (hanning or hamming) smooths the edges of the incoming waveform and reduces output errors from the FFT function (aka "spectral leakage" - ewww).
     var windowType = TempiFFTWindowType.none
 
-    private var halfSize:Int
-    private var log2Size:Int
-    private var window:[Float] = []
-    private var fftSetup:FFTSetup
+    private var halfSize: Int
+    private var log2Size: Int
+    private var window: [Float] = []
+    private var fftSetup: FFTSetup
     private var hasPerformedFFT: Bool = false
     private var complexBuffer: DSPSplitComplex!
 
     /// Instantiate the FFT.
     /// - Parameter withSize: The length of the sample buffer we'll be analyzing. Must be a power of 2. The resulting ```magnitudes``` are of length ```inSize/2```.
     /// - Parameter sampleRate: Sampling rate of the provided audio data.
-    init(withSize inSize:Int, sampleRate inSampleRate: Float) {
-
+    init(withSize inSize: Int, sampleRate inSampleRate: Float) {
         let sizeFloat: Float = Float(inSize)
 
         self.sampleRate = inSampleRate
