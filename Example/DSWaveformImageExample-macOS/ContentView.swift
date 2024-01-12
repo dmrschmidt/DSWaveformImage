@@ -144,6 +144,11 @@ class AudioAnalyzer {
         let realp = UnsafeMutablePointer<Float>.allocate(capacity: halfBufferSize)
         let imagp = UnsafeMutablePointer<Float>.allocate(capacity: halfBufferSize)
 
+        defer {
+            realp.deallocate()
+            imagp.deallocate()
+        }
+
         realp.initialize(repeating: 0, count: halfBufferSize)
         imagp.initialize(repeating: 0, count: halfBufferSize)
 
@@ -164,17 +169,17 @@ class AudioAnalyzer {
 
         // Convert complex FFT output to magnitudes
         var magnitudes = [Float](repeating: 0.0, count: halfBufferSize)
-        var magnitudes2 = [Float](repeating: 0.0, count: halfBufferSize)
+        var magnitudesNormalized = [Float](repeating: 0.0, count: halfBufferSize)
         vDSP_zvmags(&complex, 1, &magnitudes, 1, vDSP_Length(halfBufferSize))
 
         // Normalize the magnitudes
         var normFactor = 1.0 / Float(2 * bufferSizePOT)
-        vDSP_vsmul(&magnitudes, 1, &normFactor, &magnitudes2, 1, vDSP_Length(halfBufferSize))
+        vDSP_vsmul(&magnitudes, 1, &normFactor, &magnitudesNormalized, 1, vDSP_Length(halfBufferSize))
 
         // Clean up
         vDSP_destroy_fftsetup(fftSetup)
 
-        return magnitudes2
+        return magnitudesNormalized
     }
 }
 
@@ -186,6 +191,9 @@ struct FFTView: View {
     private func hzToMel(hz: Float) -> Float {
         return 2595 * log10(1 + hz / 700)
     }
+
+    let maxDB: Float = 80.0
+    let minDB: Float = -32.0
 
     // Function to convert linear FFT bins to Mel scale
     private func convertToMelScale(fftResults: [Float]) -> [Float] {
@@ -211,24 +219,42 @@ struct FFTView: View {
             let sum = fftResults[lowerBin...upperBin].reduce(0, +)
             melMagnitudes[index] = sum / Float(upperBin - lowerBin + 1) // Average the magnitudes
         }
+
         return melMagnitudes
+    }
+
+    func toDB(_ inMagnitude: Float) -> Float {
+        // ceil to 128db in order to avoid log10'ing 0
+        let magnitude = max(inMagnitude, Float.leastNormalMagnitude)
+        return 10 * log10f(magnitude)
     }
 
     var body: some View {
         GeometryReader { geometry in
             let melResults = convertToMelScale(fftResults: fftResults)
+            let headroom = maxDB - minDB
+
             Path { path in
                 for i in melResults.indices {
+                    var magnitudeDB = toDB(melResults[i])
+
+                    // Normalize the incoming magnitude so that -Inf = 0
+                    magnitudeDB = max(0, magnitudeDB + abs(minDB))
+
+                    let dbRatio = min(1.0, magnitudeDB / headroom)
+                    let magnitudeNorm = CGFloat(dbRatio) * geometry.size.height
+
                     let x = geometry.size.width * CGFloat(i) / CGFloat(melResults.count)
-                    let y = geometry.size.height - CGFloat(melResults[i]) * geometry.size.height
+                    let y = geometry.size.height - magnitudeNorm
+
                     if i == 0 {
-                        path.move(to: CGPoint(x: x, y: y))
+                        path.move(to: CGPoint(x: 0, y: geometry.size.height))
                     } else {
                         path.addLine(to: CGPoint(x: x, y: y))
                     }
                 }
             }
-            .stroke(Color.blue, lineWidth: 2)
+            .fill(.linearGradient(colors: [.blue, .green, .orange, .red], startPoint: .bottom, endPoint: .top))
         }
     }
 }
