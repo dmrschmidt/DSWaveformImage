@@ -144,7 +144,6 @@ class AudioAnalyzer {
         let realp = UnsafeMutablePointer<Float>.allocate(capacity: halfBufferSize)
         let imagp = UnsafeMutablePointer<Float>.allocate(capacity: halfBufferSize)
 
-        // Initialize to zero
         realp.initialize(repeating: 0, count: halfBufferSize)
         imagp.initialize(repeating: 0, count: halfBufferSize)
 
@@ -158,35 +157,26 @@ class AudioAnalyzer {
         vDSP_vmul(floatChannelData.pointee, 1, window, 1, &windowedSignal, 1, vDSP_Length(windowSize))
 
         windowedSignal.withUnsafeMutableBytes {
-            vDSP_ctoz($0.baseAddress!.assumingMemoryBound(to: DSPComplex.self), 2, &complex, 1, UInt(bufferSizePOT / 2))
+            vDSP_ctoz($0.baseAddress!.assumingMemoryBound(to: DSPComplex.self), 2, &complex, 1, UInt(halfBufferSize))
         }
 
         vDSP_fft_zrip(fftSetup!, &complex, 1, log2n, FFTDirection(FFT_FORWARD))
 
         // Convert complex FFT output to magnitudes
-        var magnitudes = [Float](repeating: 0.0, count: Int(bufferSizePOT / 2))
-        var magnitudes2 = [Float](repeating: 0.0, count: Int(bufferSizePOT / 2))
-        vDSP_zvmags(&complex, 1, &magnitudes, 1, vDSP_Length(bufferSizePOT / 2))
-
-        // The normalization factor for 32-bit floating-point audio (assuming the values range from -1.0 to 1.0)
-        var normalizationFactor: Float = 1.0 / Float(bufferSizePOT)
-
-        // Normalize magnitudes
-        vDSP_vsmul(magnitudes, 1, &normalizationFactor, &magnitudes, 1, vDSP_Length(bufferSizePOT / 2))
+        var magnitudes = [Float](repeating: 0.0, count: halfBufferSize)
+        var magnitudes2 = [Float](repeating: 0.0, count: halfBufferSize)
+        vDSP_zvmags(&complex, 1, &magnitudes, 1, vDSP_Length(halfBufferSize))
 
         // Normalize the magnitudes
         var normFactor = 1.0 / Float(2 * bufferSizePOT)
-        vDSP_vsmul(&magnitudes, 1, &normFactor, &magnitudes2, 1, vDSP_Length(bufferSizePOT / 2))
+        vDSP_vsmul(&magnitudes, 1, &normFactor, &magnitudes2, 1, vDSP_Length(halfBufferSize))
 
         // Clean up
         vDSP_destroy_fftsetup(fftSetup)
 
         return magnitudes2
     }
-
 }
-
-import SwiftUI
 
 struct FFTView: View {
     var fftResults: [Float] // Assuming fftResults is already populated with the magnitudes from FFT
