@@ -49,7 +49,6 @@ public struct LinearWaveformRenderer: WaveformRenderer {
         let positionAdjustedGraphCenter = position.offset() * graphRect.size.height
         let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
         let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
-        var maxAmplitude: CGFloat = 0.0 // we know 1 is our max in normalized data, but we keep it 'generic'
 
         for (index, sample) in samples.enumerated() {
             let adjustedIndex: Int
@@ -75,7 +74,6 @@ public struct LinearWaveformRenderer: WaveformRenderer {
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
-            maxAmplitude = max(drawingAmplitude, maxAmplitude)
 
             switch sides {
             case .up:
