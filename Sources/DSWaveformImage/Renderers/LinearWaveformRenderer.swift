@@ -49,6 +49,7 @@ public struct LinearWaveformRenderer: WaveformRenderer {
         let positionAdjustedGraphCenter = position.offset() * graphRect.size.height
         let drawMappingFactor = graphRect.size.height * configuration.verticalScalingFactor
         let minimumGraphAmplitude: CGFloat = 1 / configuration.scale // we want to see at least a 1px line for silence
+        var lastXPos: CGFloat = 0
 
         for (index, sample) in samples.enumerated() {
             let adjustedIndex: Int
@@ -74,6 +75,7 @@ public struct LinearWaveformRenderer: WaveformRenderer {
             let drawingAmplitude = max(minimumGraphAmplitude, invertedDbSample * drawMappingFactor)
             let drawingAmplitudeUp = positionAdjustedGraphCenter - drawingAmplitude
             let drawingAmplitudeDown = positionAdjustedGraphCenter + drawingAmplitude
+            lastXPos = xPos
 
             switch sides {
             case .up:
@@ -86,6 +88,10 @@ public struct LinearWaveformRenderer: WaveformRenderer {
                 path.move(to: CGPoint(x: xPos, y: drawingAmplitudeUp))
                 path.addLine(to: CGPoint(x: xPos, y: drawingAmplitudeDown))
             }
+        }
+
+        if case .striped = configuration.style {
+            path.move(to: CGPoint(x: lastXPos, y: positionAdjustedGraphCenter))
         }
 
         return path
