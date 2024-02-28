@@ -41,6 +41,23 @@ public struct WaveformAnalyzer: Sendable {
             return try await waveformSamples(track: assetTrack, reader: assetReader, count: count, fftBands: nil).amplitudes
         }.value
     }
+    
+    /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
+    /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
+    /// - Parameter fps: use fps to calculate amount of samples to be calculated automatically. Downsamples.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    public func samples(fromAudioAt audioAssetURL: URL, fps: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
+        try await Task(priority: taskPriority(qos: qos)) {
+            let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+            let assetReader = try AVAssetReader(asset: audioAsset)
+
+            guard let assetTrack = try await audioAsset.loadTracks(withMediaType: .audio).first else {
+                throw AnalyzeError.emptyTracks
+            }
+
+            return try await waveformSamples(track: assetTrack, reader: assetReader, fps: fps, fftBands: nil).amplitudes
+        }.value
+    }
 
     /// Calculates the amplitude envelope of the initialized audio asset URL, downsampled to the required `count` amount of samples.
     /// - Parameter fromAudioAt: local filesystem URL of the audio file to process.
@@ -79,6 +96,32 @@ fileprivate extension WaveformAnalyzer {
         assetReader.add(trackOutput)
 
         let totalSamples = try await totalSamples(of: audioAssetTrack)
+        let analysis = extract(totalSamples, downsampledTo: requiredNumberOfSamples, from: assetReader, fftBands: fftBands)
+
+        switch assetReader.status {
+        case .completed:
+            return analysis
+        default:
+            print("ERROR: reading waveform audio data has failed \(assetReader.status)")
+            throw AnalyzeError.readerError(assetReader.status)
+        }
+    }
+    
+    func waveformSamples(
+            track audioAssetTrack: AVAssetTrack,
+            reader assetReader: AVAssetReader,
+            fps: Int,
+            fftBands: Int?
+    ) async throws -> WaveformAnalysis {
+        let trackOutput = AVAssetReaderTrackOutput(track: audioAssetTrack, outputSettings: outputSettings())
+        assetReader.add(trackOutput)
+
+        let totalSamples = try await totalSamples(of: audioAssetTrack)
+        let requiredNumberOfSamples = totalSamples / Int(audioAssetTrack.asset?.duration.seconds ?? 1) / fps
+        guard requiredNumberOfSamples > 0 else {
+            throw AnalyzeError.userError
+        }
+        
         let analysis = extract(totalSamples, downsampledTo: requiredNumberOfSamples, from: assetReader, fftBands: fftBands)
 
         switch assetReader.status {
