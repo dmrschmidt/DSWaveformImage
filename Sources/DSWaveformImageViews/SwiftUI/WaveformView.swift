@@ -41,7 +41,6 @@ public struct WaveformView<Content: View>: View {
     public var body: some View {
         GeometryReader { geometry in
             content(WaveformShape(samples: samples, configuration: configuration, renderer: renderer))
-                .scaleEffect(x: scaleDuringResize(for: geometry), y: 1, anchor: .trailing)
                 .onAppear {
                     guard samples.isEmpty else { return }
                     update(size: geometry.size, url: audioURL, configuration: configuration)
@@ -77,18 +76,6 @@ public struct WaveformView<Content: View>: View {
         } else {
             updateTask(nil)
         }
-    }
-
-    /*
-     * During resizing, we only visually scale the shape to make it look more seamless,
-     * before we re-calculate the pixel-perfect re-sampled waveform, which is costly.
-     * Due to the complex way we need to render the actual waveform based on samples
-     * available and size to occupy, the re-scaling currently only supports enlarging.
-     * If we resize to a smaller size, the waveform simply overflows.
-     */
-    private func scaleDuringResize(for geometry: GeometryProxy) -> CGFloat {
-        guard currentSize != .zero else { return 1 }
-        return max(geometry.size.width / currentSize.width, 1)
     }
 }
 
