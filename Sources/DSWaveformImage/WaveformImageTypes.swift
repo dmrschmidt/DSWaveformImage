@@ -76,6 +76,10 @@ public enum Waveform {
         
         /// Renders only the specified channel (0-indexed). For stereo: 0 = left, 1 = right
         case specific(Int)
+        
+        /// Renders stereo channels independently. Left channel on top, right channel on bottom.
+        /// For non-stereo audio, falls back to merged behavior.
+        case stereo
     }
     
     /** Position of the drawn waveform. */

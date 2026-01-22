@@ -218,6 +218,40 @@ fileprivate extension WaveformAnalyzer {
                 
                 // Use stride to extract only the selected channel
                 vDSP_vflt16(unsafeSamplesPointer.advanced(by: channelIndex), vDSP_Stride(channelCount), &processingBuffer, 1, samplesToProcess)
+                
+            case .stereo:
+                // Extract both left and right channels for independent stereo rendering
+                guard let trackOutput = assetReader.outputs.first as? AVAssetReaderTrackOutput,
+                      let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
+                      let formatDescription = formatDescriptions.first,
+                      let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else {
+                    // Unable to get format description - skip processing
+                    return
+                }
+                
+                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                
+                if channelCount >= 2 {
+                    // Extract left and right channels separately
+                    let samplesPerChannel = sampleLength / channelCount
+                    
+                    // Process left channel (index 0)
+                    var leftBuffer = [Float](repeating: 0.0, count: samplesPerChannel)
+                    vDSP_vflt16(unsafeSamplesPointer, vDSP_Stride(channelCount), &leftBuffer, 1, vDSP_Length(samplesPerChannel))
+                    
+                    // Process right channel (index 1)
+                    var rightBuffer = [Float](repeating: 0.0, count: samplesPerChannel)
+                    vDSP_vflt16(unsafeSamplesPointer.advanced(by: 1), vDSP_Stride(channelCount), &rightBuffer, 1, vDSP_Length(samplesPerChannel))
+                    
+                    // Combine left and right for stereo processing (keeping them separate but sequential)
+                    samplesToProcess = vDSP_Length(samplesPerChannel * 2)
+                    processingBuffer = leftBuffer + rightBuffer
+                } else {
+                    // Not stereo audio, fall back to merged behavior
+                    samplesToProcess = vDSP_Length(sampleLength)
+                    processingBuffer = [Float](repeating: 0.0, count: Int(samplesToProcess))
+                    vDSP_vflt16(unsafeSamplesPointer, 1, &processingBuffer, 1, samplesToProcess)
+                }
             }
 
             vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
@@ -284,6 +318,9 @@ fileprivate extension WaveformAnalyzer {
             case .specific:
                 // Single channel
                 totalSamples = Int(sampleRate * timeRange.duration.seconds)
+            case .stereo:
+                // Two channels for stereo rendering (double the samples for independent rendering)
+                totalSamples = Int(sampleRate * timeRange.duration.seconds) * 2
             }
         }
         return totalSamples

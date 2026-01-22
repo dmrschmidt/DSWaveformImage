@@ -190,6 +190,17 @@ let rightChannelImage = try await waveformImageDrawer.waveformImage(
     )
 )
 
+// Render both stereo channels independently (left on top, right on bottom)
+let stereoImage = try await waveformImageDrawer.waveformImage(
+    fromAudioAt: audioURL,
+    with: .init(
+        size: waveformView.bounds.size,
+        style: .gradient([.blue, .cyan]),
+        channelSelection: .stereo // Both channels shown independently
+    ),
+    renderer: StereoWaveformRenderer()
+)
+
 // Or render all channels merged (default behavior)
 let mergedImage = try await waveformImageDrawer.waveformImage(
     fromAudioAt: audioURL,
@@ -211,6 +222,13 @@ let leftSamples = try await waveformAnalyzer.samples(
     fromAudioAt: audioURL,
     count: 200,
     channelSelection: .specific(0)
+)
+
+// Get samples for stereo rendering (left samples followed by right samples)
+let stereoSamples = try await waveformAnalyzer.samples(
+    fromAudioAt: audioURL,
+    count: 200,
+    channelSelection: .stereo
 )
 ```
 
