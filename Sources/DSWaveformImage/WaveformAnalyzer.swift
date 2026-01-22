@@ -32,6 +32,16 @@ public struct WaveformAnalyzer: Sendable {
     public func samples(fromAudioAt audioAssetURL: URL, count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
         try await Task(priority: taskPriority(qos: qos)) {
             let audioAsset = AVURLAsset(url: audioAssetURL, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+            return try await samples(fromAsset: audioAsset, count: count, qos: qos)
+        }.value
+    }
+
+    /// Calculates the amplitude envelope of the initialized audio asset, downsampled to the required `count` amount of samples.
+    /// - Parameter audioAsset: asset of the audio file to process.
+    /// - Parameter count: amount of samples to be calculated. Downsamples.
+    /// - Parameter qos: QoS of the DispatchQueue the calculations are performed (and returned) on.
+    public func samples(fromAsset audioAsset: AVAsset, count: Int, qos: DispatchQoS.QoSClass = .userInitiated) async throws -> [Float] {
+        try await Task(priority: taskPriority(qos: qos)) {
             let assetReader = try AVAssetReader(asset: audioAsset)
 
             guard let assetTrack = try await audioAsset.loadTracks(withMediaType: .audio).first else {
@@ -124,7 +134,7 @@ fileprivate extension WaveformAnalyzer {
             }
             CMSampleBufferInvalidate(nextSampleBuffer)
 
-            let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
+            let processedSamples = process(sampleBuffer, downsampleTo: samplesPerPixel)
             outputSamples += processedSamples
 
             if processedSamples.count > 0 {
@@ -150,7 +160,7 @@ fileprivate extension WaveformAnalyzer {
             let backfillPaddingSampleCount16 = backfillPaddingSampleCount * MemoryLayout<Int16>.size
             let backfillPaddingSamples = [UInt8](repeating: 0, count: backfillPaddingSampleCount16)
             sampleBuffer.append(backfillPaddingSamples, count: backfillPaddingSampleCount16)
-            let processedSamples = process(sampleBuffer, from: assetReader, downsampleTo: samplesPerPixel)
+            let processedSamples = process(sampleBuffer, downsampleTo: samplesPerPixel)
             outputSamples += processedSamples
         }
 
@@ -158,7 +168,7 @@ fileprivate extension WaveformAnalyzer {
         return WaveformAnalysis(amplitudes: normalize(targetSamples), fft: outputFFT)
     }
 
-    private func process(_ sampleBuffer: Data, from assetReader: AVAssetReader, downsampleTo samplesPerPixel: Int) -> [Float] {
+    private func process(_ sampleBuffer: Data, downsampleTo samplesPerPixel: Int) -> [Float] {
         var downSampledData = [Float]()
         let sampleLength = sampleBuffer.count / MemoryLayout<Int16>.size
 
