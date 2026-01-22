@@ -1,0 +1,529 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.DSWaveformImage-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/share/swift/usr/bin/swiftc",
+      "fileList" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/sources",
+      "importPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/LinearWaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/TempiFFT.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformAnalyzer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+iOS.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+macOS.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageTypes.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "DSWaveformImage",
+      "moduleOutputPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules/DSWaveformImage.swiftmodule",
+      "objects" : [
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/CircularWaveformRenderer.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/LinearWaveformRenderer.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformRenderer.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/TempiFFT.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformAnalyzer.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer+iOS.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer+macOS.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageTypes.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/include/DSWaveformImage-Swift.h",
+        "-swift-version",
+        "5",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/CircularWaveformRenderer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/LinearWaveformRenderer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformRenderer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/TempiFFT.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformAnalyzer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer+iOS.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer+macOS.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageDrawer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/WaveformImageTypes.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules/DSWaveformImage.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/LinearWaveformRenderer.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/TempiFFT.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformAnalyzer.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+iOS.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+macOS.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageTypes.swift"
+      ],
+      "tempsPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.DSWaveformImageViews-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/share/swift/usr/bin/swiftc",
+      "fileList" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/sources",
+      "importPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/DefaultShapeStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/VersionMigrations.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformShape.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules/DSWaveformImage.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "DSWaveformImageViews",
+      "moduleOutputPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules/DSWaveformImageViews.swiftmodule",
+      "objects" : [
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.swift.o",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/include/DSWaveformImageViews-Swift.h",
+        "-swift-version",
+        "5",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules/DSWaveformImageViews.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/DefaultShapeStyler.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/VersionMigrations.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformShape.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift",
+        "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift"
+      ],
+      "tempsPath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "DSWaveformImage" : [
+      "/usr/share/swift/usr/bin/swiftc",
+      "-module-name",
+      "DSWaveformImage",
+      "-c",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/LinearWaveformRenderer.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/TempiFFT.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformAnalyzer.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+iOS.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+macOS.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageTypes.swift",
+      "-I",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/include/DSWaveformImage-Swift.h",
+      "-swift-version",
+      "5",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/share/swift/usr/bin/swiftc"
+    ],
+    "DSWaveformImageViews" : [
+      "/usr/share/swift/usr/bin/swiftc",
+      "-module-name",
+      "DSWaveformImageViews",
+      "-c",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/DefaultShapeStyler.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/VersionMigrations.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformShape.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift",
+      "-I",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/include/DSWaveformImageViews-Swift.h",
+      "-swift-version",
+      "5",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/share/swift/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "DSWaveformImage" : [
+
+    ],
+    "DSWaveformImageViews" : [
+      "DSWaveformImage"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/CircularWaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/LinearWaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/Renderers/WaveformRenderer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/TempiFFT.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformAnalyzer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+iOS.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer+macOS.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageDrawer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImage/WaveformImageTypes.swift"
+        }
+      ],
+      "outputFilePath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImage.build/sources"
+    },
+    "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/DefaultShapeStyler.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/VersionMigrations.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformShape.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift"
+        }
+      ],
+      "outputFilePath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/sources"
+    },
+    "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/usr/share/swift/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BFCD5C06E9F820A.txt"
+    }
+  }
+}

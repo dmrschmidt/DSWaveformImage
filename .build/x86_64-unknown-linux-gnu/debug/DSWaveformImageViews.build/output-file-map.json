@@ -1,0 +1,54 @@
+{
+  "": {
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/master.swiftdeps"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/DefaultShapeStyler.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/DefaultShapeStyler.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/VersionMigrations.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/VersionMigrations.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformLiveCanvas.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveCanvas.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformShape.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformShape.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/SwiftUI/WaveformView.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformView.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformImageView.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformImageView.dia"
+  },
+  "/home/runner/work/DSWaveformImage/DSWaveformImage/Sources/DSWaveformImageViews/UIKit/WaveformLiveView.swift": {
+    "dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.d",
+    "object": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.swift.o",
+    "swiftmodule": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView~partial.swiftmodule",
+    "swift-dependencies": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.swiftdeps",
+    "diagnostics": "/home/runner/work/DSWaveformImage/DSWaveformImage/.build/x86_64-unknown-linux-gnu/debug/DSWaveformImageViews.build/WaveformLiveView.dia"
+  }
+}
