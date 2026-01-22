@@ -236,9 +236,38 @@ fileprivate extension WaveformAnalyzer {
                     var rightBuffer = [Float](repeating: 0.0, count: samplesPerChannel)
                     vDSP_vflt16(unsafeSamplesPointer.advanced(by: 1), vDSP_Stride(channelCount), &rightBuffer, 1, vDSP_Length(samplesPerChannel))
                     
-                    // Combine left and right for stereo processing (keeping them separate but sequential)
-                    samplesToProcess = vDSP_Length(samplesPerChannel * 2)
-                    processingBuffer = leftBuffer + rightBuffer
+                    // Process each channel independently through abs/db/clip
+                    vDSP_vabs(leftBuffer, 1, &leftBuffer, 1, vDSP_Length(samplesPerChannel))
+                    vDSP_vdbcon(leftBuffer, 1, &zeroDbEquivalent, &leftBuffer, 1, vDSP_Length(samplesPerChannel), 1)
+                    vDSP_vclip(leftBuffer, 1, &quietestClipValue, &loudestClipValue, &leftBuffer, 1, vDSP_Length(samplesPerChannel))
+                    
+                    vDSP_vabs(rightBuffer, 1, &rightBuffer, 1, vDSP_Length(samplesPerChannel))
+                    vDSP_vdbcon(rightBuffer, 1, &zeroDbEquivalent, &rightBuffer, 1, vDSP_Length(samplesPerChannel), 1)
+                    vDSP_vclip(rightBuffer, 1, &quietestClipValue, &loudestClipValue, &rightBuffer, 1, vDSP_Length(samplesPerChannel))
+                    
+                    // Downsample each channel independently
+                    let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
+                    let downSampledLengthPerChannel = samplesPerChannel / samplesPerPixel
+                    var leftDownsampled = [Float](repeating: 0.0, count: downSampledLengthPerChannel)
+                    var rightDownsampled = [Float](repeating: 0.0, count: downSampledLengthPerChannel)
+                    
+                    vDSP_desamp(leftBuffer,
+                                vDSP_Stride(samplesPerPixel),
+                                filter,
+                                &leftDownsampled,
+                                vDSP_Length(downSampledLengthPerChannel),
+                                vDSP_Length(samplesPerPixel))
+                    
+                    vDSP_desamp(rightBuffer,
+                                vDSP_Stride(samplesPerPixel),
+                                filter,
+                                &rightDownsampled,
+                                vDSP_Length(downSampledLengthPerChannel),
+                                vDSP_Length(samplesPerPixel))
+                    
+                    // Concatenate both channels
+                    downSampledData = leftDownsampled + rightDownsampled
+                    return downSampledData
                 } else {
                     // Not stereo audio, fall back to merged behavior
                     samplesToProcess = vDSP_Length(sampleLength)
@@ -325,8 +354,9 @@ fileprivate extension WaveformAnalyzer {
                 // Single channel
                 totalSamples = Int(sampleRate * timeRange.duration.seconds)
             case .stereo:
-                // Two channels for stereo rendering (double the samples for independent rendering)
-                totalSamples = Int(sampleRate * timeRange.duration.seconds) * 2
+                // Each channel should be downsampled to the full target count independently
+                // So we need totalSamples to reflect that we'll process samplesPerChannel for EACH channel
+                totalSamples = Int(sampleRate * timeRange.duration.seconds)
             }
         }
         return totalSamples
