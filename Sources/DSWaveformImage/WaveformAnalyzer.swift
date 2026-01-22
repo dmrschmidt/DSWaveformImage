@@ -201,12 +201,17 @@ fileprivate extension WaveformAnalyzer {
                       let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
                       let formatDescription = formatDescriptions.first,
                       let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else {
+                    // Unable to get format description, skip processing
+                    samplesToProcess = 0
+                    processingBuffer = []
                     return
                 }
                 
                 let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
                 guard channelIndex >= 0 && channelIndex < channelCount else {
-                    // Invalid channel index, return empty
+                    // Invalid channel index, skip processing
+                    samplesToProcess = 0
+                    processingBuffer = []
                     return
                 }
                 
@@ -220,6 +225,9 @@ fileprivate extension WaveformAnalyzer {
                 // Use stride to extract only the selected channel
                 vDSP_vflt16(unsafeSamplesPointer.advanced(by: channelIndex), vDSP_Stride(channelCount), &processingBuffer, 1, samplesToProcess)
             }
+            
+            // Skip processing if we have no samples
+            guard samplesToProcess > 0 else { return }
 
             vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
             vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
