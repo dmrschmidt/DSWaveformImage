@@ -112,6 +112,9 @@ fileprivate extension WaveformAnalyzer {
         var sampleBuffer = Data()
         var sampleBufferFFT = Data()
 
+        // For stereo, we need twice the target count (once for each channel)
+        let effectiveTargetCount = channelSelection == .stereo ? targetSampleCount * 2 : targetSampleCount
+        
         // read upfront to avoid frequent re-calculation (and memory bloat from C-bridging)
         let samplesPerPixel = max(1, totalSamples / targetSampleCount)
         let samplesPerFFT = 4096 // ~100ms at 44.1kHz, rounded to closest pow(2) for FFT
@@ -155,8 +158,8 @@ fileprivate extension WaveformAnalyzer {
 
         // if we don't have enough pixels yet,
         // process leftover samples with padding (to reach multiple of samplesPerPixel for vDSP_desamp)
-        if outputSamples.count < targetSampleCount {
-            let missingSampleCount = (targetSampleCount - outputSamples.count) * samplesPerPixel
+        if outputSamples.count < effectiveTargetCount {
+            let missingSampleCount = (effectiveTargetCount - outputSamples.count) * samplesPerPixel
             let backfillPaddingSampleCount = missingSampleCount - (sampleBuffer.count / MemoryLayout<Int16>.size)
             let backfillPaddingSampleCount16 = backfillPaddingSampleCount * MemoryLayout<Int16>.size
             let backfillPaddingSamples = [UInt8](repeating: 0, count: backfillPaddingSampleCount16)
@@ -165,7 +168,7 @@ fileprivate extension WaveformAnalyzer {
             outputSamples += processedSamples
         }
 
-        let targetSamples = Array(outputSamples[0..<targetSampleCount])
+        let targetSamples = Array(outputSamples[0..<effectiveTargetCount])
         return WaveformAnalysis(amplitudes: normalize(targetSamples), fft: outputFFT)
     }
 
@@ -269,7 +272,6 @@ fileprivate extension WaveformAnalyzer {
                     
                     // Concatenate both channels
                     downSampledData = leftDownsampled + rightDownsampled
-                    return downSampledData
                 } else {
                     // Not stereo audio, fall back to merged behavior
                     samplesToProcess = vDSP_Length(sampleLength)
