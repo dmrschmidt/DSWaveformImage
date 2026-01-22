@@ -183,6 +183,7 @@ fileprivate extension WaveformAnalyzer {
             var quietestClipValue = noiseFloorDecibelCutoff
             var zeroDbEquivalent: Float = Float(Int16.max) // maximum amplitude storable in Int16 = 0 Db (loudest)
             
+            // Prepare samples for processing based on channel selection
             let samplesToProcess: vDSP_Length
             var processingBuffer: [Float]
             
@@ -200,20 +201,13 @@ fileprivate extension WaveformAnalyzer {
                 guard let trackOutput = assetReader.outputs.first as? AVAssetReaderTrackOutput,
                       let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
                       let formatDescription = formatDescriptions.first,
-                      let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else {
-                    // Unable to get format description, skip processing
-                    samplesToProcess = 0
-                    processingBuffer = []
+                      let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription),
+                      channelIndex >= 0 && channelIndex < Int(basicDescription.pointee.mChannelsPerFrame) else {
+                    // Unable to get format description or invalid channel index - skip processing
                     return
                 }
                 
                 let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
-                guard channelIndex >= 0 && channelIndex < channelCount else {
-                    // Invalid channel index, skip processing
-                    samplesToProcess = 0
-                    processingBuffer = []
-                    return
-                }
                 
                 // In interleaved audio, samples are stored as: [L, R, L, R, L, R, ...]
                 // To extract a specific channel, we skip by channelCount stride
@@ -225,9 +219,6 @@ fileprivate extension WaveformAnalyzer {
                 // Use stride to extract only the selected channel
                 vDSP_vflt16(unsafeSamplesPointer.advanced(by: channelIndex), vDSP_Stride(channelCount), &processingBuffer, 1, samplesToProcess)
             }
-            
-            // Skip processing if we have no samples
-            guard samplesToProcess > 0 else { return }
 
             vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
             vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
