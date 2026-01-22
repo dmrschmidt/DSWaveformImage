@@ -19,6 +19,7 @@ DerivedData
 
 build
 derived
+.build
 
 #CocoaPods
 Pods

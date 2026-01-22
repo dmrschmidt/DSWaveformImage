@@ -162,6 +162,58 @@ let samples = try await waveformAnalyzer.samples(fromAudioAt: audioURL, count: 2
 print("samples: \(samples)")
 ```
 
+### Multi-Channel (Stereo) Support
+
+You can render individual channels from multi-channel audio files (e.g., stereo). This is useful for visualizing left and right channels separately:
+
+```swift
+let audioURL = Bundle.main.url(forResource: "stereo_sound", withExtension: "m4a")!
+let waveformImageDrawer = WaveformImageDrawer()
+
+// Render left channel (channel 0)
+let leftChannelImage = try await waveformImageDrawer.waveformImage(
+    fromAudioAt: audioURL,
+    with: .init(
+        size: waveformView.bounds.size,
+        style: .filled(.blue),
+        channelSelection: .specific(0) // Left channel
+    )
+)
+
+// Render right channel (channel 1)
+let rightChannelImage = try await waveformImageDrawer.waveformImage(
+    fromAudioAt: audioURL,
+    with: .init(
+        size: waveformView.bounds.size,
+        style: .filled(.red),
+        channelSelection: .specific(1) // Right channel
+    )
+)
+
+// Or render all channels merged (default behavior)
+let mergedImage = try await waveformImageDrawer.waveformImage(
+    fromAudioAt: audioURL,
+    with: .init(
+        size: waveformView.bounds.size,
+        style: .filled(.black),
+        channelSelection: .merged // All channels combined (default)
+    )
+)
+```
+
+The same `channelSelection` parameter works with `WaveformAnalyzer`:
+
+```swift
+let waveformAnalyzer = WaveformAnalyzer()
+
+// Get samples for left channel only
+let leftSamples = try await waveformAnalyzer.samples(
+    fromAudioAt: audioURL,
+    count: 200,
+    channelSelection: .specific(0)
+)
+```
+
 ### Playback Progress Indication
 
 If you're playing back audio files and would like to indicate the playback progress to your users, you can [find inspiration in the example app](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/ProgressViewController.swift). UIKit and [SwiftUI](https://github.com/dmrschmidt/DSWaveformImage/blob/main/Example/DSWaveformImageExample-iOS/SwiftUIExample/ProgressWaveformView.swift) examples are provided.

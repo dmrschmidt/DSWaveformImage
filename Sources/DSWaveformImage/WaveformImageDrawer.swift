@@ -132,7 +132,7 @@ private extension WaveformImageDrawer {
     ) async throws -> DSImage {
         let sampleCount = Int(configuration.size.width * configuration.scale)
         let waveformAnalyzer = WaveformAnalyzer()
-        let samples = try await waveformAnalyzer.samples(fromAudioAt: audioAssetURL, count: sampleCount, qos: qos)
+        let samples = try await waveformAnalyzer.samples(fromAudioAt: audioAssetURL, count: sampleCount, channelSelection: configuration.channelSelection, qos: qos)
         let dampedSamples = configuration.shouldDamp ? self.damp(samples, with: configuration) : samples
 
         if let image = waveformImage(from: dampedSamples, with: configuration, renderer: renderer, position: position) {

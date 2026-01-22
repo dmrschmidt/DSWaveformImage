@@ -67,6 +67,17 @@ public extension WaveformRenderer {
 }
 
 public enum Waveform {
+    /**
+     Channel selection for rendering multi-channel audio.
+     */
+    public enum ChannelSelection: Equatable, Sendable {
+        /// Merges all channels into a single waveform (default behavior, backward compatible)
+        case merged
+        
+        /// Renders only the specified channel (0-indexed). For stereo: 0 = left, 1 = right
+        case specific(Int)
+    }
+    
     /** Position of the drawn waveform. */
      public enum Position: Equatable {
          /// **top**: Draws the waveform at the top of the image, such that only the bottom 50% are visible.
@@ -205,6 +216,9 @@ public enum Waveform {
 
         /// Waveform antialiasing. If enabled, may reduce overall opacity. Default is `false`.
         public let shouldAntialias: Bool
+        
+        /// Channel selection for multi-channel audio. Default is `.merged` (all channels combined).
+        public let channelSelection: ChannelSelection
 
         public var shouldDamp: Bool {
             damping != nil
@@ -216,7 +230,8 @@ public enum Waveform {
                     damping: Damping? = nil,
                     scale: CGFloat = DSScreen.scale,
                     verticalScalingFactor: CGFloat = 0.95,
-                    shouldAntialias: Bool = false) {
+                    shouldAntialias: Bool = false,
+                    channelSelection: ChannelSelection = .merged) {
             guard verticalScalingFactor > 0 else {
                 preconditionFailure("verticalScalingFactor must be greater 0")
             }
@@ -228,6 +243,7 @@ public enum Waveform {
             self.scale = scale
             self.verticalScalingFactor = verticalScalingFactor
             self.shouldAntialias = shouldAntialias
+            self.channelSelection = channelSelection
         }
 
         /// Build a new `Waveform.Configuration` with only the given parameters replaced.
@@ -237,7 +253,8 @@ public enum Waveform {
                          damping: Damping? = nil,
                          scale: CGFloat? = nil,
                          verticalScalingFactor: CGFloat? = nil,
-                         shouldAntialias: Bool? = nil
+                         shouldAntialias: Bool? = nil,
+                         channelSelection: ChannelSelection? = nil
         ) -> Configuration {
             Configuration(
                 size: size ?? self.size,
@@ -246,7 +263,8 @@ public enum Waveform {
                 damping: damping ?? self.damping,
                 scale: scale ?? self.scale,
                 verticalScalingFactor: verticalScalingFactor ?? self.verticalScalingFactor,
-                shouldAntialias: shouldAntialias ?? self.shouldAntialias
+                shouldAntialias: shouldAntialias ?? self.shouldAntialias,
+                channelSelection: channelSelection ?? self.channelSelection
             )
         }
     }
