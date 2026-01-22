@@ -24,16 +24,15 @@ public struct StereoWaveformRenderer: WaveformRenderer {
         let leftSamples = Array(samples[0..<halfCount])
         let rightSamples = Array(samples[halfCount..<samples.count])
         
-        // Create configurations for top and bottom halves
-        let topConfig = configuration.with(size: CGSize(width: configuration.size.width, height: configuration.size.height / 2))
-        let bottomConfig = configuration.with(size: CGSize(width: configuration.size.width, height: configuration.size.height / 2))
+        // Create configuration for half-height rendering
+        let halfHeightConfig = configuration.with(size: CGSize(width: configuration.size.width, height: configuration.size.height / 2))
         
         // Render left channel in top half
-        let leftPath = baseRenderer.path(samples: leftSamples, with: topConfig, lastOffset: lastOffset, position: .bottom)
+        let leftPath = baseRenderer.path(samples: leftSamples, with: halfHeightConfig, lastOffset: lastOffset, position: .bottom)
         combinedPath.addPath(leftPath)
         
         // Render right channel in bottom half (offset vertically)
-        let rightPath = baseRenderer.path(samples: rightSamples, with: bottomConfig, lastOffset: lastOffset, position: .top)
+        let rightPath = baseRenderer.path(samples: rightSamples, with: halfHeightConfig, lastOffset: lastOffset, position: .top)
         
         // Translate the right channel path to the bottom half
         var transform = CGAffineTransform(translationX: 0, y: configuration.size.height / 2)

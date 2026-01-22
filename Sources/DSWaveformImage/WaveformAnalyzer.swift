@@ -197,17 +197,13 @@ fileprivate extension WaveformAnalyzer {
                 
             case .specific(let channelIndex):
                 // Extract specific channel from interleaved audio
-                // Get channel count from the track format
-                guard let trackOutput = assetReader.outputs.first as? AVAssetReaderTrackOutput,
-                      let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
-                      let formatDescription = formatDescriptions.first,
-                      let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription),
-                      channelIndex >= 0 && channelIndex < Int(basicDescription.pointee.mChannelsPerFrame) else {
+                guard let channelInfo = getChannelInfo(from: assetReader),
+                      channelIndex >= 0 && channelIndex < channelInfo.channelCount else {
                     // Unable to get format description or invalid channel index - skip processing
                     return
                 }
                 
-                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                let channelCount = channelInfo.channelCount
                 
                 // In interleaved audio, samples are stored as: [L, R, L, R, L, R, ...]
                 // To extract a specific channel, we skip by channelCount stride
@@ -221,15 +217,12 @@ fileprivate extension WaveformAnalyzer {
                 
             case .stereo:
                 // Extract both left and right channels for independent stereo rendering
-                guard let trackOutput = assetReader.outputs.first as? AVAssetReaderTrackOutput,
-                      let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
-                      let formatDescription = formatDescriptions.first,
-                      let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else {
+                guard let channelInfo = getChannelInfo(from: assetReader) else {
                     // Unable to get format description - skip processing
                     return
                 }
                 
-                let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+                let channelCount = channelInfo.channelCount
                 
                 if channelCount >= 2 {
                     // Extract left and right channels separately
@@ -300,6 +293,19 @@ fileprivate extension WaveformAnalyzer {
 
     func normalize(_ samples: [Float]) -> [Float] {
         samples.map { $0 / noiseFloorDecibelCutoff }
+    }
+    
+    /// Helper method to extract channel count and format from asset reader
+    private func getChannelInfo(from assetReader: AVAssetReader) -> (channelCount: Int, basicDescription: AudioStreamBasicDescription)? {
+        guard let trackOutput = assetReader.outputs.first as? AVAssetReaderTrackOutput,
+              let formatDescriptions = trackOutput.track.formatDescriptions as? [CMFormatDescription],
+              let formatDescription = formatDescriptions.first,
+              let basicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(formatDescription) else {
+            return nil
+        }
+        
+        let channelCount = Int(basicDescription.pointee.mChannelsPerFrame)
+        return (channelCount, basicDescription.pointee)
     }
 
     private func totalSamples(of audioAssetTrack: AVAssetTrack, channelSelection: Waveform.ChannelSelection) async throws -> Int {
