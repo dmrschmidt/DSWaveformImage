@@ -189,6 +189,7 @@ fileprivate extension WaveformAnalyzer {
             // Prepare samples for processing based on channel selection
             let samplesToProcess: vDSP_Length
             var processingBuffer: [Float]
+            var skipNormalProcessing = false
             
             // Handle channel selection
             switch channelSelection {
@@ -220,7 +221,7 @@ fileprivate extension WaveformAnalyzer {
                 
             case .stereo:
                 // Extract both left and right channels for independent stereo rendering
-                // Note: Stereo processing requires an early return because each channel must be
+                // Note: Stereo processing requires separate handling because each channel must be
                 // downsampled independently to achieve full-width rendering for both channels
                 guard let channelInfo = getChannelInfo(from: assetReader) else {
                     // Unable to get format description - skip processing
@@ -272,6 +273,7 @@ fileprivate extension WaveformAnalyzer {
                     
                     // Concatenate both channels
                     downSampledData = leftDownsampled + rightDownsampled
+                    skipNormalProcessing = true
                 } else {
                     // Not stereo audio, fall back to merged behavior
                     samplesToProcess = vDSP_Length(sampleLength)
@@ -280,20 +282,23 @@ fileprivate extension WaveformAnalyzer {
                 }
             }
 
-            vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
-            vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
-            vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
+            // Normal processing path for merged and specific channel cases
+            if !skipNormalProcessing {
+                vDSP_vabs(processingBuffer, 1, &processingBuffer, 1, samplesToProcess) // absolute amplitude value
+                vDSP_vdbcon(processingBuffer, 1, &zeroDbEquivalent, &processingBuffer, 1, samplesToProcess, 1) // convert to DB
+                vDSP_vclip(processingBuffer, 1, &quietestClipValue, &loudestClipValue, &processingBuffer, 1, samplesToProcess)
 
-            let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
-            let downSampledLength = Int(samplesToProcess) / samplesPerPixel
-            downSampledData = [Float](repeating: 0.0, count: downSampledLength)
+                let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
+                let downSampledLength = Int(samplesToProcess) / samplesPerPixel
+                downSampledData = [Float](repeating: 0.0, count: downSampledLength)
 
-            vDSP_desamp(processingBuffer,
-                        vDSP_Stride(samplesPerPixel),
-                        filter,
-                        &downSampledData,
-                        vDSP_Length(downSampledLength),
-                        vDSP_Length(samplesPerPixel))
+                vDSP_desamp(processingBuffer,
+                            vDSP_Stride(samplesPerPixel),
+                            filter,
+                            &downSampledData,
+                            vDSP_Length(downSampledLength),
+                            vDSP_Length(samplesPerPixel))
+            }
         }
 
         return downSampledData
