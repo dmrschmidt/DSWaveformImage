@@ -217,6 +217,8 @@ fileprivate extension WaveformAnalyzer {
                 
             case .stereo:
                 // Extract both left and right channels for independent stereo rendering
+                // Note: Stereo processing requires an early return because each channel must be
+                // downsampled independently to achieve full-width rendering for both channels
                 guard let channelInfo = getChannelInfo(from: assetReader) else {
                     // Unable to get format description - skip processing
                     return
@@ -245,7 +247,7 @@ fileprivate extension WaveformAnalyzer {
                     vDSP_vdbcon(rightBuffer, 1, &zeroDbEquivalent, &rightBuffer, 1, vDSP_Length(samplesPerChannel), 1)
                     vDSP_vclip(rightBuffer, 1, &quietestClipValue, &loudestClipValue, &rightBuffer, 1, vDSP_Length(samplesPerChannel))
                     
-                    // Downsample each channel independently
+                    // Downsample each channel independently (create filter once for efficiency)
                     let filter = [Float](repeating: 1.0 / Float(samplesPerPixel), count: samplesPerPixel)
                     let downSampledLengthPerChannel = samplesPerChannel / samplesPerPixel
                     var leftDownsampled = [Float](repeating: 0.0, count: downSampledLengthPerChannel)
